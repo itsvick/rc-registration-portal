@@ -1,1 +1,1 @@
-# rc-registration-portal
+# federated-education-registry

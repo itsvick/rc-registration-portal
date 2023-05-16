@@ -1,0 +1,117 @@
+<app-header [headerFor]='headerName'></app-header>
+<br />
+
+<div class=" container mt-5 pt-5">
+  <a  class="line-height32" href="" onClick="history.go(-1); return false;"><i
+    class="fa fa-angle-left primary-text mb-2"></i> </a> &nbsp; 
+  <span class="heading-2 mt-5 fw-bold mb-3">{{'ADD_BULK_RECORDS' | translate}}</span>
+
+  <div class="card mb-3">
+    <div class="p16 card-body d-flex justify-content-between">
+      
+      <div class="mb-1">{{'DOWNLOAD_SAMPLE_TEMPLATE' | translate}}
+        <p class="mb-1" style="color: #8D9091;">Column names:  <span *ngFor="let item of nameArray; let i = index">
+          <span>{{item}}</span>
+         
+          <span *ngIf="i < nameArray.length-1">, </span>
+      </span> 
+       
+      </div>
+      <div type="button" (click)="downloadCSV(colomNames)"class="btn btn-primary-blue btn-style btn-size font-weight-bold p-2 p14"
+        style="margin-left:180px;"> <i class="fa fa-download mr-1" aria-hidden="true"></i>{{'DOWNLOAD_SAMPLE' | translate}} </div>
+    </div>
+  </div>
+
+  <span class="heading-2 mt-1 fw-bold mb-3">{{'UPLOAD_FILES' | translate}}</span>
+
+  <div class="card">
+    <div class="p16 card-body d-flex justify-content-between align-items-center">
+      <div class="mb-1 mr-5">
+        <!-- <form action="" method="POST" enctype="multipart/form-data">
+          <label type="button" for="file-upload" class="primary-text-color fw-bold">{{'BROWSE_FILE' | translate}}</label>
+          <p class="mb-1" style="color: #8D9091;">{{'FILE_IN_CSV_FORMAT' | translate}} </p>
+          <input type="file" id="file-upload" name="uploaded-file" accept="text/csv">
+        </form> -->
+        <label type="button" class="primary-text-color fw-bold">{{'BROWSE_FILE' | translate}}</label>
+        <input type="file" class="file-input" accept=".csv"
+       (change)="onFileSelected($event)" #fileUpload>
+
+       <div class="file-upload">
+
+        <p class="text-secondary browse-file">{{fileName || "Browse File..."}}</p>
+     
+         <button mat-mini-fab color="primary" class="upload-btn"
+           (click)="fileUpload.click()">
+           <i class="fa fa-upload mr-1" aria-hidden="true"></i>
+         </button>
+     </div>
+      </div>  
+      <div type="button" class="btn btn-size btn-primary-blue btn-style font-weight-bold p-2  p14"  
+      (click)="uploadFile()">
+       <i class="fa fa-upload mr-1" aria-hidden="true"></i>{{'UPLOAD' | translate}} </div>
+    </div>
+
+    <!--Bulk Upload Modal- successful -->
+    <div class="modal fade"  id="bulkUploadModalSuccess" tabindex="-1" role="dialog"
+      aria-labelledby="bulkUploadModalSuccess" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="p-4 modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="bulkUploadModalSuccess">{{'DOWNLOAD_UPLOADED' | translate}}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="d-flex flex-column justify-content-center align-items-center">
+              <div class="p14 mb-2 mt-2"> {{uploadFileList?.Filename}} {{'FILE_SUCCESSFULLY_UPLOADED' | translate}} </div>
+              <div class="d-flex">
+                <div *ngIf="item?.success" class="mb-2 mt-1 mr-1">
+                  <i class="fa fa-check-circle" style="color: green;" aria-hidden="true"></i>
+                </div>
+                <div *ngIf="item?.success" class="p14 mb-2 mt-2 fw-bold">{{item?.success}} {{'RECORDS_SUCCESSFULLY_UPLOADED' | translate}}</div>
+              </div>
+              <div *ngIf="item?.error" class="d-flex">
+                <div class="mb-2 mt-1 mr-1">
+                  <i class="fa fa-info-circle" style="color: red;"></i>
+                </div>
+                <div class="p14 mb-2 mt-2 fw-bold">{{item?.error}} {{'RECORDS_FAILED' | translate}}</div>
+              </div>
+              <div *ngIf="item?.error" class="p14 mb-2 mt-2 fw-bold ">
+                <span class="primary-text-color" (click)="downloadErrFile()"> {{'DOWNLOAD_FILE' | translate}} </span>
+                <span> {{'VIEW_ERROR' | translate}}</span>
+              </div>
+              <button id="" type="button" (click)="backTo()" class="btn btn-primary submit-button mb-2" data-dismiss="modal">{{'OK' |
+                translate}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Bulk Upload Modal - successful -->
+
+    <!--Bulk Upload Modal- fail -->
+    <div class="modal fade" id="bulkUploadModalfail" tabindex="-1" role="dialog" aria-labelledby="bulkUploadModalfail"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="p-4 modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="bulkUploadModalfail">{{'DOWNLOAD_NOT_UPLOADED' | translate}}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="d-flex flex-column justify-content-center align-items-center">
+              <div class="p14 mb-2 mt-2"> {{'COULD_NOT_UPLOAD' | translate}} {{fileName}} file.</div>
+              <div class="p14 mb-2 mt-2"> {{'UPLOAD_AGAIN' | translate}}</div>
+              <button id="" type="submit" class="btn btn-primary submit-button mb-2" data-dismiss="modal">{{'OK' |
+                translate}}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--Bulk Upload Modal-fail -->
+  </div>
+</div>
