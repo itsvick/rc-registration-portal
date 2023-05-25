@@ -1,16 +1,16 @@
 {
     "environment": "development",
     "keycloak": {
-        "url": "https://demo-education-registry.xiv.in/auth",
+        "url": "https://ulp-sbrc.uniteframework.io/auth",
         "clientId": "registry-frontend",
         "realm": "sunbird-rc"
     },
     "configFolder": "/assets/config/ui-config",
     "languageFolder": "/assets/i18n",
     "title": "Education-Sunbird",
-    "domainName": "https://demo-education-registry.xiv.in",
-    "baseUrl": "https://demo-education-registry.xiv.in/registry/api/v1",
-    "schemaUrl": "https://demo-education-registry.xiv.in/registry/api/docs/swagger.json",
+    "domainName": "https://ulp-sbrc.uniteframework.io",
+    "baseUrl": "https://ulp-sbrc.uniteframework.io/registry/api/v1",
+    "schemaUrl": "https://ulp-sbrc.uniteframework.io/registry/api/docs/swagger.json",
     "footerText": "Education-Sunbird",
     "languages": [
         "en",
@@ -32,7 +32,7 @@
         "linkColor": "#443DF6",
         "secondaryBtnBgColor": "#e0edf5",
         "cardBorder": "#00000020"
-
+  
     },
     "dark_theme": {
         "logoPath": "/assets/images/logo.png",
@@ -50,4 +50,5 @@
         "secondaryBtnBgColor": "#e0edf5",
         "cardBorder": "#ffffff20"
     }
-}
+  }
+  
