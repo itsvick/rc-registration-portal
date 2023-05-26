@@ -32,13 +32,16 @@ import { DocDetailViewComponent } from './documents/doc-detail-view/doc-detail-v
  import { GraphDashboardComponent } from './graph-dashboard/graph-dashboard.component';
  //import { PreviewHtmlComponent } from './issure/preview-html/preview-html.component';
  import { VerifyCertificateComponent } from './issure/verify-certificate/verify-certificate.component';
+import { OnboardingComponent } from './onboarding/onboarding.component';
+import { UdiseLinkComponent } from './custom/udise-link/udise-link.component';
 
 // import { CreateCertificateComponent } from './create-certificate/create-certificate.component';
 // import { FaqComponent } from './custom-components/faq/faq.component';
 const routes: Routes = [
 // Home
-{ path: '', component: HomeComponent },
-
+// { path: '', component: HomeComponent },
+{  path: '', component: OnboardingComponent },
+{ path: 'udise-link', component: UdiseLinkComponent, canActivate: [AuthGuard] },
 // Auth
 { path: 'login', component: KeycloakloginComponent ,  canActivate: [AuthGuard]},
 { path: 'logout', component: LogoutComponent},

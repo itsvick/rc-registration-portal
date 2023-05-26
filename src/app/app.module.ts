@@ -157,6 +157,8 @@ import { NgxTextEditorModule } from 'ngx-text-editor';
 //import * as configData from '../assets/config/config.json';
 import { BulkRecordsComponent } from './issure/bulk-records/bulk-records.component';
 import { MaskPipe } from './mask.pipe';
+import { OnboardingComponent } from './onboarding/onboarding.component';
+import { UdiseLinkComponent } from './custom/udise-link/udise-link.component';
 console.log(configData['default']);
 
 @NgModule({
@@ -200,7 +202,9 @@ console.log(configData['default']);
      AdvanceEditorComponent,
     BulkRecordsComponent,
     VerifyCertificateComponent,
-    MaskPipe
+    MaskPipe,
+    OnboardingComponent,
+    UdiseLinkComponent
 ],
   imports: [
     BrowserModule,

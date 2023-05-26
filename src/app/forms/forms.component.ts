@@ -12,6 +12,7 @@ import { ToastMessageService } from '../services/toast-message/toast-message.ser
 import { of as observableOf } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { throwError } from 'rxjs';
+import { concatMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-forms',
@@ -70,6 +71,8 @@ exLength : number = 0
   entityName: string;
   sorder: any;
   isSubmitForm: boolean = false;
+  properties = {};
+
   constructor(private route: ActivatedRoute,
     public translate: TranslateService,
     public toastMsg: ToastMessageService, public router: Router, public schemaService: SchemaService, private formlyJsonschema: FormlyJsonschema, public generalService: GeneralService, private location: Location) { }
@@ -213,6 +216,7 @@ exLength : number = 0
             this.addFields(fieldset);
           }
 
+          this.properties = {...this.properties, ...this.definations[fieldset.definition].properties};
           if (fieldset.except) {
             this.removeFields(fieldset)
           }
@@ -222,7 +226,7 @@ exLength : number = 0
         this.schema["type"] = "object";
         this.schema["title"] = this.formSchema.title;
         this.schema["definitions"] = this.definations;
-        this.schema["properties"] = this.property;
+        this.schema["properties"] = this.properties;
         this.schema["required"] = this.required;
         this.schema["dependencies"] = this.dependencies;
         this.loadSchema();
@@ -251,6 +255,44 @@ exLength : number = 0
 
     if (this.add) {
       this.model = {};
+    }
+
+    if (localStorage.getItem('userDetails')) {
+      let userDetails = JSON.parse(localStorage.getItem('userDetails'));
+      let newModel = {
+        name: `${userDetails.firstName} ${userDetails.lastName}`,
+        email: userDetails?.email,
+        username: userDetails?.username
+      }
+      this.model = newModel;
+    }
+
+    if (localStorage.getItem('instituteDetails')) {
+      let udiseDetails = JSON.parse(localStorage.getItem('instituteDetails'));
+      let newModel  = {
+        "instituteName": udiseDetails?.schoolName,
+        "highestLevel": udiseDetails?.highestClass,
+        "lowestLevel": udiseDetails?.lowestClass,
+        "instituteCategoryId": udiseDetails?.schCategoryId ? udiseDetails?.schCategoryId?.toString() : '',
+        "instituteTypeId": udiseDetails?.schTypeId ? udiseDetails?.schTypeId?.toString() : '',
+        "instituteMgmtId": udiseDetails?.schMgmtId ? udiseDetails?.schMgmtId?.toString() : '',
+        "instituteMgmtCenterId": udiseDetails?.schMgmtCenterId ? udiseDetails?.schMgmtCenterId?.toString() : '',
+        "instituteStatusId": udiseDetails?.schStatusId ? udiseDetails?.schStatusId?.toString() : '',
+        "instituteLocTypeId": udiseDetails?.schLocTypeId ? udiseDetails?.schLocTypeId?.toString() : '',
+        "eduStateCode": udiseDetails?.eduStateCode ? udiseDetails?.eduStateCode?.toString() : '',
+        "eduDistrictCode": udiseDetails?.eduDistrictCode ? udiseDetails?.eduDistrictCode?.toString() : '',
+        "eduBlockCode": udiseDetails?.eduBlockCode ? udiseDetails?.eduBlockCode?.toString() : '',
+        "eduClusterCode": udiseDetails?.eduBlockCode ? udiseDetails?.eduBlockCode?.toString() : '',
+        "lgdStateId": udiseDetails?.lgdStateId,
+        "lgdDistrictId": udiseDetails?.lgdDistrictId,
+        "estdYear": udiseDetails?.estdYear,
+        "address": udiseDetails?.address,
+        "pinCode": udiseDetails?.pinCode,
+        "email": udiseDetails?.email,
+      }
+      
+
+      this.model = {...this.model, ...newModel};
     }
     this.schemaloaded = true;
   }
@@ -1199,6 +1241,60 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
     if (Array.isArray(this.model)) {
       this.model = this.model[0];
     }
+
+    if (this.formSchema.isMultiSchema)  {
+      let myProperties = {};
+      let apiCalls = [];
+
+
+
+      this.formSchema.fieldsets.forEach(fieldSet => {
+        console.log(fieldSet.definition);
+        // myProperties.push({[fieldSet.definition]: this.definations[fieldSet.definition].properties});
+        let props = {};
+        for(let obj in this.definations[fieldSet.definition].properties) {
+          props[obj] = this.model[obj];
+        }
+        // myProperties = {...myProperties, ...{[fieldSet.definition]: this.definations[fieldSet.definition].properties}}
+        myProperties = { ...myProperties, ...{ [fieldSet.definition]: props } };
+      });
+      console.log('myProperties', myProperties);
+
+      for (let obj in myProperties) {
+        const apiUrl = this.formSchema.fieldsets.find(fieldSet => fieldSet.definition === obj).api;
+        // let props = this.clearEmptyObjects(myProperties[obj]);
+        let payload = myProperties[obj];
+        apiCalls.push({
+          url: apiUrl,
+          payload: payload
+        });
+      }
+
+      console.log('apiCalls', apiCalls);
+      of(...apiCalls)
+      .pipe(concatMap((request: any) => this.generalService.postData(request.url, request.payload)))
+      .subscribe((result: any) => {
+        console.log(result);
+
+
+        if (result?.params?.status === "SUCCESSFUL") {
+          this.router.navigate(['/dashboard']);
+        }
+
+        // if (result.params.status == 'SUCCESSFUL' && !this.model['attest']) {
+        //   this.router.navigate([this.redirectTo])
+        //  }
+        //  else if (result.params.errmsg != '' && result.params.status == 'UNSUCCESSFUL') {
+        //    this.toastMsg.error('error', result.params.errmsg);
+        //    this.isSubmitForm = false;
+   
+        //  }
+      }, (err) => {
+        this.toastMsg.error('error', err.error.params.errmsg);
+        this.isSubmitForm = false;
+      });
+      
+    } else {
     this.model['sorder']  = this.exLength;
     await this.generalService.postData(this.apiUrl, this.model).subscribe((res) => {
       if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
@@ -1213,6 +1309,7 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
       this.toastMsg.error('error', err.error.params.errmsg);
       this.isSubmitForm = false;
     });
+  }
 
   }
 
@@ -1335,6 +1432,21 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
     }, (err) => {
       this.toastMsg.error('error', err.error.params.errmsg);
     });
+  }
+
+
+  clearEmptyObjects(o) {
+    for (var k in o) {
+      if (!o[k] || typeof o[k] !== "object") {
+        continue // If null or not an object, skip to the next iteration
+      }
+  
+      // The property is an object
+      if (Object.keys(o[k]).length === 0) {
+        delete o[k]; // The object had no properties, so delete that property
+      }
+    }
+    return o;
   }
 
 }
