@@ -536,10 +536,12 @@
                 "header": "default",
                 "title": "REGISTER",
                 "isSignupForm":"true",
+                "isMultiSchema": true,
                 "langKey" : "teacherStudent",
                 "fieldsets": [
                     {
                         "definition": "Teacher",
+                        "api": "/Teacher/invite",
                         "fields": [
                             {
                                 "name": "identityDetails",
@@ -590,6 +592,24 @@
                                             }
                                         }
                                     }
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "definition": "Institute",
+                        "api": "/Institute/invite",
+                        "fields": [
+                            {
+                                "name": "instituteName",
+                                "required": true
+                            },
+                            {
+                                "name": "email",
+                                "required": true,
+                                "validation": {
+                                    "pattern": "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z0-9.-]+$",
+                                    "message": "EMAILT_NOT_VALID"
                                 }
                             }
                         ]
@@ -919,6 +939,203 @@
                         "fields": ["*"]
                     }
                 ]
+            }
+        },
+        {
+            "instructor-signup": {
+                "api": "/Instructor/invite",
+                "type": "entity",
+                "formclass": "row",
+                "header": "default",
+                "title": "REGISTER",
+                "isSignupForm":"true",
+                "isMultiSchema": true,
+                "langKey" : "teacherStudent",
+                "fieldsets": [
+                    {
+                        "definition": "Instructor",
+                        "api": "/Instructor/invite",
+                        "fields": [
+                            {
+                                "name": "name",
+                                "required": true
+                            },
+                            {
+                                "name": "email",
+                                "required": true,
+                                "validation": {
+                                    "pattern": "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z0-9.-]+$",
+                                    "message": "EMAILT_NOT_VALID"
+                                }
+                            },
+                            {
+                                "name": "DOB",
+                                "required": true,
+                                "type": "date",
+                                "validation": {
+                                    "future": true
+                                }
+                            },
+                            {
+                                "name": "username",
+                                "required": true
+                            },
+                            {
+                                "name": "contact",
+                                "required": true,
+                                "validation": {
+                                    "pattern": "[6-9]{1}[0-9]{9}",
+                                    "message": "MOBILE_NO_MUST_10_DIGIT"
+                                }
+                            },
+                            {
+                                "name": "joiningDate",
+                                "required": true,
+                                "type": "date",
+                                "validation": {
+                                    "future": true
+                                }
+                            },
+                            {
+                                "name": "specialization",
+                                "required": true
+                            },
+                            {
+                                "name": "type",
+                                "required": true
+                            },
+                            {
+                                "name": "associatedInstituteID",
+                                "required": true
+                            },
+                            {
+                                "name": "associatedGoverningBodyID",
+                                "required": true
+                            }
+                        ]
+                    },
+                    {
+                        "definition": "LearningInstitute",
+                        "api": "/LearningInstitute/invite",
+                        "fields": [
+                            {
+                                "name": "instituteName",
+                                "required": true
+                            },
+                            {
+                                "name": "masterExists",
+                                "custom": true,
+                                "element": {
+                                    "title": "masterExists",
+                                    "widget": {
+                                        "formlyConfig": {
+                                            "type": "checkbox",
+                                            "fieldGroupClassName": "controls",
+                                            "className": "checkbox",
+                                            "templateOptions": {
+                                                "required": true
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "name": "masterDB",
+                                "required": true
+                            },
+                            {
+                                "name": "masterCode",
+                                "required": true
+                            },
+                            {
+                                "name": "eduStateCode",
+                                "required": true
+                            },
+                            {
+                                "name": "eduDistrictCode",
+                                "required": true
+                            },
+                            {
+                                "name": "eduBlockCode",
+                                "required": true
+                            },
+                            {
+                                "name": "eduClusterCode",
+                                "type": "string",
+                                "required": true
+                            },
+                            {
+                                "name": "lgdStateId",
+                                "type": "number",
+                                "required": true
+                            },
+                            {
+                                "name": "lgdDistrictId",
+                                "type": "number",
+                                "required": true
+                            },
+                            {
+                                "name": "instituteCategoryId",
+                                "required": true
+                            },
+                            {
+                                "name": "instituteTypeId",
+                                "required": true
+                            },
+                            {
+                                "name": "instituteMgmtId",
+                                "required": true
+                            },
+                            {
+                                "name": "instituteMgmtCenterId",
+                                "required": true
+                            },
+                            {
+                                "name": "instituteStatusId",
+                                "required": true
+                            },
+                            {
+                                "name": "instituteLocTypeId",
+                                "required": true
+                            },
+                            {
+                                "name": "lowestLevel",
+                                "type": "number",
+                                "required": true
+                            },
+                            {
+                                "name": "highestLevel",
+                                "type": "number",
+                                "required": true
+                            },
+                            {
+                                "name": "estdYear",
+                                "required": true
+                            },
+                            {
+                                "name": "address",
+                                "required": true
+                            },
+                            {
+                                "name": "pinCode",
+                                "required": true
+                            },
+                            {
+                                "name": "email",
+                                "required": true,
+                                "validation": {
+                                    "pattern": "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z0-9.-]+$",
+                                    "message": "EMAILT_NOT_VALID"
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "redirectTo": "/profile/instructor"
+            },
+            "principal-registration": {
+                "multiSchema": true,
+                "apiList": ["principal-signup", "institute-signup"]
             }
         }
     ]

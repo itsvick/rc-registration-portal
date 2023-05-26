@@ -13,22 +13,18 @@ import { map } from 'rxjs/operators';
 })
 export class GeneralService {
   baseUrl = this.config.getEnv('baseUrl');
+  bffUrl = this.config.getEnv('bffUrl');
   translatedString: string;
   constructor(public dataService: DataService, 
     private http: HttpClient, private config: AppConfig, public translate: TranslateService) {
   }
 
-  postData(apiUrl, data) {
+  postData(apiUrl, data, isBFF = false) {
     var url;
     if (apiUrl.indexOf('http') > -1) {
       url = apiUrl
     } else {
-      if (apiUrl.charAt(0) == '/') {
-        url = `${this.baseUrl}${apiUrl}`
-      }
-      else {
-        url = `${this.baseUrl}/${apiUrl}`;
-      }
+      url = isBFF ? `${this.bffUrl}${apiUrl}` : apiUrl.charAt(0) === '/' ? `${this.baseUrl}${apiUrl}` : `${this.baseUrl}/${apiUrl}`
     }
 
     const req = {
