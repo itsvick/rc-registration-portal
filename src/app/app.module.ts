@@ -159,6 +159,8 @@ import { BulkRecordsComponent } from './issure/bulk-records/bulk-records.compone
 import { MaskPipe } from './mask.pipe';
 import { OnboardingComponent } from './onboarding/onboarding.component';
 import { UdiseLinkComponent } from './custom/udise-link/udise-link.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { MainDashboardComponent } from './main-dashboard/main-dashboard.component';
 console.log(configData['default']);
 
 @NgModule({
@@ -204,7 +206,9 @@ console.log(configData['default']);
     VerifyCertificateComponent,
     MaskPipe,
     OnboardingComponent,
-    UdiseLinkComponent
+    UdiseLinkComponent,
+    SidebarComponent,
+    MainDashboardComponent
 ],
   imports: [
     BrowserModule,
