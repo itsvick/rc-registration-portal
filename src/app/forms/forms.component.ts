@@ -7,7 +7,7 @@ import { FormlyJsonschema } from '@ngx-formly/core/json-schema';
 import { JSONSchema7 } from "json-schema";
 import { GeneralService } from '../services/general/general.service';
 import { Location } from '@angular/common'
-import { of } from 'rxjs';
+import { forkJoin, of } from 'rxjs';
 import { ToastMessageService } from '../services/toast-message/toast-message.service';
 import { of as observableOf } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
@@ -1271,13 +1271,13 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
       }
 
       console.log('apiCalls', apiCalls);
-      of(...apiCalls)
-      .pipe(concatMap((request: any) => this.generalService.postData(request.url, request.payload)))
+      // of(...apiCalls)
+      // .pipe(concatMap((request: any) => this.generalService.postData(request.url, request.payload)))
+      forkJoin(apiCalls.map((item: any) => this.generalService.postData(item.url, item.payload)))
       .subscribe((result: any) => {
-        console.log(result);
+        console.log("result", result);
 
-
-        if (result?.params?.status === "SUCCESSFUL") {
+        if (result[0]?.params?.status === "SUCCESSFUL") {
           this.router.navigate(['/dashboard']);
         }
 
@@ -1290,7 +1290,7 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
    
         //  }
       }, (err) => {
-        this.toastMsg.error('error', err.error.params.errmsg);
+        this.toastMsg.error('error', err?.error?.params?.errmsg || 'Something went wrong');
         this.isSubmitForm = false;
       });
       

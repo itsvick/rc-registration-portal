@@ -34,6 +34,7 @@ import { DocDetailViewComponent } from './documents/doc-detail-view/doc-detail-v
  import { VerifyCertificateComponent } from './issure/verify-certificate/verify-certificate.component';
 import { OnboardingComponent } from './onboarding/onboarding.component';
 import { UdiseLinkComponent } from './custom/udise-link/udise-link.component';
+import { MainDashboardComponent } from './main-dashboard/main-dashboard.component';
 
 // import { CreateCertificateComponent } from './create-certificate/create-certificate.component';
 // import { FaqComponent } from './custom-components/faq/faq.component';
@@ -108,7 +109,8 @@ const routes: Routes = [
 { path: 'discovery', component: SearchComponent },
 // { path: 'template', component: CreateCertificateComponent },
 
-  { path: 'dashboard', component: DashboardComponent , canActivate: [AuthGuard] },
+  // { path: 'dashboard', component: DashboardComponent , canActivate: [AuthGuard] },
+  { path: 'dashboard', component: MainDashboardComponent, canActivate: [AuthGuard] },
  { path: 'records', component: GetRecordsComponent , canActivate: [AuthGuard] },
   { path: 'records/:document/:osid', component: GetRecordsComponent , canActivate: [AuthGuard] },
  { path: 'add-records/:document/:osid', component: AddRecordsComponent , canActivate: [AuthGuard] },

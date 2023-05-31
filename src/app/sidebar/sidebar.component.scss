@@ -1,0 +1,136 @@
+section {
+  display: block;
+  margin-top: 80px;
+}
+.sidebarContainer {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-content: center;
+  flex-direction: column;
+
+  div {
+    color: #050c44;
+    margin: 0.5rem 0.5rem 0.5rem 0;
+    font-weight: 400;
+  }
+
+  .menu {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    cursor: pointer;
+    min-width: 210px;
+    border-radius: 0 8px 8px 0;
+    border-left: 5px solid transparent;
+    color: #9c9c9c !important;
+    opacity: 0.5;
+
+    i {
+      padding: 0 15px;
+      font-size: 17px;
+      vertical-align: middle;
+      color: #9c9c9c !important;
+    }
+  }
+
+  .active {
+    color: #050c44;
+    font-weight: 600;
+    border-left: 5px solid #ff740f;
+    background: #f2f2f2;
+    opacity: 1;
+    font-weight: 600;
+  }
+  .active i {
+    color: #050c44;
+    opacity: 1;
+  }
+}
+
+.instructions {
+  margin: 1rem;
+  margin-bottom: 75px;
+  .title {
+    font-weight: 600;
+    font-size: 14px;
+    color: #ff740f !important;
+  }
+
+  .info {
+    height: 1rem;
+    width: 1rem;
+    margin-right: 0.5rem;
+  }
+  ul {
+    list-style-type: none;
+    padding-inline-start: 0;
+    font-size: 12px;
+
+    li {
+      font-size: 12.8193px;
+      font-weight: 500;
+      margin-top: 0.5rem;
+      color: var(--primaryColor);
+      background: rgb(180 179 177 / 12%);
+      border-radius: 5px;
+      padding: 10px;
+      text-align: center;
+      .fa {
+        font-size: 16px;
+        color: #414141;
+      }
+
+      position: relative;
+      margin-top: 30px;
+      z-index: 2;
+    }
+    li:first-child {
+      margin-top: 0;
+    }
+    li:before {
+      position: absolute;
+      border: 1px solid #ccc;
+      width: 0;
+      height: 30px;
+      display: block;
+      content: "";
+      left: 50%;
+      z-index: 1;
+      top: -30px;
+    }
+    li:first-child:before {
+      display: none;
+    }
+  }
+}
+
+.fa-sign-out-alt {
+  font-size: 19px !important;
+  vertical-align: middle;
+}
+
+.w-25px {
+  width: 25px;
+}
+
+.pl-39 {
+  padding-left: 38px;
+}
+.disable,
+.disable ~ .title {
+  color: #ccc;
+  opacity: 0.7;
+  cursor: default;
+}
+.botm-fixed {
+  position: fixed;
+  bottom: 3%;
+}
+.sidebarContainer .active {
+  color: #050c44;
+  font-weight: 600;
+  border-left: 5px solid #ff740f;
+  background: #f2f2f2;
+}

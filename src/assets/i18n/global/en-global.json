@@ -217,5 +217,16 @@
     "PASSWORD": "Password",
     "ENTER_SCHOOL_UDISE": "Enter School UDISE",
     "ENTER_PASSWORD": "Enter Password",
-    "INVALID_SCHOOL_UDISE_OR_PASSWORD": "Invalid School UDISE or Password"
+    "INVALID_SCHOOL_UDISE_OR_PASSWORD": "Invalid School UDISE or Password",
+    "REGISTER_STUDENT": "Register new Students",
+    "ISSUED_CREDENTIAL": "View registered students",
+    "CLAIM_APPROVAL": "Approve student claims",
+    "ENROLMENT_CREDENTIAL": "Registered students",
+    "PENDING_CLAIM_APPROVAL": "Pending Claim approval",
+    "APPROVED_CLAIMS": "Approved Claims",
+    "REJECTED_CLAIMS": "Rejected Claims",
+    "REGISTER_ISSUE_MANAGE_CERT": "Register new Students",
+    "STUD_REGISTRATION_CLAIM": "Approve  student registration",
+    "TRACK_ALL_MAJOR":"Track all major AVSAR metrics for your school here",
+    "QUICK_LINKS": "Quick Links"
 }
