@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { filter } from 'rxjs/operators';
 import { GeneralService } from '../services/general/general.service';
+import { SchemaService } from '../services/data/schema.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,13 +11,15 @@ import { GeneralService } from '../services/general/general.service';
   styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnInit {
+  @Input() sidebarFor: string = 'default';
   menuList: any[];
 
   showInstructions = false;
   constructor(
     private readonly generalService: GeneralService,
     private readonly router: Router,
-    private readonly translate: TranslateService
+    private readonly translate: TranslateService,
+    private readonly schemaService: SchemaService
   ) { }
 
   ngOnInit(): void {
@@ -37,33 +40,13 @@ export class SidebarComponent implements OnInit {
   }
 
   initialize() {
-    this.menuList = [
-      {
-        label: this.generalService.translateString('HOME'),
-        link: '/dashboard',
-        class: 'fa fa-home'
-      },
-      {
-        label: this.generalService.translateString('REGISTER_STUDENT'),
-        link: '/dashboard/register-entity',
-        class: 'fa fa-user-plus'
-      },
-      {
-        label: this.generalService.translateString('ISSUED_CREDENTIAL'),
-        link: '/dashboard/issued-credential',
-        class: 'fa fa-key'
-      },
-      {
-        label: this.generalService.translateString('CLAIM_APPROVAL'),
-        link: '/dashboard/claim-approval',
-        class: 'fa fa-user-check'
-      },
-      {
-        label: this.generalService.translateString('ADD_ISSUER_STAFF'),
-        link: '',
-        class: 'fa fa-graduation-cap disable'
-      },
-    ];
+    this.schemaService.getSidebarJson().subscribe((sidebarSchema: any) => {
+      const filtered = sidebarSchema.sidebar.filter(obj => {
+        return Object.keys(obj)[0] === this.sidebarFor;
+      });
+      this.menuList = filtered[0][this.sidebarFor];
+    });
+
   }
 
   logout() {

@@ -1,0 +1,93 @@
+{
+  "type": "opensaberLayoutSchema",
+  "version": "0.1",
+  "sidebar": [
+    {
+      "default": [
+        {
+          "title": "HOME",
+          "redirectTo": "/dashboard",
+          "className" : "fa fa-home"
+        },
+        {
+          "title": "REGISTER_STUDENT",
+          "redirectTo": "/dashboard/register-entity",
+          "className": "fa fa-user-plus"
+        },
+        {
+          "title": "ISSUED_CREDENTIAL",
+          "redirectTo": "/dashboard/issued-credential",
+          "className": "fa fa-key"
+        },
+        {
+          "title": "CLAIM_APPROVAL",
+          "redirectTo": "/dashboard/claim-approval",
+          "className": "fa fa-user-check"
+        },
+        {
+          "title": "ADD_ISSUER_STAFF",
+          "redirectTo": "",
+          "className": "fa fa-graduation-cap disable"
+        }
+      ]
+    },
+    {
+      "instructor": [
+        {
+          "title": "HOME",
+          "redirectTo": "/dashboard",
+          "className" : "fa fa-home"
+        },
+        {
+          "title": "REGISTER_STUDENT",
+          "redirectTo": "/dashboard/register-entity",
+          "className": "fa fa-user-plus"
+        },
+        {
+          "title": "ISSUED_CREDENTIAL",
+          "redirectTo": "/dashboard/issued-credential",
+          "className": "fa fa-key"
+        },
+        {
+          "title": "CLAIM_APPROVAL",
+          "redirectTo": "/dashboard/claim-approval",
+          "className": "fa fa-user-check"
+        },
+        {
+          "title": "ADD_ISSUER_STAFF",
+          "redirectTo": "",
+          "className": "fa fa-graduation-cap disable"
+        }
+      ]
+    },
+    {
+      "beo": [
+        {
+          "title": "HOME",
+          "redirectTo": "/dashboard",
+          "className" : "fa fa-home"
+        },
+        {
+          "title": "REGISTER_STUDENT",
+          "redirectTo": "/dashboard/register-entity",
+          "className": "fa fa-user-plus"
+        },
+        {
+          "title": "ISSUED_CREDENTIAL",
+          "redirectTo": "/dashboard/issued-credential",
+          "className": "fa fa-key"
+        },
+        {
+          "title": "CLAIM_APPROVAL",
+          "redirectTo": "/dashboard/claim-approval",
+          "className": "fa fa-user-check"
+        },
+        {
+          "title": "ADD_ISSUER_STAFF",
+          "redirectTo": "",
+          "className": "fa fa-graduation-cap disable"
+        }
+      ]
+    }
+  ]
+}
