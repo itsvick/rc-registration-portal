@@ -7,12 +7,10 @@ import { FormlyJsonschema } from '@ngx-formly/core/json-schema';
 import { JSONSchema7 } from "json-schema";
 import { GeneralService } from '../services/general/general.service';
 import { Location } from '@angular/common'
-import { forkJoin, of } from 'rxjs';
+import { combineLatest, forkJoin, of } from 'rxjs';
 import { ToastMessageService } from '../services/toast-message/toast-message.service';
 import { of as observableOf } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { throwError } from 'rxjs';
-import { concatMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-forms',
@@ -46,7 +44,7 @@ export class FormsComponent implements OnInit {
   fields: FormlyFieldConfig[];
   customFields = [];
   header = null;
-exLength : number = 0
+  exLength : number = 0
   type: string;
   apiUrl: string;
   redirectTo: any;
@@ -72,13 +70,15 @@ exLength : number = 0
   sorder: any;
   isSubmitForm: boolean = false;
   properties = {};
+  queryParams: any;
 
   constructor(private route: ActivatedRoute,
     public translate: TranslateService,
     public toastMsg: ToastMessageService, public router: Router, public schemaService: SchemaService, private formlyJsonschema: FormlyJsonschema, public generalService: GeneralService, private location: Location) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
+    combineLatest([this.route.params, this.route.queryParams])
+    .subscribe(([params, queryParams]) => {
       this.add = this.router.url.includes('add');
 
       if (params['form'] != undefined) {
@@ -92,6 +92,9 @@ exLength : number = 0
       if (params['modal'] != undefined) {
         this.modal = params['modal']
       }
+
+      this.queryParams = queryParams;
+      console.log("QueryParams", queryParams);
 
     });
 
@@ -257,43 +260,46 @@ exLength : number = 0
       this.model = {};
     }
 
-    if (localStorage.getItem('userDetails')) {
-      let userDetails = JSON.parse(localStorage.getItem('userDetails'));
-      let newModel = {
-        name: `${userDetails.firstName} ${userDetails.lastName}`,
-        email: userDetails?.email,
-        username: userDetails?.username
-      }
-      this.model = newModel;
+    let savedData = [];
+    if (this.queryParams?.ls) {
+      savedData = this.queryParams.ls.split(',');
     }
 
-    if (localStorage.getItem('instituteDetails')) {
-      let udiseDetails = JSON.parse(localStorage.getItem('instituteDetails'));
-      let newModel  = {
-        "instituteName": udiseDetails?.schoolName,
-        "highestLevel": udiseDetails?.highestClass,
-        "lowestLevel": udiseDetails?.lowestClass,
-        "instituteCategoryId": udiseDetails?.schCategoryId ? udiseDetails?.schCategoryId?.toString() : '',
-        "instituteTypeId": udiseDetails?.schTypeId ? udiseDetails?.schTypeId?.toString() : '',
-        "instituteMgmtId": udiseDetails?.schMgmtId ? udiseDetails?.schMgmtId?.toString() : '',
-        "instituteMgmtCenterId": udiseDetails?.schMgmtCenterId ? udiseDetails?.schMgmtCenterId?.toString() : '',
-        "instituteStatusId": udiseDetails?.schStatusId ? udiseDetails?.schStatusId?.toString() : '',
-        "instituteLocTypeId": udiseDetails?.schLocTypeId ? udiseDetails?.schLocTypeId?.toString() : '',
-        "eduStateCode": udiseDetails?.eduStateCode ? udiseDetails?.eduStateCode?.toString() : '',
-        "eduDistrictCode": udiseDetails?.eduDistrictCode ? udiseDetails?.eduDistrictCode?.toString() : '',
-        "eduBlockCode": udiseDetails?.eduBlockCode ? udiseDetails?.eduBlockCode?.toString() : '',
-        "eduClusterCode": udiseDetails?.eduBlockCode ? udiseDetails?.eduBlockCode?.toString() : '',
-        "lgdStateId": udiseDetails?.lgdStateId,
-        "lgdDistrictId": udiseDetails?.lgdDistrictId,
-        "estdYear": udiseDetails?.estdYear,
-        "address": udiseDetails?.address,
-        "pinCode": udiseDetails?.pinCode,
-        "email": udiseDetails?.email,
+    savedData.map((item) => {
+      let data = JSON.parse(localStorage.getItem(item));
+      if (item === 'userDetails') {
+        data = {
+          name: `${data.firstName} ${data.lastName}`,
+          email: data?.email,
+          username: data?.username
+        }
+      } else if (item === 'instituteDetails') {
+        data = {
+          "instituteName": data?.schoolName,
+          "highestLevel": data?.highestClass,
+          "lowestLevel": data?.lowestClass,
+          "instituteCategoryId": data?.schCategoryId ? data?.schCategoryId?.toString() : '',
+          "instituteTypeId": data?.schTypeId ? data?.schTypeId?.toString() : '',
+          "instituteMgmtId": data?.schMgmtId ? data?.schMgmtId?.toString() : '',
+          "instituteMgmtCenterId": data?.schMgmtCenterId ? data?.schMgmtCenterId?.toString() : '',
+          "instituteStatusId": data?.schStatusId ? data?.schStatusId?.toString() : '',
+          "instituteLocTypeId": data?.schLocTypeId ? data?.schLocTypeId?.toString() : '',
+          "eduStateCode": data?.eduStateCode ? data?.eduStateCode?.toString() : '',
+          "eduDistrictCode": data?.eduDistrictCode ? data?.eduDistrictCode?.toString() : '',
+          "eduBlockCode": data?.eduBlockCode ? data?.eduBlockCode?.toString() : '',
+          "eduClusterCode": data?.eduBlockCode ? data?.eduBlockCode?.toString() : '',
+          "lgdStateId": data?.lgdStateId,
+          "lgdDistrictId": data?.lgdDistrictId,
+          "estdYear": data?.estdYear,
+          "address": data?.address,
+          "pinCode": data?.pinCode,
+          "email": data?.email,
+        }
       }
-      
 
-      this.model = {...this.model, ...newModel};
-    }
+      this.model = { ...this.model, ...data }
+    });
+
     this.schemaloaded = true;
   }
 

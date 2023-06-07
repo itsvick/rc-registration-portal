@@ -11,7 +11,7 @@ export class SchemaService {
   schemaUrl = this.config.getEnv('schemaUrl');
   configFolder = this.config.getEnv('configFolder');
 
-  constructor(public dataService: DataService,private config: AppConfig) {
+  constructor(public dataService: DataService, private config: AppConfig) {
   }
 
   getSchemas() {
@@ -31,6 +31,12 @@ export class SchemaService {
     };
 
     return this.dataService.get(req);
+  }
+
+  getSidebarJson() {
+    const url = `.${this.configFolder}/sidebar.json`;
+
+    return this.dataService.get({ url });
   }
 
   getFormJSON() {
@@ -84,7 +90,7 @@ export class SchemaService {
   }
 
   getJSON(url) {
-  
+
     const req = {
       url: url
     };

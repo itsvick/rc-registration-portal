@@ -49,7 +49,7 @@ export class UdiseLinkComponent implements OnInit {
       if (res?.status) {
         if (res?.response?.data) {
           localStorage.setItem('instituteDetails', JSON.stringify(res.response.data));
-          this.router.navigate(['/form/instructor-signup']);
+          this.router.navigate(['/form/instructor-signup'], { queryParams: { ls: 'instituteDetails,userDetails' } });
         }
       } else {
         this.toastMessage.error('', this.generalService.translateString('INVALID_SCHOOL_UDISE_OR_PASSWORD'));
