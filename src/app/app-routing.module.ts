@@ -42,16 +42,80 @@ const routes: Routes = [
 // Home
 // { path: '', component: HomeComponent },
 {  path: '', component: OnboardingComponent },
-{ path: 'udise-link', component: UdiseLinkComponent, canActivate: [AuthGuard] },
+{ 
+  path: 'udise-link', component: UdiseLinkComponent, 
+  canActivate: [AuthGuard],
+  data: {
+    showToolbar: false,
+    telemetry: {
+      env: 'udise', pageid: 'udise-link', type: 'udise', subtype: 'scroll'
+    }
+  }
+},
 // Auth
-{ path: 'login', component: KeycloakloginComponent ,  canActivate: [AuthGuard]},
-{ path: 'logout', component: LogoutComponent},
-{ path: 'graph-dashboard', component: GraphDashboardComponent},
+{ 
+  path: 'login', component: KeycloakloginComponent, 
+  canActivate: [AuthGuard],
+  data: {
+    showToolbar: false,
+    telemetry: {
+      env: 'login', pageid: 'login', type: 'edit', subtype: 'scroll'
+    }
+  }
+},
+{ 
+  path: 'logout', 
+  component: LogoutComponent,
+  data: {
+    showToolbar: false,
+    telemetry: {
+      env: 'logout', pageid: 'logout', type: 'view', subtype: 'scroll'
+    }
+  }
+},
+{ 
+  path: 'graph-dashboard', 
+  component: GraphDashboardComponent,
+  data: {
+    showToolbar: false,
+    telemetry: {
+      env: 'graph', pageid: 'graph-dashboard', type: 'view', subtype: 'scroll'
+    }
+  }
+},
 
 // Forms
-{ path: 'form/:form', component: FormsComponent },
-{ path: 'form/:form/:id', component: FormsComponent, canActivate: [AuthGuard] },
-{path : 'verify',component: VerifyCertificateComponent },
+{ 
+  path: 'form/:form', 
+  component: FormsComponent,
+  data: {
+    showToolbar: false,
+    telemetry: {
+      env: 'form', pageid: 'form', type: 'edit', subtype: 'scroll'
+    }
+  }
+},
+{ 
+  path: 'form/:form/:id', 
+  component: FormsComponent, 
+  canActivate: [AuthGuard],
+  data: {
+    showToolbar: false,
+    telemetry: {
+      env: 'form', pageid: 'form-id', type: 'edit', subtype: 'scroll'
+    }
+  }
+},
+{
+  path : 'verify',
+  component: VerifyCertificateComponent,
+  data: {
+    showToolbar: false,
+    telemetry: {
+      env: 'verify', pageid: 'verify', type: 'edit', subtype: 'scroll'
+    }
+  }
+},
 
 
 // Layouts

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AppConfig } from './app.config';
 import { ThemeService } from "../app/services/theme/theme.service";
+import { TelemetryService } from './services/telemetry/telemetry.service';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,7 @@ export class AppComponent {
   footerText = 'Sunbird RC';
   isFooter = false;
   ELOCKER_THEME;
-  constructor(private config: AppConfig, private themeService: ThemeService) {
+  constructor(private config: AppConfig, private themeService: ThemeService, private telemetryService: TelemetryService) {
     
      if(this.config.getEnv('appType') && this.config.getEnv('appType') != 'digital_wallet'){
       this.isFooter = true;
@@ -38,5 +39,9 @@ export class AppComponent {
   //  }
 
 
+  }
+
+  ngOnInit(): void {
+    this.telemetryService.initializeTelemetry();
   }
 }
