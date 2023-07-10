@@ -55,10 +55,10 @@ import { SearchComponent } from '../app/discovery/search/search.component';
 import { AuthConfigService } from './authentication/auth-config.service';
 import { DocumentsComponent } from './documents/documents.component';
 import { AddDocumentComponent } from './documents/add-document/add-document.component';
-import {WebcamModule} from 'ngx-webcam';
+import { WebcamModule } from 'ngx-webcam';
 import { ScanDocumentComponent } from './documents/scan-document/scan-document.component';
 import { ScanQrCodeComponent } from './documents/scan-qr-code/scan-qr-code.component';
-import {QuarModule} from '@altack/quar';
+import { QuarModule } from '@altack/quar';
 import { BrowseDocumentsComponent } from './documents/browse-documents/browse-documents.component';
 
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -126,31 +126,31 @@ let baseConfig = require('../assets/config/config.json')
 
 let configData = {
   baseUrl: baseConfig['baseUrl']
-  }   
+}
 
 import ISO6391 from 'iso-639-1';
 import { PagesComponent } from './pages/pages.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
-import {AuthImagePipe} from '../app/layouts/doc-view/doc-view.component';
+import { AuthImagePipe } from '../app/layouts/doc-view/doc-view.component';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { DocDetailViewComponent } from './documents/doc-detail-view/doc-detail-view.component';
 // import { FaqComponent } from './custom-components/faq/faq.component';
 import { SafeHtmlPipe } from './safe-html.pipe';
 import { initTheme } from './theme.config';
 import { VerifyIndentityCode } from './forms/types/verify-identity-no.type';
- import { DashboardComponent } from './issure/dashboard/dashboard.component';
- import { AddCertificateComponent } from './issure/add-certificate/add-certificate.component';
- import { GetRecordsComponent } from './issure/get-records/get-records.component';
- import { AddRecordsComponent } from './issure/add-records/add-records.component';
+import { DashboardComponent } from './issure/dashboard/dashboard.component';
+import { AddCertificateComponent } from './issure/add-certificate/add-certificate.component';
+import { GetRecordsComponent } from './issure/get-records/get-records.component';
+import { AddRecordsComponent } from './issure/add-records/add-records.component';
 import { GraphDashboardComponent } from './graph-dashboard/graph-dashboard.component';
- import { PreviewHtmlComponent } from './issure/preview-html/preview-html.component';
+import { PreviewHtmlComponent } from './issure/preview-html/preview-html.component';
 // import { VerifyComponent } from './issure/verify/verify.component' 
-import { AdvanceEditorComponent } from './issure/advance-editor/advance-editor.component'; 
+import { AdvanceEditorComponent } from './issure/advance-editor/advance-editor.component';
 // import { CreateCertificateComponent } from './create-certificate/create-certificate.component';
 import { NgJsonEditorModule } from 'ang-jsoneditor';
-import { VerifyComponent } from './issure/verify/verify.component' 
+import { VerifyComponent } from './issure/verify/verify.component'
 import { FormioModule } from 'angular-formio';
 import { NgxTextEditorModule } from 'ngx-text-editor';
 
@@ -161,7 +161,7 @@ import { OnboardingComponent } from './onboarding/onboarding.component';
 import { UdiseLinkComponent } from './custom/udise-link/udise-link.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { MainDashboardComponent } from './main-dashboard/main-dashboard.component';
-console.log(configData['default']);
+import { IssuedCredentialsComponent } from './issued-credentials/issued-credentials.component';
 
 @NgModule({
   declarations: [
@@ -194,22 +194,23 @@ console.log(configData['default']);
     ScanQrCodeComponent,
     BrowseDocumentsComponent,
     AuthImagePipe,
-     DashboardComponent,
-     AddCertificateComponent,
-     GetRecordsComponent,
-     AddRecordsComponent,
-     GraphDashboardComponent,
-     PreviewHtmlComponent,
+    DashboardComponent,
+    AddCertificateComponent,
+    GetRecordsComponent,
+    AddRecordsComponent,
+    GraphDashboardComponent,
+    PreviewHtmlComponent,
     // VerifyComponent,
-     AdvanceEditorComponent,
+    AdvanceEditorComponent,
     BulkRecordsComponent,
     VerifyCertificateComponent,
     MaskPipe,
     OnboardingComponent,
     UdiseLinkComponent,
     SidebarComponent,
-    MainDashboardComponent
-],
+    MainDashboardComponent,
+    IssuedCredentialsComponent
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -224,7 +225,7 @@ console.log(configData['default']);
     Bootstrap4FrameworkModule,
     AngularMultiSelectModule,
     NgSelectModule,
-    VerifyModule.forChild(configData), 
+    VerifyModule.forChild(configData),
     ZXingScannerModule,
 
     HttpClientModule,
@@ -239,7 +240,7 @@ console.log(configData['default']);
       wrappers: [{ name: 'form-field-horizontal', component: FormlyHorizontalWrapper },
       { name: 'panel', component: PanelWrapperComponent }],
       validationMessages: [
-        { name: 'required', message:  errValidatorMessage },
+        { name: 'required', message: errValidatorMessage },
         { name: 'pattern', message: patternValidatorMessage },
 
       ],
@@ -313,7 +314,7 @@ console.log(configData['default']);
     {
       provide: APP_INITIALIZER,
       useFactory: initTheme,
-      deps: [HttpClient, TranslateService],
+      deps: [AuthConfigService],
       multi: true
     }]
 })

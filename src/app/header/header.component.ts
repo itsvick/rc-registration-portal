@@ -1,10 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { environment } from 'src/environments/environment';
-import { AppConfig } from '../app.config';
-import { SchemaService } from '../services/data/schema.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ThemeService } from "../../app/services/theme/theme.service";
+import { AppConfig } from '../app.config';
+import { SchemaService } from '../services/data/schema.service';
 import { GeneralService } from '../services/general/general.service';
 
 declare var $: any;
