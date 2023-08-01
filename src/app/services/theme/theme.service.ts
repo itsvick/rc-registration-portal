@@ -6,14 +6,14 @@ import { THEMES } from '../../theme.config';
   providedIn: 'root',
 })
 export class ThemeService {
-  constructor(@Inject(DOCUMENT) private document: Document) {}
+  constructor(@Inject(DOCUMENT) private document: Document) { }
 
   setTheme(name = 'default') {
-    if(THEMES){
-    const theme = THEMES[name];
-    Object.keys(theme).forEach((key) => {
-      this.document.documentElement.style.setProperty(`--${key}`, theme[key]);
-    });
-  }
+    if (THEMES) {
+      const theme = THEMES[name];
+      Object.keys(theme).forEach((key) => {
+        this.document.documentElement.style.setProperty(`--${key}`, theme[key]);
+      });
+    }
   }
 }

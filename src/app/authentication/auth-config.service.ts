@@ -1,32 +1,37 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { catchError, mergeMap } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthConfigService {
-  private config: any;
+  private _config: any;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
+
+
+  get config(): any {
+    return this._config;
+  }
 
   public getConfig(): Observable<any> {
-    return this.httpClient
-        .get('./assets/config/config.json', {
-          observe: 'response',
-        })
-        .pipe(
-          catchError((error) => {
-            return of(null)
-          } ),
-          mergeMap((response) => {
-            if (response && response.body) {
-              this.config = response.body;
-              return of(this.config);
-            } else {
-              return of(null);
-            }
-          }));
+    if (this._config) {
+      return of(this._config);
+    }
+    return this.httpClient.get('./assets/config/config.json').pipe(
+      catchError((error) => {
+        console.log(error)
+        return of(null)
+      }),
+      map((response) => {
+        if (response) {
+          this._config = response;
+          return response;
+        } else {
+          return null;
+        }
+      }));
   }
 }

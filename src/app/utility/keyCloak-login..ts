@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
-import {
-    ActivatedRouteSnapshot,
-    Router,
-    RouterStateSnapshot,
-} from '@angular/router';
-import { KeycloakAuthGuard, KeycloakService } from 'keycloak-angular';
+import { Router } from '@angular/router';
+import { KeycloakService } from 'keycloak-angular';
 
 @Injectable({
     providedIn: 'root',
@@ -18,13 +14,12 @@ export class KeyCloakLogin {
     }
 
     ngOnInit(): void {
-    
         this.user = this.keycloak.getUsername();
-        this.keycloak.getToken().then((token)=>{
-          console.log('keyCloak token - ', token);
-          localStorage.setItem('token', token);
-          localStorage.setItem('loggedInUser', this.user)
+        this.keycloak.getToken().then((token) => {
+            console.log('keyCloak token - ', token);
+            localStorage.setItem('token', token);
+            localStorage.setItem('loggedInUser', this.user)
         });
 
-}
+    }
 }

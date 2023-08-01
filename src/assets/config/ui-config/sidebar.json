@@ -13,7 +13,7 @@
         {
           "id": "register-student",
           "title": "REGISTER_STUDENT",
-          "redirectTo": "/dashboard/register-entity",
+          "redirectTo": "/dashboard/bulk-issue-credential",
           "className": "fa fa-user-plus"
         },
         {
@@ -25,8 +25,8 @@
         {
           "id": "claim-approval",
           "title": "CLAIM_APPROVAL",
-          "redirectTo": "/dashboard/claim-approval",
-          "className": "fa fa-user-check"
+          "redirectTo": "",
+          "className": "fa fa-user-check disable"
         },
         {
           "id": "add-user-staff",

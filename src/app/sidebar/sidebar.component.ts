@@ -1,8 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
-import { filter } from 'rxjs/operators';
-import { GeneralService } from '../services/general/general.service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SchemaService } from '../services/data/schema.service';
 import { IImpressionEventInput, IInteractEventInput } from '../services/telemetry/telemetry.interface';
 import { TelemetryService } from '../services/telemetry/telemetry.service';
@@ -16,11 +13,8 @@ export class SidebarComponent implements OnInit {
   @Input() sidebarFor: string = 'default';
   menuList: any[];
 
-  showInstructions = false;
   constructor(
-    private readonly generalService: GeneralService,
     private readonly router: Router,
-    private readonly translate: TranslateService,
     private readonly schemaService: SchemaService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly telemetryService: TelemetryService,
@@ -28,19 +22,6 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit(): void {
     this.initialize();
-    this.getRouteData();
-
-    if (this.router.url === '/dashboard/register-entity') {
-      this.showInstructions = true;
-    }
-
-    // this.generalService.languageChange.subscribe((res) => {
-    //   this.initialize();
-    // });
-
-    this.translate.onLangChange.subscribe(_ => {
-      this.initialize();
-    });
   }
 
   initialize() {
@@ -51,18 +32,6 @@ export class SidebarComponent implements OnInit {
       this.menuList = filtered[0][this.sidebarFor];
     });
 
-  }
-
-  logout() {
-    // this.authService.doLogout();
-  }
-
-  getRouteData() {
-    this.router.events.pipe(
-      filter(e => e instanceof NavigationEnd))
-      .subscribe((event: NavigationEnd) => {
-        this.showInstructions = event.url === '/dashboard/register-entity';
-      });
   }
 
   raiseInteractEvent(id: string, type: string = 'CLICK', subtype?: string) {

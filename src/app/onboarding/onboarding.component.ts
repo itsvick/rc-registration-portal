@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IImpressionEventInput, IInteractEventInput } from '../services/telemetry/telemetry.interface';
 import { TelemetryService } from '../services/telemetry/telemetry.service';
+import { KeycloakService } from 'keycloak-angular';
 
 @Component({
   selector: 'app-onboarding',
@@ -14,9 +15,22 @@ export class OnboardingComponent implements OnInit {
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
     private readonly telemetryService: TelemetryService,
+    private readonly keycloakService: KeycloakService
   ) { }
 
   ngOnInit(): void {
+    try {
+      if (this.keycloakService.isLoggedIn() && !this.keycloakService.isTokenExpired()) {
+        this.router.navigate(['/dashboard']);
+      } else {
+        localStorage.clear();
+        this.keycloakService.clearToken();
+      }
+    } catch (error) {
+      console.log("error==>", error);
+      localStorage.clear();
+      this.keycloakService.clearToken();
+    }
   }
 
   /**

@@ -15,8 +15,12 @@ export class GeneralService {
   baseUrl = this.config.getEnv('baseUrl');
   bffUrl = this.config.getEnv('bffUrl');
   translatedString: string;
-  constructor(public dataService: DataService, 
-    private http: HttpClient, private config: AppConfig, public translate: TranslateService) {
+  constructor(
+    public dataService: DataService, 
+    private http: HttpClient, 
+    private config: AppConfig, 
+    public translate: TranslateService,
+    ) {
   }
 
   postData(apiUrl, data, isBFF = false) {

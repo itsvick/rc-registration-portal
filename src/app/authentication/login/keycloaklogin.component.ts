@@ -1,8 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
-import { Router } from '@angular/router';
+import { Router, RouterStateSnapshot } from '@angular/router';
 import { AppConfig } from '../../app.config';
 import { GeneralService } from 'src/app/services/general/general.service';
+import { KeycloakLoginOptions } from 'keycloak-js';
+import { Observable } from 'rxjs';
+import { HttpHeaders } from '@angular/common/http';
+import { AuthConfigService } from '../auth-config.service';
+import { DataService } from 'src/app/services/data/data-request.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-keycloaklogin',
@@ -15,25 +21,32 @@ export class KeycloakloginComponent implements OnInit {
   profileUrl: string = '';
   entityArr: any;
   constructor(
-    public keycloakService: KeycloakService,
-    public router: Router, private config: AppConfig,
-    private readonly generalService: GeneralService
+    public readonly keycloakService: KeycloakService,
+    public readonly router: Router,
+    private readonly config: AppConfig,
+    private readonly generalService: GeneralService,
+    private readonly dataService: DataService,
+    private readonly authConfigService: AuthConfigService
   ) { }
 
-  ngOnInit(): void {
-    this.keycloakService.loadUserProfile().then((res: any) => {
-      localStorage.setItem('userDetails', JSON.stringify(res));
-      if (res?.attributes?.entity) {
-        console.log(res['attributes']?.entity?.[0]);
-        this.entity = res.attributes.entity?.[0];
-        this.entityArr = res.attributes.entity;
+  async ngOnInit() {
+    const isLoggedIn = await this.keycloakService.isLoggedIn();
+
+    if (isLoggedIn) {
+      const accountRes: any = await this.keycloakService.loadUserProfile();
+      localStorage.setItem('userDetails', JSON.stringify(accountRes));
+      if (accountRes?.attributes?.entity) {
+        console.log(accountRes['attributes']?.entity?.[0]);
+        this.entity = accountRes.attributes.entity?.[0];
+        this.entityArr = accountRes.attributes.entity;
       }
-      if (res?.attributes?.locale?.length) {
-        localStorage.setItem('setLanguage', res['attributes'].locale[0]);
+      if (accountRes?.attributes?.locale?.length) {
+        localStorage.setItem('setLanguage', accountRes['attributes'].locale[0]);
       }
-    });
-    this.user = this.keycloakService.getUsername();
-    this.keycloakService.getToken().then((token) => {
+
+      this.user = this.keycloakService.getUsername();
+
+      const token = await this.keycloakService.getToken();
       localStorage.setItem('token', token);
       if (this.entity) {
         localStorage.setItem('entity', this.entity);
@@ -44,65 +57,57 @@ export class KeycloakloginComponent implements OnInit {
       }
       console.log('---------', this.config.getEnv('appType'));
 
-      const payload = {
-        "filters": {
-            "username": {
-                "eq": this.user
-            }
-        }
-      }
-
-      const selectedEntity = this.entity ? this.entity : localStorage.getItem('entity')
-      this.generalService.postData(`/${selectedEntity}/search`, payload).subscribe((res: any) => {
-        // if found redirect to dashboard
-        // else redirect to the registration form /udise link form
-
+      this.getDetails().subscribe((res: any) => {
         console.log("res", res);
-        if (res.length && !this.entity) {
-          this.router.navigate(['/udise-link']);
-        } else {
-          this.router.navigate(['/dashboard']);
-        }
-      }, error => {
-        console.error("Error while Searching Instructor", error);
-      });
+        this.router.navigate(['/dashboard']);
+      })
 
-      // if (this.config.getEnv('appType') && this.config.getEnv('appType') === 'digital_wallet') {
-      //   this.profileUrl = this.entity + '/documents'
-      // } if (this.entity === 'issue' || this.entity === 'Issuer') {
-      //   this.profileUrl = '/dashboard';
-      // } else {
-      // if (this.entityArr.length == 1) {
-      //     if (this.entity == 'Student' || this.entity =='Teacher' || this.entity == 'Institute' || this.entity == 'board-cbse') {
-      //       this.profileUrl = '/profile/' + this.entity;
-      //     } else {
-      //       this.profileUrl = '/list/verifiable-credential';
-
-      //     }
-      //   }else{
-
-      //     let isSetEntity = false;
-
-      //     for(let i =0; i < this.entityArr.length; i++)
-      //     {
-      //       if (this.entityArr[i] == 'Student' || this.entityArr[i] =='Teacher' || this.entityArr[i] == 'Institute' || this.entityArr[i] == 'board-cbse') {
-      //         this.entity = this.entityArr[i];
-      //         this.profileUrl = '/profile/' + this.entity;
-      //         isSetEntity = true;
-      //       } 
-             
-      //     }
-
-      //     if(!isSetEntity){
-      //       this.profileUrl = '/list/verifiable-credential';
+      // const payload = {
+      //   "filters": {
+      //     "username": {
+      //       "eq": this.user
       //     }
       //   }
       // }
-      // this.router.navigate([this.profileUrl]);
 
-    });
+      // const selectedEntity = this.entity ? this.entity : localStorage.getItem('entity')
+      // this.generalService.postData(`/${selectedEntity}/search`, payload).subscribe((res: any) => {
+      //   // if found redirect to dashboard
+      //   // else redirect to the registration form /udise link form
+
+      //   console.log("res", res);
+      //   if (res.length && !this.entity) {
+      //     this.router.navigate(['/udise-link']);
+      //   } else {
+      //     this.router.navigate(['/dashboard']);
+      //   }
+      // }, error => {
+      //   console.error("Error while Searching Instructor", error);
+      // });
+    } else {
+      const snapshot: RouterStateSnapshot = this.router.routerState.snapshot;
+      this.keycloakService
+        .getKeycloakInstance()
+        .login(<KeycloakLoginOptions>{
+          locale: localStorage.getItem('setLanguage'),
+          redirectUri: window.location.origin + snapshot.url
+        })
+        .then((res) => {
+          console.log({ res });
+        });
+    }
   }
-  
 
+
+  getDetails(): Observable<any> {
+    let headerOptions = new HttpHeaders({
+      Authorization: 'Bearer ' + localStorage.getItem('token')
+    });
+    return this.dataService.get({ url: `${this.authConfigService.config.bulkIssuance}/bulk/v1/issuerdetail`, header: headerOptions }).pipe(map((res: any) => {
+      console.log(res);
+      localStorage.setItem('currentUser', JSON.stringify(res.result));
+      return res;
+    }));
+  }
 
 }
