@@ -4,6 +4,11 @@ import { Router, RouterStateSnapshot } from '@angular/router';
 import { AppConfig } from '../../app.config';
 import { GeneralService } from 'src/app/services/general/general.service';
 import { KeycloakLoginOptions } from 'keycloak-js';
+import { Observable } from 'rxjs';
+import { HttpHeaders } from '@angular/common/http';
+import { AuthConfigService } from '../auth-config.service';
+import { DataService } from 'src/app/services/data/data-request.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-keycloaklogin',
@@ -16,62 +21,69 @@ export class KeycloakloginComponent implements OnInit {
   profileUrl: string = '';
   entityArr: any;
   constructor(
-    public keycloakService: KeycloakService,
-    public router: Router, private config: AppConfig,
-    private readonly generalService: GeneralService
+    public readonly keycloakService: KeycloakService,
+    public readonly router: Router,
+    private readonly config: AppConfig,
+    private readonly generalService: GeneralService,
+    private readonly dataService: DataService,
+    private readonly authConfigService: AuthConfigService
   ) { }
 
   async ngOnInit() {
     const isLoggedIn = await this.keycloakService.isLoggedIn();
 
     if (isLoggedIn) {
-      this.keycloakService.loadUserProfile().then((res: any) => {
-        localStorage.setItem('userDetails', JSON.stringify(res));
-        if (res?.attributes?.entity) {
-          console.log(res['attributes']?.entity?.[0]);
-          this.entity = res.attributes.entity?.[0];
-          this.entityArr = res.attributes.entity;
-        }
-        if (res?.attributes?.locale?.length) {
-          localStorage.setItem('setLanguage', res['attributes'].locale[0]);
-        }
-      });
+      const accountRes: any = await this.keycloakService.loadUserProfile();
+      localStorage.setItem('userDetails', JSON.stringify(accountRes));
+      if (accountRes?.attributes?.entity) {
+        console.log(accountRes['attributes']?.entity?.[0]);
+        this.entity = accountRes.attributes.entity?.[0];
+        this.entityArr = accountRes.attributes.entity;
+      }
+      if (accountRes?.attributes?.locale?.length) {
+        localStorage.setItem('setLanguage', accountRes['attributes'].locale[0]);
+      }
+
       this.user = this.keycloakService.getUsername();
 
-      this.keycloakService.getToken().then((token) => {
-        localStorage.setItem('token', token);
-        if (this.entity) {
-          localStorage.setItem('entity', this.entity);
-        }
+      const token = await this.keycloakService.getToken();
+      localStorage.setItem('token', token);
+      if (this.entity) {
+        localStorage.setItem('entity', this.entity);
+      }
 
-        if (this.user) {
-          localStorage.setItem('loggedInUser', this.user);
-        }
-        console.log('---------', this.config.getEnv('appType'));
+      if (this.user) {
+        localStorage.setItem('loggedInUser', this.user);
+      }
+      console.log('---------', this.config.getEnv('appType'));
 
-        const payload = {
-          "filters": {
-            "username": {
-              "eq": this.user
-            }
-          }
-        }
+      this.getDetails().subscribe((res: any) => {
+        console.log("res", res);
+        this.router.navigate(['/dashboard']);
+      })
 
-        const selectedEntity = this.entity ? this.entity : localStorage.getItem('entity')
-        this.generalService.postData(`/${selectedEntity}/search`, payload).subscribe((res: any) => {
-          // if found redirect to dashboard
-          // else redirect to the registration form /udise link form
+      // const payload = {
+      //   "filters": {
+      //     "username": {
+      //       "eq": this.user
+      //     }
+      //   }
+      // }
 
-          console.log("res", res);
-          if (res.length && !this.entity) {
-            this.router.navigate(['/udise-link']);
-          } else {
-            this.router.navigate(['/dashboard']);
-          }
-        }, error => {
-          console.error("Error while Searching Instructor", error);
-        });
-      });
+      // const selectedEntity = this.entity ? this.entity : localStorage.getItem('entity')
+      // this.generalService.postData(`/${selectedEntity}/search`, payload).subscribe((res: any) => {
+      //   // if found redirect to dashboard
+      //   // else redirect to the registration form /udise link form
+
+      //   console.log("res", res);
+      //   if (res.length && !this.entity) {
+      //     this.router.navigate(['/udise-link']);
+      //   } else {
+      //     this.router.navigate(['/dashboard']);
+      //   }
+      // }, error => {
+      //   console.error("Error while Searching Instructor", error);
+      // });
     } else {
       const snapshot: RouterStateSnapshot = this.router.routerState.snapshot;
       this.keycloakService
@@ -84,6 +96,18 @@ export class KeycloakloginComponent implements OnInit {
           console.log({ res });
         });
     }
+  }
+
+
+  getDetails(): Observable<any> {
+    let headerOptions = new HttpHeaders({
+      Authorization: 'Bearer ' + localStorage.getItem('token')
+    });
+    return this.dataService.get({ url: `${this.authConfigService.config.bulkIssuance}/bulk/v1/issuerdetail`, header: headerOptions }).pipe(map((res: any) => {
+      console.log(res);
+      localStorage.setItem('currentUser', JSON.stringify(res.result));
+      return res;
+    }));
   }
 
 }

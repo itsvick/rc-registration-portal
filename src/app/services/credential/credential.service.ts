@@ -33,23 +33,16 @@ export class CredentialService {
     return this.dataService.get(payload).pipe(map((res: any) => res.result));
   }
 
-  getCredentials(endPoint: string = 'all', data?: any): Observable<any> {
+  getCredentials(issuerId?: string): Observable<any> {
     const payload: any = {
-      url: `${this.baseUrl}/v1/sso/student/credentials/search/${endPoint}`,
+      url: `${this.baseUrl}/v1/sso/student/credentials/search/all`,
       data: {}
     };
 
-    if (data?.issuerId) {
+    if (issuerId) {
       payload.data = {
-        issuer: { id: data.issuerId },
+        issuer: { id: issuerId },
         subject: {}
-      }
-
-      if (data?.grade) {
-        payload.data.subject.grade = data.grade
-      }
-      if (data?.academicYear) {
-        payload.data.subject.academic_year = data.academicYear;
       }
     } else {
       payload.data = {
@@ -75,7 +68,7 @@ export class CredentialService {
 
   // One after one
   getAllCredentials(endPoint: string = 'all', issuer?: string): Observable<any> {
-    return this.getCredentials(endPoint, issuer).pipe(
+    return this.getCredentials(issuer).pipe(
       switchMap((credentials: any) => {
         return from(credentials).pipe(
           concatMap((cred: any) => {

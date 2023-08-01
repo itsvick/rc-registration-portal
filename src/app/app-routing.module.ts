@@ -36,6 +36,7 @@ import { OnboardingComponent } from './onboarding/onboarding.component';
 import { UdiseLinkComponent } from './custom/udise-link/udise-link.component';
 import { MainDashboardComponent } from './main-dashboard/main-dashboard.component';
 import { IssuedCredentialsComponent } from './issued-credentials/issued-credentials.component';
+import { BulkIssueCredentialsComponent } from './bulk-issue-credentials/bulk-issue-credentials.component';
 
 // import { CreateCertificateComponent } from './create-certificate/create-certificate.component';
 // import { FaqComponent } from './custom-components/faq/faq.component';
@@ -165,6 +166,36 @@ const routes: Routes = [
           showToolbar: false,
           telemetry: {
             env: 'credential', pageid: 'issued-credential', type: 'list', subtype: 'paginate'
+          }
+        }
+      },
+      {
+        path: 'bulk-issue-credential',
+        component: BulkIssueCredentialsComponent,
+        data: {
+          showToolbar: false,
+          telemetry: {
+            env: 'credential', pageid: 'bulk-issue-credential', type: 'list', subtype: 'paginate'
+          }
+        }
+      },
+      {
+        path: 'my-account',
+        component: DocViewComponent,
+        data: {
+          showToolbar: false,
+          telemetry: {
+            env: 'my-account', pageid: 'my-account', type: 'view', subtype: 'scroll'
+          }
+        }
+      },
+      {
+        path: 'doc-view',
+        component: DocViewComponent,
+        data: {
+          showToolbar: false,
+          telemetry: {
+            env: 'view-document', pageid: 'doc-view', type: 'view', subtype: 'scroll'
           }
         }
       },

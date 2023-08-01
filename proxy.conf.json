@@ -1,21 +1,20 @@
 {
     "/registry/api/v1": {
-      "target": "https://ulp-sbrc.uniteframework.io",
+      "target": "https://ulp.uniteframework.io",
       "changeOrigin": true,
       "logLevel": "debug",
       "secure": false
     },
 
     "/registry/api": {
-      "target": "https://ulp-sbrc.uniteframework.io",
+      "target": "https://ulp.uniteframework.io",
       "changeOrigin": true,
       "logLevel": "debug",
       "secure": false
 
     },
-
     "/registry/api/docs": {
-      "target": "https://ulp-sbrc.uniteframework.io",
+      "target": "https://ulp.uniteframework.io",
       "changeOrigin": true,
       "logLevel": "debug",
       "secure": false
@@ -27,13 +26,13 @@
       "secure": false
     },
     "/metrics": {
-      "target": "https://ulp-sbrc.uniteframework.io",
+      "target": "https://ulp.uniteframework.io",
       "changeOrigin": true,
       "logLevel": "debug",
       "secure": false
     },
     "/bulk/v1": {
-      "target": "https://ulp-sbrc.uniteframework.io",
+      "target": "https://ulp.uniteframework.io",
       "changeOrigin": true,
       "logLevel": "debug",
       "secure": false

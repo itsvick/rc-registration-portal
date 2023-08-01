@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import { concatMap, map } from 'rxjs/operators';
+import { concatMap, map, switchMap } from 'rxjs/operators';
 import { AuthService } from '../services/auth/auth.service';
 import { CredentialService } from '../services/credential/credential.service';
 import { GeneralService } from '../services/general/general.service';
@@ -10,6 +10,9 @@ import { ToastMessageService } from '../services/toast-message/toast-message.ser
 import { UtilService } from '../services/util/util.service';
 import * as dayjs from 'dayjs';
 import * as customParseFormat from 'dayjs/plugin/customParseFormat';
+import { BulkIssuanceService } from '../services/bulk-issuance/bulk-issuance.service';
+import { forkJoin, of } from 'rxjs';
+import { KeyValue } from '@angular/common';
 
 
 dayjs.extend(customParseFormat);
@@ -21,39 +24,20 @@ dayjs.extend(customParseFormat);
 })
 export class IssuedCredentialsComponent implements OnInit {
 
-  selectedType = 'proofOfEnrollment';
   credentials: any[] = [];
   issuedCredentials = [];
+  allIssuedCredentials = [];
   isLoading = false;
   page = 1;
   pageSize = 20;
   tableRows: any[] = [];
-  certificateTypes = [
-    {
-      label: 'Proof of Enrollment',
-      value: 'proofOfEnrollment',
-      isEnabled: true,
-      schemaId: 'clf0rjgov0002tj15ml0fdest'
-    },
-    {
-      label: 'Proof of Assessment',
-      value: 'proofOfAssessment',
-      isEnabled: true,
-      schemaId: 'clf0qfvna0000tj154706406y'
-    },
-    {
-      label: 'Proof of Benefits',
-      value: 'proofOfBenifits',
-      isEnabled: true,
-      schemaId: 'clf0wvyjs0008tj154rc071i1'
-    }
-  ];
-  startYear = 2015;
-  currentYear = new Date().getFullYear();
-  academicYearRange: string[] = [];
+  tableColumns: any[] = [];
+  tableData: any[] = [];
   model: any = {};
-  studentDetails = [];
-  grades: any[];
+  schemas: any[];
+  onCompare(_left: KeyValue<any, any>, _right: KeyValue<any, any>): number {
+    return -1;
+  }
 
   constructor(
     private readonly authService: AuthService,
@@ -64,13 +48,13 @@ export class IssuedCredentialsComponent implements OnInit {
     private readonly activatedRoute: ActivatedRoute,
     private readonly telemetryService: TelemetryService,
     private readonly utilService: UtilService,
-    private readonly toastService: ToastMessageService
+    private readonly toastService: ToastMessageService,
+    private readonly bulkIssuanceService: BulkIssuanceService
   ) { }
 
   ngOnInit(): void {
     this.getCredentials();
-    this.setAcademicYear();
-    this.setGrades();
+    this.getSchemaList();
   }
 
   reset() {
@@ -79,24 +63,18 @@ export class IssuedCredentialsComponent implements OnInit {
       this.getCredentials();
     }
   }
-  setGrades() {
-    const ordinals = this.utilService.getNumberOrdinals(1, 10);
-    this.grades = ordinals.map((item: string, index: number) => {
-      return {
-        label: item,
-        value: `class-${index + 1}`
-      }
-    });
-  }
-
-  setAcademicYear() {
-    for (let fromYear = this.startYear; fromYear < this.currentYear; fromYear++) {
-      this.academicYearRange.push(`${fromYear}-${fromYear + 1}`);
-    }
-  }
 
   onModelChange() {
-    this.getCredentials();
+    // this.getCredentials();
+    if (this.allIssuedCredentials?.length) {
+      console.log("issuedCredentials", this.issuedCredentials);
+
+      this.issuedCredentials = this.allIssuedCredentials.filter((item: any) => item.schemaId === this.model?.schema);
+      // this.tableColumns = Object.keys(this.issuedCredentials?.[0]?.credentialSubject) || [];
+      this.pageChange();
+    } else {
+      this.getCredentials();
+    }
   }
 
   onChange(event) {
@@ -105,53 +83,54 @@ export class IssuedCredentialsComponent implements OnInit {
     // console.log(this.model);
   }
 
+  getSchemaList() {
+    this.bulkIssuanceService.getSchemaList().subscribe((schemas: any) => {
+      console.log(schemas);
+      this.schemas = schemas;
+    }, error => {
+      console.log(error);
+    });
+  }
+
   getCredentials() {
     this.isLoading = true;
     this.issuedCredentials = [];
     this.tableRows = [];
     this.page = 1;
-    let payload = {
-      issuerId: this.authService?.schoolDetails?.did,
-      grade: this.model.grade,
-      academicYear: this.model.academicYear
-    }
 
-    this.credentialService.getCredentials('student', payload).subscribe((res) => {
-      this.isLoading = false;
-      // Filter out credentials for students only
-      this.issuedCredentials = res.filter((credential: any) => !!credential?.credentialSubject?.grade);
-      // .map((item: any) => {
-      //   if (item.credentialSubject.enrolled_on && !dayjs(item.credentialSubject.enrolled_on).isValid()) {
-      //     item.credentialSubject.enrolled_on = dayjs(item.credentialSubject.enrolled_on, 'MM/YYYY').format();
-
-      //     if (item.credentialSubject.enrolled_on === 'Invalid Date') {
-      //       item.credentialSubject.enrolled_on = '';
-      //     }
-      //   }
-      //   return item;
-      // });
-      this.pageChange();
-    }, (error: any) => {
-      this.isLoading = false;
-      this.issuedCredentials = [];
-      if (error.status !== 400 || error?.error?.result?.error?.status !== 404) {
-        this.toastMessage.error("", this.generalService.translateString('ERROR_WHILE_FETCHING_ISSUED_CREDENTIALS'));
-      }
-    });
+    this.credentialService.getCredentials(this.authService.currentUser.did)
+      .pipe(switchMap((credentials: any) => {
+        if (credentials.length) {
+          return forkJoin(
+            credentials.map((cred: any) => {
+              return this.credentialService.getCredentialSchemaId(cred.id).pipe(
+                concatMap((res: any) => {
+                  console.log("res", res);
+                  cred.schemaId = res.credential_schema;
+                  return of(cred);
+                })
+              );
+            })
+          );
+        }
+        return of([]);
+      }))
+      .subscribe((res: any) => {
+        this.isLoading = false;
+        this.allIssuedCredentials = res;
+        // this.pageChange();
+      }, (error: any) => {
+        this.isLoading = false;
+        this.allIssuedCredentials = [];
+        if (error.status !== 400 || error?.error?.result?.error?.status !== 404) {
+          this.toastMessage.error("", this.generalService.translateString('ERROR_WHILE_FETCHING_ISSUED_CREDENTIALS'));
+        }
+      });
   }
 
   viewCredential(credential: any) {
-    this.credentialService.getCredentialSchemaId(credential.id).pipe(
-      concatMap((res: any) => {
-        credential.schemaId = res.credential_schema;
-        return this.credentialService.getSchema(res.credential_schema).pipe(
-          map((schema: any) => {
-            credential.credential_schema = schema;
-            return credential;
-          })
-        );
-      })
-    ).subscribe((res: any) => {
+    this.credentialService.getSchema(credential.schemaId).subscribe((schema: any) => {
+      credential.credential_schema = schema;
       const navigationExtra: NavigationExtras = {
         state: credential
       }
@@ -163,10 +142,14 @@ export class IssuedCredentialsComponent implements OnInit {
   }
 
   pageChange() {
-    this.tableRows = this.issuedCredentials.map((row, i) => row).slice(
+    this.tableData = this.issuedCredentials.slice(
       (this.page - 1) * this.pageSize,
       (this.page - 1) * this.pageSize + this.pageSize,
     );
+    // this.tableRows = this.issuedCredentials.map((row, i) => Object.values(row.credentialSubject)).slice(
+    //   (this.page - 1) * this.pageSize,
+    //   (this.page - 1) * this.pageSize + this.pageSize,
+    // );
   }
 
   ngAfterViewInit(): void {

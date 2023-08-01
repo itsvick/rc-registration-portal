@@ -73,6 +73,7 @@
     "keycloak-js": "^11.0.3",
     "libphonenumber-js": "^1.6.8",
     "lodash-es": "^4.17.21",
+    "dayjs": "^1.11.7",
     "mdb-angular-ui-kit": "^1.0.0-beta3",
     "ng-otp-input": "^1.7.1",
     "ng2-semantic-ui": "^0.9.7",

@@ -133,7 +133,6 @@ import { PagesComponent } from './pages/pages.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
-import { AuthImagePipe } from '../app/layouts/doc-view/doc-view.component';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { DocDetailViewComponent } from './documents/doc-detail-view/doc-detail-view.component';
 // import { FaqComponent } from './custom-components/faq/faq.component';
@@ -162,6 +161,8 @@ import { UdiseLinkComponent } from './custom/udise-link/udise-link.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { MainDashboardComponent } from './main-dashboard/main-dashboard.component';
 import { IssuedCredentialsComponent } from './issued-credentials/issued-credentials.component';
+import { BulkIssueCredentialsComponent } from './bulk-issue-credentials/bulk-issue-credentials.component';
+import { KeysPipe } from './utility/pipes/keys.pipe';
 
 @NgModule({
   declarations: [
@@ -193,7 +194,6 @@ import { IssuedCredentialsComponent } from './issued-credentials/issued-credenti
     ScanDocumentComponent,
     ScanQrCodeComponent,
     BrowseDocumentsComponent,
-    AuthImagePipe,
     DashboardComponent,
     AddCertificateComponent,
     GetRecordsComponent,
@@ -209,7 +209,9 @@ import { IssuedCredentialsComponent } from './issued-credentials/issued-credenti
     UdiseLinkComponent,
     SidebarComponent,
     MainDashboardComponent,
-    IssuedCredentialsComponent
+    IssuedCredentialsComponent,
+    BulkIssueCredentialsComponent,
+    KeysPipe
   ],
   imports: [
     BrowserModule,
@@ -296,7 +298,6 @@ import { IssuedCredentialsComponent } from './issued-credentials/issued-credenti
   bootstrap: [AppComponent],
   providers: [
     AppConfig,
-    AuthImagePipe,
     { provide: APP_INITIALIZER, useFactory: initConfig, deps: [AppConfig], multi: true },
     {
       provide: APP_INITIALIZER,
