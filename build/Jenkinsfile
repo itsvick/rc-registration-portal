@@ -16,7 +16,14 @@ node() {
     }
 
     stage('docker-build') {
-        if (env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'master') {
+        when {
+                expression {
+                    return env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'dev' || env.BRANCH_NAME == 'uat'
+                }
+            }
+        steps {
+            script {    
+        if (env.BRANCH_NAME == 'main') {
             sh '''
             docker build -t $docker_server/$docker_repo:main .
             '''
@@ -31,11 +38,21 @@ node() {
             docker build -t $docker_server/$docker_repo:uat .
             '''
                     } 
+            }
+        }
+
     }
 
     stage('docker-push') {
+        when {
+                expression {
+                    return env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'dev' || env.BRANCH_NAME == 'uat'
+                }
+            }
+        steps {
+            script {  
 	
-        if (env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'master') {
+        if (env.BRANCH_NAME == 'main') {
             sh '''
             docker push $docker_server/$docker_repo:main
             '''
@@ -50,10 +67,18 @@ node() {
             docker push $docker_server/$docker_repo:uat .
             '''
                     } 
+            }
+        }
     }
-
     stage('Start deploy job with latest tag') {
-         if (env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'master') { 
+        when {
+                expression {
+                    return env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'dev' || env.BRANCH_NAME == 'uat'
+                }
+            }
+        steps {
+            script {  
+         if (env.BRANCH_NAME == 'main' ) { 
                 build job: 'ULP/deploy-staging/deploy-registration-portal', parameters: [string(name: 'tag', value: 'main')]
          }
 		 else if (env.BRANCH_NAME == 'dev' ) { 
@@ -62,6 +87,8 @@ node() {
 		 else if (env.BRANCH_NAME == 'uat' ) { 
                 build job: 'UAT/deploy-uat/deploy-registration-portal', parameters: [string(name: 'tag', value: 'uat')]
          }
+            }
+        }
     }
 
 }
