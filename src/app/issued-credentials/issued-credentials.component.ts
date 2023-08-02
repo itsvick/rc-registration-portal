@@ -98,7 +98,7 @@ export class IssuedCredentialsComponent implements OnInit {
     this.tableRows = [];
     this.page = 1;
 
-    this.credentialService.getCredentials(this.authService.currentUser.did)
+    this.credentialService.getCredentials(this.authService.currentUser.issuer_did) // replace issuer_did with did for issuer login
       .pipe(switchMap((credentials: any) => {
         if (credentials.length) {
           return forkJoin(

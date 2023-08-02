@@ -146,6 +146,8 @@
         "estdYear": "Established Year",
         "address": "Address",
         "pinCode": "Pin Code",
-        "DOB": "Date of Birth"
+        "DOB": "Date of Birth",
+        "Name": "Name",
+        "Username": "Username"
     }
 }

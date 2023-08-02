@@ -64,7 +64,6 @@ import { BrowseDocumentsComponent } from './documents/browse-documents/browse-do
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient } from '@angular/common/http';
-import { config } from 'process';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { VerifyCertificateComponent } from './issure/verify-certificate/verify-certificate.component';
 
@@ -163,6 +162,7 @@ import { MainDashboardComponent } from './main-dashboard/main-dashboard.componen
 import { IssuedCredentialsComponent } from './issued-credentials/issued-credentials.component';
 import { BulkIssueCredentialsComponent } from './bulk-issue-credentials/bulk-issue-credentials.component';
 import { KeysPipe } from './utility/pipes/keys.pipe';
+import { AadhaarKycComponent } from './authentication/aadhaar-kyc/aadhaar-kyc.component';
 
 @NgModule({
   declarations: [
@@ -211,7 +211,8 @@ import { KeysPipe } from './utility/pipes/keys.pipe';
     MainDashboardComponent,
     IssuedCredentialsComponent,
     BulkIssueCredentialsComponent,
-    KeysPipe
+    KeysPipe,
+    AadhaarKycComponent
   ],
   imports: [
     BrowserModule,
@@ -248,6 +249,15 @@ import { KeysPipe } from './utility/pipes/keys.pipe';
       ],
       types: [
         { name: 'string', extends: 'input' },
+        {
+          name: 'password',
+          extends: 'input',
+          defaultOptions: {
+            templateOptions: {
+              type: 'password'
+            },
+          }
+        },
         {
           name: 'number',
           extends: 'input',

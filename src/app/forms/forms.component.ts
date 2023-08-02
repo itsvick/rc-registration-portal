@@ -44,7 +44,7 @@ export class FormsComponent implements OnInit {
   fields: FormlyFieldConfig[];
   customFields = [];
   header = null;
-  exLength : number = 0
+  exLength: number = 0
   type: string;
   apiUrl: string;
   redirectTo: any;
@@ -71,6 +71,7 @@ export class FormsComponent implements OnInit {
   isSubmitForm: boolean = false;
   properties = {};
   queryParams: any;
+  isBFF: boolean = false;
 
   constructor(private route: ActivatedRoute,
     public translate: TranslateService,
@@ -78,25 +79,25 @@ export class FormsComponent implements OnInit {
 
   ngOnInit(): void {
     combineLatest([this.route.params, this.route.queryParams])
-    .subscribe(([params, queryParams]) => {
-      this.add = this.router.url.includes('add');
+      .subscribe(([params, queryParams]) => {
+        this.add = this.router.url.includes('add');
 
-      if (params['form'] != undefined) {
-        this.form = params['form'].split('/', 1)[0];
-        this.identifier = params['form'].split('/', 2)[1];
-      }
+        if (params['form'] != undefined) {
+          this.form = params['form'].split('/', 1)[0];
+          this.identifier = params['form'].split('/', 2)[1];
+        }
 
-      if (params['id'] != undefined) {
-        this.identifier = params['id']
-      }
-      if (params['modal'] != undefined) {
-        this.modal = params['modal']
-      }
+        if (params['id'] != undefined) {
+          this.identifier = params['id']
+        }
+        if (params['modal'] != undefined) {
+          this.modal = params['modal']
+        }
 
-      this.queryParams = queryParams;
-      console.log("QueryParams", queryParams);
+        this.queryParams = queryParams;
+        console.log("QueryParams", queryParams);
 
-    });
+      });
 
     this.entityName = localStorage.getItem('entity');
 
@@ -104,7 +105,16 @@ export class FormsComponent implements OnInit {
       var filtered = FormSchemas.forms.filter(obj => {
         return Object.keys(obj)[0] === this.form
       })
-      this.formSchema = filtered[0][this.form]
+      this.formSchema = filtered[0][this.form];
+
+      this.isBFF = !!this.formSchema.isBFF;
+
+      if (this.formSchema?.thirdParty) {
+        // let newFormSchema: any = new Object(this.formSchema);
+        // this.formSchema.thirdPartyName = "vivek";
+        // this.formSchema.fieldsets[0].fields[0].enum = ["abc", "xyz"]
+      }
+      console.log("formSchema", this.formSchema);
 
       if (this.formSchema.api) {
         this.apiUrl = this.formSchema.api;
@@ -219,7 +229,7 @@ export class FormsComponent implements OnInit {
             this.addFields(fieldset);
           }
 
-          this.properties = {...this.properties, ...this.definations[fieldset.definition].properties};
+          this.properties = { ...this.properties, ...this.definations[fieldset.definition].properties };
           if (fieldset.except) {
             this.removeFields(fieldset)
           }
@@ -825,7 +835,7 @@ export class FormsComponent implements OnInit {
       }
       if (field.type) {
 
- if (field.type === 'verify-code') {
+        if (field.type === 'verify-code') {
           this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['type'] = field.type;
         }
 
@@ -952,7 +962,7 @@ export class FormsComponent implements OnInit {
   };
 
   submit() {
-this.isSubmitForm = true;
+    this.isSubmitForm = true;
     if (this.fileFields.length > 0) {
       this.fileFields.forEach(fileField => {
         if (this.model[fileField]) {
@@ -967,7 +977,7 @@ this.isSubmitForm = true;
           }
 
           let id = (this.entityId) ? this.entityId : this.identifier;
-          var url = [this.apiUrl, id , property, 'documents']
+          var url = [this.apiUrl, id, property, 'documents']
           this.generalService.postData(url.join('/'), formData).subscribe((res) => {
             var documents_list: any[] = [];
             var documents_obj = {
@@ -996,7 +1006,7 @@ this.isSubmitForm = true;
               } else {
                 var url = [this.apiUrl, this.identifier, property];
               }
-  
+
               this.apiUrl = (url.join("/"));
               if (this.model[property]) {
                 this.model = this.model[property];
@@ -1091,57 +1101,56 @@ this.isSubmitForm = true;
 
   async raiseClaim(property) {
     setTimeout(() => {
-     this.generalService.getData(this.entityUrl).subscribe((res) => {
+      this.generalService.getData(this.entityUrl).subscribe((res) => {
 
-      res = (res[0]) ? res[0] : res;
-      this.entityId = res.osid;
-      if (res.hasOwnProperty(property)) {
+        res = (res[0]) ? res[0] : res;
+        this.entityId = res.osid;
+        if (res.hasOwnProperty(property)) {
 
-        if (!this.propertyId && !this.sorder) {
+          if (!this.propertyId && !this.sorder) {
 
-        /*  var tempObj = []
-          for (let j = 0; j < res[property].length; j++) {
-            res[property][j].osUpdatedAt = new Date(res[property][j].osUpdatedAt);
-            tempObj.push(res[property][j])
+            /*  var tempObj = []
+              for (let j = 0; j < res[property].length; j++) {
+                res[property][j].osUpdatedAt = new Date(res[property][j].osUpdatedAt);
+                tempObj.push(res[property][j])
+              }
+    
+             // tempObj.sort((a, b) => (b.osUpdatedAt) - (a.osUpdatedAt));
+              this.propertyId = tempObj[0]["osid"];*/
+
+            res[property].sort((a, b) => (b.sorder) - (a.sorder));
+            this.propertyId = res[property][0]["osid"];
+
           }
 
-         // tempObj.sort((a, b) => (b.osUpdatedAt) - (a.osUpdatedAt));
-          this.propertyId = tempObj[0]["osid"];*/
+          if (this.sorder) {
+            var result = res[property].filter(obj => {
+              return obj.sorder === this.sorder
+            })
 
-          res[property].sort((a, b) => (b.sorder) - (a.sorder));
-           this.propertyId = res[property][0]["osid"];
-
-        }
-
-        if(this.sorder)
-        {
-          var result = res[property].filter(obj => {
-            return obj.sorder === this.sorder
-          })
-
-          this.propertyId = result[0]["osid"];
-        }
-
-        var temp = {};
-        temp[property] = [this.propertyId];
-        let propertyUniqueName = this.entityName.toLowerCase() + property.charAt(0).toUpperCase() + property.slice(1);
-
-        propertyUniqueName = (this.entityName == 'student' || this.entityName == 'Student') ? 'studentInstituteAttest' : propertyUniqueName;
-
-        let data = {
-          "entityName": this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1),
-          "entityId": this.entityId,
-          "name": propertyUniqueName,
-          "propertiesOSID": temp,
-           "additionalInput":{
-            "notes": this.model['notes']
+            this.propertyId = result[0]["osid"];
           }
+
+          var temp = {};
+          temp[property] = [this.propertyId];
+          let propertyUniqueName = this.entityName.toLowerCase() + property.charAt(0).toUpperCase() + property.slice(1);
+
+          propertyUniqueName = (this.entityName == 'student' || this.entityName == 'Student') ? 'studentInstituteAttest' : propertyUniqueName;
+
+          let data = {
+            "entityName": this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1),
+            "entityId": this.entityId,
+            "name": propertyUniqueName,
+            "propertiesOSID": temp,
+            "additionalInput": {
+              "notes": this.model['notes']
+            }
+          }
+          this.sentToAttestation(data);
         }
-        this.sentToAttestation(data);
-      }
-      
-    });
-  }, 1000);
+
+      });
+    }, 1000);
 
   }
 
@@ -1185,7 +1194,7 @@ this.isSubmitForm = true;
   }
 
   getNotes() {
-let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
+    let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
     this.generalService.getData(entity).subscribe((res) => {
       res = (res[0]) ? res[0] : res;
 
@@ -1195,7 +1204,7 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
 
       if (res.hasOwnProperty(propertyUniqueName)) {
 
-      let  attestionRes= res[propertyUniqueName];
+        let attestionRes = res[propertyUniqueName];
 
 
         var tempObj = [];
@@ -1211,13 +1220,12 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
         let claimId = tempObj[0]["_osClaimId"];
 
 
-        if(claimId)
-        {
+        if (claimId) {
           this.generalService.getData(entity + "/claims/" + claimId).subscribe((res) => {
             this.notes = res.notes;
           });
         }
-       
+
       }
     });
 
@@ -1248,7 +1256,7 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
       this.model = this.model[0];
     }
 
-    if (this.formSchema.isMultiSchema)  {
+    if (this.formSchema.isMultiSchema) {
       let myProperties = {};
       let apiCalls = [];
 
@@ -1258,7 +1266,7 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
         console.log(fieldSet.definition);
         // myProperties.push({[fieldSet.definition]: this.definations[fieldSet.definition].properties});
         let props = {};
-        for(let obj in this.definations[fieldSet.definition].properties) {
+        for (let obj in this.definations[fieldSet.definition].properties) {
           props[obj] = this.model[obj];
         }
         // myProperties = {...myProperties, ...{[fieldSet.definition]: this.definations[fieldSet.definition].properties}}
@@ -1280,48 +1288,51 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
       // of(...apiCalls)
       // .pipe(concatMap((request: any) => this.generalService.postData(request.url, request.payload)))
       forkJoin(apiCalls.map((item: any) => this.generalService.postData(item.url, item.payload)))
-      .subscribe((result: any) => {
-        console.log("result", result);
+        .subscribe((result: any) => {
+          console.log("result", result);
 
-        if (result[0]?.params?.status === "SUCCESSFUL") {
-          this.router.navigate(['/dashboard']);
+          if (result[0]?.params?.status === "SUCCESSFUL") {
+            this.router.navigate(['/dashboard']);
+          }
+
+          // if (result.params.status == 'SUCCESSFUL' && !this.model['attest']) {
+          //   this.router.navigate([this.redirectTo])
+          //  }
+          //  else if (result.params.errmsg != '' && result.params.status == 'UNSUCCESSFUL') {
+          //    this.toastMsg.error('error', result.params.errmsg);
+          //    this.isSubmitForm = false;
+
+          //  }
+        }, (err) => {
+          this.toastMsg.error('error', err?.error?.params?.errmsg || 'Something went wrong');
+          this.isSubmitForm = false;
+        });
+
+    } else {
+      this.model['sorder'] = this.exLength;
+
+      this.generalService.postData(this.apiUrl, this.model, this.isBFF).subscribe((res) => {
+        if (res.success) {
+          this.router.navigate([this.redirectTo]);
         }
-
-        // if (result.params.status == 'SUCCESSFUL' && !this.model['attest']) {
-        //   this.router.navigate([this.redirectTo])
-        //  }
-        //  else if (result.params.errmsg != '' && result.params.status == 'UNSUCCESSFUL') {
-        //    this.toastMsg.error('error', result.params.errmsg);
-        //    this.isSubmitForm = false;
-   
-        //  }
+        if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
+          this.router.navigate([this.redirectTo]);
+        }
+        else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
+          this.toastMsg.error('error', res.params.errmsg);
+          this.isSubmitForm = false;
+        }
       }, (err) => {
-        this.toastMsg.error('error', err?.error?.params?.errmsg || 'Something went wrong');
+        this.toastMsg.error('error', err.error.params.errmsg);
         this.isSubmitForm = false;
       });
-      
-    } else {
-    this.model['sorder']  = this.exLength;
-    await this.generalService.postData(this.apiUrl, this.model).subscribe((res) => {
-      if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
-       this.router.navigate([this.redirectTo])
-      }
-      else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
-        this.toastMsg.error('error', res.params.errmsg);
-        this.isSubmitForm = false;
-
-      }
-    }, (err) => {
-      this.toastMsg.error('error', err.error.params.errmsg);
-      this.isSubmitForm = false;
-    });
-  }
+    }
 
   }
 
   updateData() {
     this.generalService.putData(this.apiUrl, this.identifier, this.model).subscribe((res) => {
-      if (res.params.status == 'SUCCESSFUL'  && !this.model['attest']) {
+      if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
         this.router.navigate([this.redirectTo])
       }
       else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
@@ -1417,7 +1428,7 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
         this.exLength = res[0][this.propertyName].length;
 
       });
-    }else{
+    } else {
       this.generalService.getData(apiUrl).subscribe((res) => {
         this.exLength = res[0][this.propertyName].length;
       });
@@ -1426,7 +1437,7 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
   }
 
   updateClaims() {
-    this.sorder = this.model.hasOwnProperty('sorder')? this.model['sorder'] : '';
+    this.sorder = this.model.hasOwnProperty('sorder') ? this.model['sorder'] : '';
 
     this.generalService.updateclaims(this.apiUrl, this.model).subscribe((res) => {
       if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
@@ -1446,7 +1457,7 @@ let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
       if (!o[k] || typeof o[k] !== "object") {
         continue // If null or not an object, skip to the next iteration
       }
-  
+
       // The property is an object
       if (Object.keys(o[k]).length === 0) {
         delete o[k]; // The object had no properties, so delete that property
