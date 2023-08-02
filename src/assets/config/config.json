@@ -7,7 +7,7 @@
     },
     "configFolder": "/assets/config/ui-config",
     "languageFolder": "/assets/i18n",
-    "title": "Universal Learners Passport",
+    "title": "DEV ULP",
     "domainName": "https://devulp.uniteframework.io",
     "baseUrl": "https://devulp.uniteframework.io/registry/api/v1",
     "bffUrl": "https://devulp.uniteframework.io/ulp-bff",
