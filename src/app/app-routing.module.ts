@@ -44,16 +44,16 @@ const routes: Routes = [
   // Home
   // { path: '', component: HomeComponent },
   { path: '', component: OnboardingComponent },
-  {
-    path: 'udise-link', component: UdiseLinkComponent,
-    canActivate: [AuthGuard],
-    data: {
-      showToolbar: false,
-      telemetry: {
-        env: 'udise', pageid: 'udise-link', type: 'udise', subtype: 'scroll'
-      }
-    }
-  },
+  // {
+  //   path: 'udise-link', component: UdiseLinkComponent,
+  //   canActivate: [AuthGuard],
+  //   data: {
+  //     showToolbar: false,
+  //     telemetry: {
+  //       env: 'udise', pageid: 'udise-link', type: 'udise', subtype: 'scroll'
+  //     }
+  //   }
+  // },
   // Auth
   {
     path: 'login', component: KeycloakloginComponent,
@@ -72,16 +72,6 @@ const routes: Routes = [
       showToolbar: false,
       telemetry: {
         env: 'logout', pageid: 'logout', type: 'view', subtype: 'scroll'
-      }
-    }
-  },
-  {
-    path: 'graph-dashboard',
-    component: GraphDashboardComponent,
-    data: {
-      showToolbar: false,
-      telemetry: {
-        env: 'graph', pageid: 'graph-dashboard', type: 'view', subtype: 'scroll'
       }
     }
   },
@@ -107,52 +97,6 @@ const routes: Routes = [
         env: 'form', pageid: 'form-id', type: 'edit', subtype: 'scroll'
       }
     }
-  },
-  {
-    path: 'verify',
-    component: VerifyCertificateComponent,
-    data: {
-      showToolbar: false,
-      telemetry: {
-        env: 'verify', pageid: 'verify', type: 'edit', subtype: 'scroll'
-      }
-    }
-  },
-
-
-  // Layouts
-  // { path: ':layout', component: LayoutsComponent, canActivate: [AuthGuard] },
-  {
-    path: 'profile/:layout', component: LayoutsComponent,
-    canActivate: [AuthGuard],
-    children: [
-      {
-        path: 'edit',
-        component: PanelsComponent,
-        outlet: 'claim',
-        children: [
-          {
-            path: ':form',
-            component: EditPanelComponent
-          },
-          {
-            path: ':form/:id',
-            component: EditPanelComponent
-          }
-        ]
-      },
-      {
-        path: 'add',
-        component: PanelsComponent,
-        outlet: 'claim',
-        children: [
-          {
-            path: ':form',
-            component: AddPanelComponent
-          }
-        ]
-      }
-    ]
   },
   {
     path: 'dashboard',
@@ -201,42 +145,95 @@ const routes: Routes = [
       },
     ]
   },
-
+  // {
+  //   path: 'graph-dashboard',
+  //   component: GraphDashboardComponent,
+  //   data: {
+  //     showToolbar: false,
+  //     telemetry: {
+  //       env: 'graph', pageid: 'graph-dashboard', type: 'view', subtype: 'scroll'
+  //     }
+  //   }
+  // },
+  // {
+  //   path: 'verify',
+  //   component: VerifyCertificateComponent,
+  //   data: {
+  //     showToolbar: false,
+  //     telemetry: {
+  //       env: 'verify', pageid: 'verify', type: 'edit', subtype: 'scroll'
+  //     }
+  //   }
+  // },
+  // Layouts
+  // { path: ':layout', component: LayoutsComponent, canActivate: [AuthGuard] },
+  // {
+  //   path: 'profile/:layout', component: LayoutsComponent,
+  //   canActivate: [AuthGuard],
+  //   children: [
+  //     {
+  //       path: 'edit',
+  //       component: PanelsComponent,
+  //       outlet: 'claim',
+  //       children: [
+  //         {
+  //           path: ':form',
+  //           component: EditPanelComponent
+  //         },
+  //         {
+  //           path: ':form/:id',
+  //           component: EditPanelComponent
+  //         }
+  //       ]
+  //     },
+  //     {
+  //       path: 'add',
+  //       component: PanelsComponent,
+  //       outlet: 'claim',
+  //       children: [
+  //         {
+  //           path: ':form',
+  //           component: AddPanelComponent
+  //         }
+  //       ]
+  //     }
+  //   ]
+  // },
   // Pages
-  { path: 'page/:page', component: PagesComponent },
+  // { path: 'page/:page', component: PagesComponent },
 
   // Tables
-  { path: ':entity/:table', component: TablesComponent, canActivate: [AuthGuard] },
-  { path: ':entity/attestation/:table', component: TablesComponent, canActivate: [AuthGuard] },
-  { path: ':entity/attestation/:table/:id', component: AttestationComponent, canActivate: [AuthGuard] },
-  { path: ':entity/documents', component: DocumentsComponent, canActivate: [AuthGuard] },
-  { path: ':entity/documents/detail/view/:type/:id', component: DocDetailViewComponent, canActivate: [AuthGuard] },
-  { path: ':entity/documents/view/:type/:id', component: DocViewComponent, canActivate: [AuthGuard] },
-  { path: ':entity/documents/browse', component: BrowseDocumentsComponent, canActivate: [AuthGuard] },
-  { path: ':entity/documents/:type/add/:id', component: AddDocumentComponent, canActivate: [AuthGuard] },
-  { path: ':entity/documents/add/:type', component: AddDocumentComponent, canActivate: [AuthGuard] },
-  { path: ':entity/documents/add/:type/:id', component: AddDocumentComponent, canActivate: [AuthGuard] },
-  { path: ':entity/documents/scan/vc', component: ScanQrCodeComponent, canActivate: [AuthGuard] },
+  // { path: ':entity/:table', component: TablesComponent, canActivate: [AuthGuard] },
+  // { path: ':entity/attestation/:table', component: TablesComponent, canActivate: [AuthGuard] },
+  // { path: ':entity/attestation/:table/:id', component: AttestationComponent, canActivate: [AuthGuard] },
+  // { path: ':entity/documents', component: DocumentsComponent, canActivate: [AuthGuard] },
+  // { path: ':entity/documents/detail/view/:type/:id', component: DocDetailViewComponent, canActivate: [AuthGuard] },
+  // { path: ':entity/documents/view/:type/:id', component: DocViewComponent, canActivate: [AuthGuard] },
+  // { path: ':entity/documents/browse', component: BrowseDocumentsComponent, canActivate: [AuthGuard] },
+  // { path: ':entity/documents/:type/add/:id', component: AddDocumentComponent, canActivate: [AuthGuard] },
+  // { path: ':entity/documents/add/:type', component: AddDocumentComponent, canActivate: [AuthGuard] },
+  // { path: ':entity/documents/add/:type/:id', component: AddDocumentComponent, canActivate: [AuthGuard] },
+  // { path: ':entity/documents/scan/vc', component: ScanQrCodeComponent, canActivate: [AuthGuard] },
   // { path: 'document/detail', component: DocDetailViewComponent, canActivate: [AuthGuard] },
   // { path: 'document/view/:id', component: DocViewComponent, canActivate: [AuthGuard] },
-  { path: 'discovery', component: SearchComponent },
+  // { path: 'discovery', component: SearchComponent },
   // { path: 'template', component: CreateCertificateComponent },
 
   // { path: 'dashboard', component: MainDashboardComponent, canActivate: [AuthGuard] },
-  { path: 'records', component: GetRecordsComponent, canActivate: [AuthGuard] },
-  { path: 'records/:document/:osid', component: GetRecordsComponent, canActivate: [AuthGuard] },
-  { path: 'add-records/:document/:osid', component: AddRecordsComponent, canActivate: [AuthGuard] },
-  { path: 'bulk-records/:osid', component: BulkRecordsComponent, canActivate: [AuthGuard] },
-  { path: 'bulk-records/:document/:osid', component: BulkRecordsComponent, canActivate: [AuthGuard] },
+  // { path: 'records', component: GetRecordsComponent, canActivate: [AuthGuard] },
+  // { path: 'records/:document/:osid', component: GetRecordsComponent, canActivate: [AuthGuard] },
+  // { path: 'add-records/:document/:osid', component: AddRecordsComponent, canActivate: [AuthGuard] },
+  // { path: 'bulk-records/:osid', component: BulkRecordsComponent, canActivate: [AuthGuard] },
+  // { path: 'bulk-records/:document/:osid', component: BulkRecordsComponent, canActivate: [AuthGuard] },
 
-  { path: 'certificate/:form', component: AddCertificateComponent, canActivate: [AuthGuard] },
-  { path: 'certificate', component: AddCertificateComponent, canActivate: [AuthGuard] },
+  // { path: 'certificate/:form', component: AddCertificateComponent, canActivate: [AuthGuard] },
+  // { path: 'certificate', component: AddCertificateComponent, canActivate: [AuthGuard] },
 
-  { path: 'preview-html', component: PreviewHtmlComponent, canActivate: [AuthGuard] },
+  // { path: 'preview-html', component: PreviewHtmlComponent, canActivate: [AuthGuard] },
   //  { path: 'verify', component: VerifyComponent  },
-  { path: 'advance-editor', component: AdvanceEditorComponent },
-  { path: 'pdf-view', component: PdfViewComponent, canActivate: [AuthGuard] },
-  { path: 'pdf-view/:document/:id', component: PdfViewComponent, canActivate: [AuthGuard] },
+  // { path: 'advance-editor', component: AdvanceEditorComponent },
+  // { path: 'pdf-view', component: PdfViewComponent, canActivate: [AuthGuard] },
+  // { path: 'pdf-view/:document/:id', component: PdfViewComponent, canActivate: [AuthGuard] },
 
   // Installation
   { path: 'install', component: InstallComponent },
