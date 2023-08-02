@@ -49,7 +49,7 @@
                     </ul>
                 </ng-template>
                 <ng-template [ngIf]="headerSchema?.right">
-                    <ul *ngFor="let header of headerSchema.right" class="navbar-nav ms-auto d-flex align-items-center">
+                    <ul *ngFor="let header of headerSchema.right" class="navbar-nav ml-auto d-flex align-items-center">
                         <div class="d-flex">
                             <a role="link" aria-disabled="true"
                                 *ngIf="entityName == 'issue' || entityName == 'Issuer'"><img class="mr-2"
