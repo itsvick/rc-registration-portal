@@ -944,7 +944,7 @@
             }
         },
         {
-            "instructor-signup": {
+            "old-instructor-signup": {
                 "api": "/Instructor/invite",
                 "type": "entity",
                 "formclass": "row",
@@ -1139,6 +1139,7 @@
         {
             "issuer-signup": {
                 "api": "/Issuer/invite",
+                "thirdParty": true,
                 "type": "entity",
                 "formclass": "row",
                 "header": "default",
@@ -1161,6 +1162,76 @@
                                 "name": "did",
                                 "required": true
                             }
+                        ]
+                    }
+                ],
+                "redirectTo": "/dashboard"
+            }
+        },
+        {
+            "instructor-signup": {
+                "api": "/Instructor/invite",
+                "bffURL": "",
+                "thirdParty": true,
+                "type": "entity",
+                "formclass": "row",
+                "header": "default",
+                "title": "REGISTER",
+                "isSignupForm": "true",
+                "langKey": "teacherStudent",
+                "fieldsets": [
+                    {
+                        "definition": "Instructor",
+                        "fields": [
+                            {
+                                "name": "name",
+                                "required": true,
+                                "validation": {
+                                    "pattern": "^[a-zA-Z]+ [a-zA-Z]+$",
+                                    "message": "NAME_NOT_VALID"
+                                }
+                            },
+                            {
+                                "name": "dob",
+                                "required": true,
+                                "type": "date",
+                                "validation": {
+                                    "future": false
+                                }
+                            },
+                            {
+                                "name": "gender",
+                                "required": true
+                            },
+                            {
+                                "name": "did",
+                                "required": true
+                            },
+                            {
+                                "name": "username",
+                                "required": true
+                            },
+                            {
+                                "name": "aadhaar_token",
+                                "required": true
+                            },
+                            {
+                                "name": "recoveryphone",
+                                "required": true
+                            },
+                            {
+                                "name": "issuer_did",
+                                "required": true
+                            },
+                            {
+                                "name": "school_name",
+                                "required": true
+                            },
+                            {
+                                "name": "school_id",
+                                "required": true
+                            }
+                            
                         ]
                     }
                 ],
