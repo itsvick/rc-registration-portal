@@ -1170,8 +1170,8 @@
         },
         {
             "instructor-signup": {
-                "api": "/Instructor/invite",
-                "bffURL": "",
+                "api": "/bulk-issuance/bulk/v1/instructor/register",
+                "isBFF": true,
                 "thirdParty": true,
                 "type": "entity",
                 "formclass": "row",
@@ -1204,20 +1204,16 @@
                                 "required": true
                             },
                             {
-                                "name": "did",
-                                "required": true
-                            },
-                            {
                                 "name": "username",
                                 "required": true
                             },
                             {
-                                "name": "aadhaar_token",
-                                "required": true
-                            },
-                            {
                                 "name": "recoveryphone",
-                                "required": true
+                                "required": true,
+                                "validation": {
+                                    "pattern": "[6-9]{1}[0-9]{9}",
+                                    "message": "MOBILE_NO_MUST_10_DIGIT"
+                                }
                             },
                             {
                                 "name": "issuer_did",
@@ -1230,12 +1226,25 @@
                             {
                                 "name": "school_id",
                                 "required": true
+                            },
+                            {
+                                "name": "password",
+                                "custom": true,
+                                "required": true,
+                                "element": {
+                                    "title": "password",
+                                    "type": "password",
+                                    "widget": {
+                                        "formlyConfig": {
+                                            "className": "fw-bold p16"
+                                        }
+                                    }
+                                }
                             }
-                            
                         ]
                     }
                 ],
-                "redirectTo": "/dashboard"
+                "redirectTo": "/"
             }
         }
     ]

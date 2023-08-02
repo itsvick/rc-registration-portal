@@ -13,7 +13,7 @@ import { map } from 'rxjs/operators';
 })
 export class GeneralService {
   baseUrl = this.config.getEnv('baseUrl');
-  bffUrl = this.config.getEnv('bffUrl');
+  bffUrl = this.config.getEnv('bffBaseUrl');
   translatedString: string;
   constructor(
     public dataService: DataService, 

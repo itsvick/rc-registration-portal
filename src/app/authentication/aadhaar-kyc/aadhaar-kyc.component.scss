@@ -1,0 +1,72 @@
+.text-black-grey {
+  color: #585858 !important;
+}
+.w-90 {
+  width: 95%;
+}
+.start-btn {
+  border-radius: 7.60331px;
+  padding: 10px 15px;
+  font-size: 18px;
+  border: none;
+  width: 256px;
+  height: 43px;
+  background: #1e2060 !important;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.label {
+  background: transparent;
+  padding: 0 4px;
+  margin-left: 15px;
+}
+.label-float {
+  position: relative;
+  padding-top: 13px;
+}
+
+.label-float input {
+  height: 46px !important;
+  width: 100%;
+  padding: 0 10px;
+  max-width: 400px;
+  border: 1px solid #d2d2d2 !important;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: all 0.1s linear;
+}
+input[type="text"]:focus {
+  outline: 2px solid #d2d2d2 !important;
+}
+input[type="password"]:focus {
+  outline: 2px solid #d2d2d2 !important;
+}
+.label-float input::placeholder {
+  color: transparent;
+}
+.label-float label {
+  pointer-events: none;
+  position: absolute;
+  top: calc(50% - 8px);
+  left: 15px;
+  transition: all 0.1s linear;
+  background-color: white;
+  padding: 5px;
+  box-sizing: border-box;
+  color: #4a454e;
+}
+.max-400 {
+  max-width: 400px;
+}
+.w-400 {
+  width: 400px;
+}
+.label-float input:focus + label,
+.label-float input:not(:placeholder-shown) + label {
+  font-size: 13px;
+  top: 0;
+  color: #4a454e;
+}

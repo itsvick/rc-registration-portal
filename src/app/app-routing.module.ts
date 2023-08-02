@@ -37,6 +37,7 @@ import { UdiseLinkComponent } from './custom/udise-link/udise-link.component';
 import { MainDashboardComponent } from './main-dashboard/main-dashboard.component';
 import { IssuedCredentialsComponent } from './issued-credentials/issued-credentials.component';
 import { BulkIssueCredentialsComponent } from './bulk-issue-credentials/bulk-issue-credentials.component';
+import { AadhaarKycComponent } from './authentication/aadhaar-kyc/aadhaar-kyc.component';
 
 // import { CreateCertificateComponent } from './create-certificate/create-certificate.component';
 // import { FaqComponent } from './custom-components/faq/faq.component';
@@ -74,6 +75,17 @@ const routes: Routes = [
         env: 'logout', pageid: 'logout', type: 'view', subtype: 'scroll'
       }
     }
+  },
+  {
+    path: 'aadhaar-kyc',
+    component: AadhaarKycComponent,
+    data: {
+      showToolbar: false,
+      telemetry: {
+        env: 'home', pageid: 'home', type: 'list', subtype: 'scroll'
+      },
+    },
+    canActivate: [AuthGuard]
   },
 
   // Forms
