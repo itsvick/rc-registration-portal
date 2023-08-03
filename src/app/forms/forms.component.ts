@@ -1276,6 +1276,7 @@ export class FormsComponent implements OnInit {
       this.model['sorder'] = this.exLength;
 
       this.generalService.postData(this.apiUrl, this.model, this.isBFF).subscribe((res) => {
+        this.toastMsg.success('', 'Form submitted Successfully!');
         if (res.success) {
           this.router.navigate([this.redirectTo]);
         }
