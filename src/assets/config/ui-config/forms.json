@@ -1185,11 +1185,7 @@
                         "fields": [
                             {
                                 "name": "name",
-                                "required": true,
-                                "validation": {
-                                    "pattern": "^[a-zA-Z]+ [a-zA-Z]+$",
-                                    "message": "NAME_NOT_VALID"
-                                }
+                                "required": true
                             },
                             {
                                 "name": "dob",

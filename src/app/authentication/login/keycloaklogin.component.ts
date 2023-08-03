@@ -9,7 +9,10 @@ import { HttpHeaders } from '@angular/common/http';
 import { AuthConfigService } from '../auth-config.service';
 import { DataService } from 'src/app/services/data/data-request.service';
 import { map } from 'rxjs/operators';
+import * as dayjs from 'dayjs';
+import * as customParseFormat from 'dayjs/plugin/customParseFormat';
 
+dayjs.extend(customParseFormat);
 @Component({
   selector: 'app-keycloaklogin',
   templateUrl: './keycloaklogin.component.html',
@@ -74,17 +77,35 @@ export class KeycloakloginComponent implements OnInit {
       if (this.isDigilockerUser) {
         const payload = {
           url: `${this.authConfigService.config.bulkIssuance}/bulk/v1/instructor/digi/getdetail`,
-          data: this.digiLockerUser,
+          data: {...this.digiLockerUser, dob: dayjs(this.digiLockerUser.dob, 'DD/MM/YYYY').format('YYYY-MM-DD')},
           header: new HttpHeaders({
             Authorization: 'Bearer ' + localStorage.getItem('token')
           })
         }
         this.dataService.post(payload).subscribe((res: any) => {
           console.log(res);
+          if (res.result) {
+            localStorage.setItem('currentUser', JSON.stringify(res.result));
+          }
           this.router.navigate(['/dashboard']);
         }, error => {
           console.log(error);
-          this.router.navigate(['/logout']);
+
+          if (error?.error?.success === false) {
+            let dob;
+            if (accountRes?.attributes?.dob?.[0]) {
+              dob = dayjs(accountRes.attributes.dob[0], 'DD/MM/YYYY').format('YYYY-MM-DD');
+            }
+            this.router.navigate(['/form/instructor-signup'], {
+              queryParams: {
+                name: accountRes.attributes.name[0],
+                dob,
+                gender: accountRes.attributes.gender[0],
+              }
+            })
+          } else {
+            this.router.navigate(['/logout']);
+          }
         });
       } else {
         this.getDetails().subscribe((res: any) => {
