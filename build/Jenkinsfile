@@ -1,5 +1,5 @@
 node() {
-    withCredentials([string(credentialsId: 'docker_server', variable: 'docker_server')]) {
+    withCredentials([string(credentialsId: 'docker_server', variable: 'docker_server')]){
         properties([
             parameters([
                 string(name: 'docker_repo', defaultValue: 'samagragovernance/registration_portal', description: 'Docker Image Name'),
@@ -16,79 +16,29 @@ node() {
     }
 
     stage('docker-build') {
-        when {
-                expression {
-                    return env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'dev' || env.BRANCH_NAME == 'uat'
-                }
-            }
-        steps {
-            script {    
+        sh '''
+        docker build -t $docker_server/$docker_repo:$commit_id .
+        '''
         if (env.BRANCH_NAME == 'main') {
             sh '''
             docker build -t $docker_server/$docker_repo:main .
             '''
         }
-		else if (env.BRANCH_NAME == 'dev') {
-			 sh '''
-            docker build -t $docker_server/$docker_repo:dev .
-            '''
-                    } 
-		else if (env.BRANCH_NAME == 'uat') {
-			 sh '''
-            docker build -t $docker_server/$docker_repo:uat .
-            '''
-                    } 
-            }
-        }
-
     }
 
     stage('docker-push') {
-        when {
-                expression {
-                    return env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'dev' || env.BRANCH_NAME == 'uat'
-                }
-            }
-        steps {
-            script {  
-	
+        sh '''
+        docker push $docker_server/$docker_repo:$commit_id
+        '''
         if (env.BRANCH_NAME == 'main') {
             sh '''
             docker push $docker_server/$docker_repo:main
             '''
         }
-		else if (env.BRANCH_NAME == 'dev') {
-			 sh '''
-            docker push $docker_server/$docker_repo:dev .
-            '''
-                    } 
-		else if (env.BRANCH_NAME == 'uat') {
-			 sh '''
-            docker push $docker_server/$docker_repo:uat .
-            '''
-                    } 
-            }
-        }
     }
     stage('Start deploy job with latest tag') {
-        when {
-                expression {
-                    return env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'dev' || env.BRANCH_NAME == 'uat'
-                }
-            }
-        steps {
-            script {  
-         if (env.BRANCH_NAME == 'main' ) { 
+        if (env.BRANCH_NAME == 'main') { 
                 build job: 'ULP/deploy-staging/deploy-registration-portal', parameters: [string(name: 'tag', value: 'main')]
-         }
-		 else if (env.BRANCH_NAME == 'dev' ) { 
-                build job: 'SBRC-deploy/deploy-services/deploy-staging/deploy-registration-portal', parameters: [string(name: 'tag', value: 'dev')]
-         }
-		 else if (env.BRANCH_NAME == 'uat' ) { 
-                build job: 'UAT/deploy-uat/deploy-registration-portal', parameters: [string(name: 'tag', value: 'uat')]
-         }
-            }
         }
     }
-
 }
