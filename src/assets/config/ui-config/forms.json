@@ -1201,11 +1201,31 @@
                             },
                             {
                                 "name": "gender",
-                                "required": true
-                            },
-                            {
-                                "name": "username",
-                                "required": true
+                                "required": true,
+                                "custom": true,
+                                "element": {
+                                    "title": "gender",
+                                    "widget": {
+                                        "formlyConfig": {
+                                            "type": "select",
+                                            "templateOptions": {
+                                                "required": true,
+                                                "options": [
+                                                    {
+                                                        "label": "Male",
+                                                        "value": "M"
+                                                    },
+                                                    {
+                                                        "label": "Female",
+                                                        "value": "F"
+                                                    }
+                                                ],
+                                                "valueProp": "value",
+                                                "labelProp": "label"
+                                            }
+                                        }
+                                    }
+                                }
                             },
                             {
                                 "name": "recoveryphone",
@@ -1225,6 +1245,10 @@
                             },
                             {
                                 "name": "school_id",
+                                "required": true
+                            },
+                            {
+                                "name": "username",
                                 "required": true
                             },
                             {

@@ -270,46 +270,6 @@ export class FormsComponent implements OnInit {
       this.model = {};
     }
 
-    let savedData = [];
-    if (this.queryParams?.ls) {
-      savedData = this.queryParams.ls.split(',');
-    }
-
-    savedData.map((item) => {
-      let data = JSON.parse(localStorage.getItem(item));
-      if (item === 'userDetails') {
-        data = {
-          name: `${data.firstName} ${data.lastName}`,
-          email: data?.email,
-          username: data?.username
-        }
-      } else if (item === 'instituteDetails') {
-        data = {
-          "instituteName": data?.schoolName,
-          "highestLevel": data?.highestClass,
-          "lowestLevel": data?.lowestClass,
-          "instituteCategoryId": data?.schCategoryId ? data?.schCategoryId?.toString() : '',
-          "instituteTypeId": data?.schTypeId ? data?.schTypeId?.toString() : '',
-          "instituteMgmtId": data?.schMgmtId ? data?.schMgmtId?.toString() : '',
-          "instituteMgmtCenterId": data?.schMgmtCenterId ? data?.schMgmtCenterId?.toString() : '',
-          "instituteStatusId": data?.schStatusId ? data?.schStatusId?.toString() : '',
-          "instituteLocTypeId": data?.schLocTypeId ? data?.schLocTypeId?.toString() : '',
-          "eduStateCode": data?.eduStateCode ? data?.eduStateCode?.toString() : '',
-          "eduDistrictCode": data?.eduDistrictCode ? data?.eduDistrictCode?.toString() : '',
-          "eduBlockCode": data?.eduBlockCode ? data?.eduBlockCode?.toString() : '',
-          "eduClusterCode": data?.eduBlockCode ? data?.eduBlockCode?.toString() : '',
-          "lgdStateId": data?.lgdStateId,
-          "lgdDistrictId": data?.lgdDistrictId,
-          "estdYear": data?.estdYear,
-          "address": data?.address,
-          "pinCode": data?.pinCode,
-          "email": data?.email,
-        }
-      }
-
-      this.model = { ...this.model, ...data }
-    });
-
     this.schemaloaded = true;
   }
 
