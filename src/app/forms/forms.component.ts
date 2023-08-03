@@ -270,6 +270,10 @@ export class FormsComponent implements OnInit {
       this.model = {};
     }
 
+    if (this.queryParams) {
+      this.model = { ...this.model, ...this.queryParams };
+    }
+
     this.schemaloaded = true;
   }
 

@@ -42,6 +42,7 @@ import { FormlyFieldFile } from './forms/types/file.type';
 import { FileValueAccessor } from './forms/types/file-value-accessor';
 import { DocViewComponent } from './layouts/doc-view/doc-view.component';
 import { FormlyFieldNgSelect } from './forms/types/multiselect.type';
+import { FormlyMatDatepickerModule } from '@ngx-formly/material/datepicker';
 import { Bootstrap4FrameworkModule } from 'angular6-json-schema-form';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { AttestationComponent } from './tables/attestation/attestation.component';
@@ -163,6 +164,8 @@ import { IssuedCredentialsComponent } from './issued-credentials/issued-credenti
 import { BulkIssueCredentialsComponent } from './bulk-issue-credentials/bulk-issue-credentials.component';
 import { KeysPipe } from './utility/pipes/keys.pipe';
 import { AadhaarKycComponent } from './authentication/aadhaar-kyc/aadhaar-kyc.component';
+import { DatepickerTypeComponent } from './forms/types/datepicker-type.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
@@ -222,6 +225,8 @@ import { AadhaarKycComponent } from './authentication/aadhaar-kyc/aadhaar-kyc.co
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
+    FormlyMatDatepickerModule,
+    MatDatepickerModule,
     NgbAccordionModule,
     FormlyBootstrapModule,
     KeycloakAngularModule,
@@ -289,6 +294,17 @@ import { AadhaarKycComponent } from './authentication/aadhaar-kyc/aadhaar-kyc.co
         { name: 'file', component: FormlyFieldFile, wrappers: ['form-field'] },
         { name: 'verify-code', component: VerifyIndentityCode },
         { name: 'multiselect', component: FormlyFieldNgSelect },
+        {
+          name: 'datepicker',
+          component: DatepickerTypeComponent,
+          wrappers: ['form-field'],
+          defaultOptions: {
+            defaultValue: new Date(),
+            templateOptions: {
+              datepickerOptions: {},
+            },
+          },
+        },
         { name: 'color', component: FormlyColorInput },
       ],
     }),
