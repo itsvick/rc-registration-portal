@@ -116,14 +116,7 @@ export const formlyTypeConfig = {
     { name: 'multiselect', component: FormlyFieldNgSelect },
     {
       name: 'datepicker',
-      component: DatepickerTypeComponent,
-      wrappers: ['form-field'],
-      defaultOptions: {
-        defaultValue: new Date(),
-        templateOptions: {
-          datepickerOptions: {},
-        },
-      },
+      component: DatepickerTypeComponent
     },
     { name: 'color', component: FormlyColorInput },
   ],

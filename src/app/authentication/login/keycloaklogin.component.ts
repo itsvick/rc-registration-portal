@@ -77,7 +77,7 @@ export class KeycloakloginComponent implements OnInit {
       if (this.isDigilockerUser) {
         const payload = {
           url: `${this.authConfigService.config.bulkIssuance}/bulk/v1/instructor/digi/getdetail`,
-          data: {...this.digiLockerUser, dob: dayjs(this.digiLockerUser.dob, 'DD/MM/YYYY').format('YYYY-MM-DD')},
+          data: {...this.digiLockerUser, dob: dayjs(this.digiLockerUser.dob, 'DD/MM/YYYY').format('DD/MM/YYYY')},
           header: new HttpHeaders({
             Authorization: 'Bearer ' + localStorage.getItem('token')
           })
@@ -94,7 +94,7 @@ export class KeycloakloginComponent implements OnInit {
           if (error?.error?.success === false) {
             let dob;
             if (accountRes?.attributes?.dob?.[0]) {
-              dob = dayjs(accountRes.attributes.dob[0], 'DD/MM/YYYY').format('YYYY-MM-DD');
+              dob = dayjs(accountRes.attributes.dob[0], 'DD/MM/YYYY').format('DD/MM/YYYY');
             }
             this.router.navigate(['/form/instructor-signup'], {
               queryParams: {
@@ -130,34 +130,6 @@ export class KeycloakloginComponent implements OnInit {
           console.log(err);
         });
       }
-
-      // this.getDetails().subscribe((res: any) => {
-      //   console.log("res", res);
-      //   this.router.navigate(['/dashboard']);
-      // })
-
-      // const payload = {
-      //   "filters": {
-      //     "username": {
-      //       "eq": this.user
-      //     }
-      //   }
-      // }
-
-      // const selectedEntity = this.entity ? this.entity : localStorage.getItem('entity')
-      // this.generalService.postData(`/${selectedEntity}/search`, payload).subscribe((res: any) => {
-      //   // if found redirect to dashboard
-      //   // else redirect to the registration form /udise link form
-
-      //   console.log("res", res);
-      //   if (res.length && !this.entity) {
-      //     this.router.navigate(['/udise-link']);
-      //   } else {
-      //     this.router.navigate(['/dashboard']);
-      //   }
-      // }, error => {
-      //   console.error("Error while Searching Instructor", error);
-      // });
     } else {
       const snapshot: RouterStateSnapshot = this.router.routerState.snapshot;
       this.keycloakService
