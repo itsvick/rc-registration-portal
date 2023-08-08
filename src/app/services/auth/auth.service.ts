@@ -171,6 +171,11 @@ export class AuthService {
     return this.http.post(api, payload);
   }
 
+  aadhaarKYC(payload: any) {
+    const api = `${this.authConfigService.config.bulkIssuance}/bulk/v1/instructor/aadhaar`;
+    return this.http.post(api, payload);
+  }
+
   getStateList(): Observable<any> {
     const api = `${this.baseUrl}/v1/school/stateList`;
     return this.http.get(api, { headers: this.headers }).pipe(
