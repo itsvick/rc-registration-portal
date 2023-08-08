@@ -1,4 +1,4 @@
-<div class="container mt-3 pb-3">
+<div class="container mt-5 pt-5 pb-3">
     <div *ngIf="!isMyAccountPage" class="ml-3 float-left cursor-pointer">
         <i onClick="history.go(-1); return false;" class="fas fa-arrow-left mr-2" aria-hidden="true"></i>
     </div>
@@ -19,11 +19,11 @@
     <div class="mt-2 mb-5">
         <div class="d-flex text-center cursor-pointer justify-content-center" *ngIf="docUrl">
             <div class="p-2" *ngIf="canShareFile">
-                <img src="assets/images/share.png" (click)="shareFile()" title="{{ 'SHARE' | translate }}">
+                <img src="assets/images/share.svg" (click)="shareFile()" title="{{ 'SHARE' | translate }}">
                 <div>{{ 'SHARE' | translate }}</div>
             </div>
             <div class="p-2">
-                <img src="assets/images/download.png" (click)="downloadCertificate(docUrl)"
+                <img src="assets/images/download.svg" (click)="downloadCertificate(docUrl)"
                     title="{{ 'DOWNLOAD' | translate }}">
                 <div>{{ 'DOWNLOAD' | translate }}</div>
             </div>

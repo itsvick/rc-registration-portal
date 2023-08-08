@@ -137,6 +137,7 @@ export class BulkIssueCredentialsComponent implements OnInit {
     this.bulkIssuanceService.issueBulkCredentials(this.schemaDetails.id, parsedCSV).subscribe((response: any) => {
       this.strictLoader = false;
       console.log("response", response);
+      this.toastMsg.success("", this.generalService.translateString("CREDENTIAL_ISSUED_SUCCESSFULLY"))
     }, (error) => {
       this.strictLoader = false;
       console.error("Error", error);

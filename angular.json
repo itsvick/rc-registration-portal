@@ -44,7 +44,9 @@
               "./node_modules/grapesjs/dist/css/grapes.min.css",
               "./node_modules/grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.css",
               "./node_modules/grapesjs-component-code-editor/dist/grapesjs-component-code-editor.min.css",
-              "./node_modules/grapesjs-preset-newsletter/dist/grapesjs-preset-newsletter.css"
+              "./node_modules/grapesjs-preset-newsletter/dist/grapesjs-preset-newsletter.css",
+              "./node_modules/lite-youtube-embed/src/lite-yt-embed.css",
+              "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.css"
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.min.js",
@@ -53,7 +55,8 @@
               "./node_modules/grapesjs-preset-webpage/dist/grapesjs-preset-webpage.min.js",
               "./node_modules/grapesjs-component-code-editor/dist/grapesjs-component-code-editor.min.js",
               "./node_modules/grapesjs-preset-newsletter/dist/grapesjs-preset-newsletter.min.js",
-              "./node_modules/@project-sunbird/telemetry-sdk/index.js"
+              "./node_modules/@project-sunbird/telemetry-sdk/index.js",
+              "./node_modules/lite-youtube-embed/src/lite-yt-embed.js"
             ]
           },
           "configurations": {

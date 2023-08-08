@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { KeycloakService } from 'keycloak-angular';
-import { Router, RouterStateSnapshot } from '@angular/router';
+import { NavigationExtras, Router, RouterStateSnapshot } from '@angular/router';
 import { AppConfig } from '../../app.config';
 import { GeneralService } from 'src/app/services/general/general.service';
 import { KeycloakLoginOptions } from 'keycloak-js';
@@ -9,7 +9,10 @@ import { HttpHeaders } from '@angular/common/http';
 import { AuthConfigService } from '../auth-config.service';
 import { DataService } from 'src/app/services/data/data-request.service';
 import { map } from 'rxjs/operators';
+import * as dayjs from 'dayjs';
+import * as customParseFormat from 'dayjs/plugin/customParseFormat';
 
+dayjs.extend(customParseFormat);
 @Component({
   selector: 'app-keycloaklogin',
   templateUrl: './keycloaklogin.component.html',
@@ -18,8 +21,10 @@ import { map } from 'rxjs/operators';
 export class KeycloakloginComponent implements OnInit {
   user: any;
   entity: string;
-  profileUrl: string = '';
   entityArr: any;
+  isDigilockerUser = false;
+  digiLockerUser: any;
+
   constructor(
     public readonly keycloakService: KeycloakService,
     public readonly router: Router,
@@ -35,17 +40,29 @@ export class KeycloakloginComponent implements OnInit {
     if (isLoggedIn) {
       const accountRes: any = await this.keycloakService.loadUserProfile();
       localStorage.setItem('userDetails', JSON.stringify(accountRes));
-      if (accountRes?.attributes?.entity) {
+
+      if (accountRes?.attributes?.entity?.[0]) {
         console.log(accountRes['attributes']?.entity?.[0]);
         this.entity = accountRes.attributes.entity?.[0];
         this.entityArr = accountRes.attributes.entity;
       }
+
       if (accountRes?.attributes?.locale?.length) {
         localStorage.setItem('setLanguage', accountRes['attributes'].locale[0]);
       }
 
-      this.user = this.keycloakService.getUsername();
+      if (accountRes?.attributes?.name?.length) {
+        this.isDigilockerUser = true;
+        localStorage.setItem('isDigilockerUser', 'true');
+        localStorage.setItem('currentUser', JSON.stringify({ name: accountRes.attributes.name[0] }));
+        this.digiLockerUser = {
+          name: accountRes.attributes.name[0],
+          dob: accountRes.attributes.dob[0],
+          gender: accountRes.attributes.gender[0]
+        }
+      }
 
+      this.user = this.keycloakService.getUsername();
       const token = await this.keycloakService.getToken();
       localStorage.setItem('token', token);
       if (this.entity) {
@@ -57,33 +74,62 @@ export class KeycloakloginComponent implements OnInit {
       }
       console.log('---------', this.config.getEnv('appType'));
 
-      this.getDetails().subscribe((res: any) => {
-        console.log("res", res);
-        this.router.navigate(['/dashboard']);
-      })
+      if (this.isDigilockerUser) {
+        const payload = {
+          url: `${this.authConfigService.config.bulkIssuance}/bulk/v1/instructor/digi/getdetail`,
+          data: {...this.digiLockerUser, dob: dayjs(this.digiLockerUser.dob, 'DD/MM/YYYY').format('DD/MM/YYYY')},
+          header: new HttpHeaders({
+            Authorization: 'Bearer ' + localStorage.getItem('token')
+          })
+        }
+        this.dataService.post(payload).subscribe((res: any) => {
+          console.log(res);
+          if (res.result) {
+            localStorage.setItem('currentUser', JSON.stringify(res.result));
+          }
+          this.router.navigate(['/dashboard']);
+        }, error => {
+          console.log(error);
 
-      // const payload = {
-      //   "filters": {
-      //     "username": {
-      //       "eq": this.user
-      //     }
-      //   }
-      // }
+          if (error?.error?.success === false) {
+            let dob;
+            if (accountRes?.attributes?.dob?.[0]) {
+              dob = dayjs(accountRes.attributes.dob[0], 'DD/MM/YYYY').format('DD/MM/YYYY');
+            }
+            this.router.navigate(['/form/instructor-signup'], {
+              queryParams: {
+                name: accountRes.attributes.name[0],
+                dob,
+                gender: accountRes.attributes.gender[0],
+              }
+            })
+          } else {
+            this.router.navigate(['/logout']);
+          }
+        });
+      } else {
+        this.getDetails().subscribe((res: any) => {
+          const navigationExtras: NavigationExtras = {
+            state: {
+              name: res.result?.name,
+              dob: res.result?.dob,
+              gender: res.result?.gender,
+            }
+          }
 
-      // const selectedEntity = this.entity ? this.entity : localStorage.getItem('entity')
-      // this.generalService.postData(`/${selectedEntity}/search`, payload).subscribe((res: any) => {
-      //   // if found redirect to dashboard
-      //   // else redirect to the registration form /udise link form
-
-      //   console.log("res", res);
-      //   if (res.length && !this.entity) {
-      //     this.router.navigate(['/udise-link']);
-      //   } else {
-      //     this.router.navigate(['/dashboard']);
-      //   }
-      // }, error => {
-      //   console.error("Error while Searching Instructor", error);
-      // });
+          if (!res?.result?.kyc_aadhaar_token) { // Aadhar KYC is pending
+            this.router.navigate(['/aadhaar-kyc'], navigationExtras);
+          } else if (res?.result?.aadhaar_token && res?.result?.kyc_aadhaar_token !== res?.result?.aadhaar_token) { // Institute given Aadhaar and Aadhaar KYC not matched
+            navigationExtras.state.aadhaarMatchError = true;
+            this.router.navigate(['/aadhaar-kyc'], navigationExtras); // re-kyc
+          } else {
+            this.router.navigate(['/dashboard']);
+          }
+        }, (err) => {
+          this.router.navigate(['/logout']);
+          console.log(err);
+        });
+      }
     } else {
       const snapshot: RouterStateSnapshot = this.router.routerState.snapshot;
       this.keycloakService
@@ -103,7 +149,8 @@ export class KeycloakloginComponent implements OnInit {
     let headerOptions = new HttpHeaders({
       Authorization: 'Bearer ' + localStorage.getItem('token')
     });
-    return this.dataService.get({ url: `${this.authConfigService.config.bulkIssuance}/bulk/v1/issuerdetail`, header: headerOptions }).pipe(map((res: any) => {
+    // bulk/v1/issuerdetail
+    return this.dataService.get({ url: `${this.authConfigService.config.bulkIssuance}/bulk/v1/instructor/getdetail`, header: headerOptions }).pipe(map((res: any) => {
       console.log(res);
       localStorage.setItem('currentUser', JSON.stringify(res.result));
       return res;

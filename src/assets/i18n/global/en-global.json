@@ -389,5 +389,18 @@
     "PENDING_SINCE": "Pending since",
     "SELECT_SCHEMA": "Select Schema",
     "PLEASE_SELECT_SCHEMA_FIRST": "Please select schema first",
-    "SOME_FIELDS_MISSED": "Some fields are missing"
+    "SOME_FIELDS_MISSED": "Some fields are missing",
+    "PLEASE_COMPLETE_YOUR_AADHAR_KYC": "Welcome to your wallet. <br />Please complete your Aadhar KYC to start receiving your academic credentials. (This is a one-time process.)",
+    "ENTER_AADHAAR": "Enter Aadhaar no.",
+    "START_AADHAAR_KYC": "Start Aadhar KYC",
+    "KYC_SUCCESSFULLY": "Aadhar KYC done successfully.",
+    "AADHAR_KYC_FAILED": "Aadhar KYC Failed.",
+    "GO_TO_DASHBOARD": "Go to Dashboard",
+    "TRY_AGAIN": "Try Again",
+    "INVALID_OTP": "Invalid OTP",
+    "GET_OTP": "Get OTP",
+    "ENTER_VALID_AADHAAR_NUMBER": "Enter valid Aadhaar number",
+    "ENTER_OTP": "Enter OTP",
+    "GENDER": "Gender",
+    "PASSWORD": "Password"
 }

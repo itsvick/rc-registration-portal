@@ -944,7 +944,7 @@
             }
         },
         {
-            "instructor-signup": {
+            "old-instructor-signup": {
                 "api": "/Instructor/invite",
                 "type": "entity",
                 "formclass": "row",
@@ -1139,6 +1139,7 @@
         {
             "issuer-signup": {
                 "api": "/Issuer/invite",
+                "thirdParty": true,
                 "type": "entity",
                 "formclass": "row",
                 "header": "default",
@@ -1165,6 +1166,116 @@
                     }
                 ],
                 "redirectTo": "/dashboard"
+            }
+        },
+        {
+            "instructor-signup": {
+                "api": "/bulk-issuance/bulk/v1/instructor/register",
+                "isBFF": true,
+                "thirdParty": true,
+                "type": "entity",
+                "formclass": "row",
+                "header": "default",
+                "title": "REGISTER",
+                "isSignupForm": "true",
+                "langKey": "teacherStudent",
+                "fieldsets": [
+                    {
+                        "definition": "Instructor",
+                        "fields": [
+                            {
+                                "name": "name",
+                                "required": true
+                            },
+                            {
+                                "name": "dob",
+                                "required": true,
+                                "custom": true,
+                                "element":{
+                                    "title": "DATE_OF_BIRTH",
+                                    "type": "datepicker",
+                                    "widget": {
+                                        "formlyConfig": {
+                                            "templateOptions": {
+                                                "placeholder": "DD/MM/YYYY",
+                                                "theme": "theme-red",
+                                                "dateInputFormat": "DD/MM/YYYY"
+                                            },
+                                            "className": "fw-bold p16"
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "name": "gender",
+                                "required": true,
+                                "custom": true,
+                                "element": {
+                                    "title": "GENDER",
+                                    "widget": {
+                                        "formlyConfig": {
+                                            "type": "select",
+                                            "templateOptions": {
+                                                "required": true,
+                                                "options": [
+                                                    {
+                                                        "label": "Male",
+                                                        "value": "M"
+                                                    },
+                                                    {
+                                                        "label": "Female",
+                                                        "value": "F"
+                                                    }
+                                                ],
+                                                "valueProp": "value",
+                                                "labelProp": "label"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "name": "recoveryphone",
+                                "required": true,
+                                "validation": {
+                                    "pattern": "[6-9]{1}[0-9]{9}",
+                                    "message": "MOBILE_NO_MUST_10_DIGIT"
+                                }
+                            },
+                            {
+                                "name": "issuer_did",
+                                "required": true
+                            },
+                            {
+                                "name": "school_name",
+                                "required": true
+                            },
+                            {
+                                "name": "school_id",
+                                "required": true
+                            },
+                            {
+                                "name": "username",
+                                "required": true
+                            },
+                            {
+                                "name": "password",
+                                "custom": true,
+                                "required": true,
+                                "element": {
+                                    "title": "PASSWORD",
+                                    "type": "password",
+                                    "widget": {
+                                        "formlyConfig": {
+                                            "className": "fw-bold p16"
+                                        }
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "redirectTo": "/"
             }
         }
     ]
