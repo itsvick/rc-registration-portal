@@ -166,12 +166,10 @@ export class DocViewComponent implements OnInit, OnDestroy {
                 type: 'application/pdf' // must match the Accept type
             });
             this.docUrl = window.URL.createObjectURL(this.blob);
-
+        }), takeUntil(this.unsubscribe$)).subscribe((result: any) => {
             setTimeout(() => {
                 this.isLoading = false;
             }, 100);
-        }), takeUntil(this.unsubscribe$)).subscribe((result: any) => {
-            this.isLoading = false;
             this.extension = 'pdf';
         });
     }

@@ -503,10 +503,18 @@ button.calendar:active {
 
 .modal.fade .modal-dialog.panel-right {
     right: -320px;
-    -webkit-transition: opacity 0.3s linear, right 400ms ease-in-out !important;
-    -moz-transition: opacity 0.3s linear, right 400ms ease-in-out !important;
-    -o-transition: opacity 0.3s linear, right 400ms ease-in-out !important;
-    transition: opacity 0.3s linear, right 400ms ease-in-out !important;
+    -webkit-transition:
+        opacity 0.3s linear,
+        right 400ms ease-in-out !important;
+    -moz-transition:
+        opacity 0.3s linear,
+        right 400ms ease-in-out !important;
+    -o-transition:
+        opacity 0.3s linear,
+        right 400ms ease-in-out !important;
+    transition:
+        opacity 0.3s linear,
+        right 400ms ease-in-out !important;
 }
 
 .modal.fade.show .modal-dialog.panel-right {
@@ -620,7 +628,9 @@ formly-autocomplete-type .ng-select {
 
 .form-control:focus {
     border-color: #69afcf;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px #69afcf;
+    box-shadow:
+        inset 0 1px 1px rgba(0, 0, 0, 0.075),
+        0 0 8px #69afcf;
 }
 
 .navbar-brand {
@@ -1180,7 +1190,9 @@ textarea.jsoneditor-text {
 .content-ht {
     background: #ffffff !important;
     border: 1px solid #dee2e6 !important;
-    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.12), 0px 20px 20px rgba(0, 0, 0, 0.08) !important;
+    box-shadow:
+        0px 0px 2px rgba(0, 0, 0, 0.12),
+        0px 20px 20px rgba(0, 0, 0, 0.08) !important;
     border-radius: 8px !important;
     width: 465px !important;
     height: 167px !important;
@@ -1193,3 +1205,29 @@ textarea.jsoneditor-text {
 }
 
 /* End - ngx-editor css */
+.center-loading {
+    position: fixed;
+    z-index: 999;
+    height: 2em;
+    width: 2em;
+    overflow: show;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    color: azure;
+}
+
+/* Transparent Overlay */
+.center-loading:before {
+    content: "";
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(rgba(20, 20, 20, 0.8), rgba(0, 0, 0, 0.8));
+    background: -webkit-radial-gradient(rgba(20, 20, 20, 0.8), rgba(0, 0, 0, 0.8));
+}

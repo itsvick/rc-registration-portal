@@ -132,8 +132,14 @@
     "educationDetails" : "शिक्षा संबंधी दस्तावेज",
     "AS_PER_AADHAAR_ID": "आईडी (आधार) के अनुसार",
     "Yes" : "हां",
-    "No" : "नहीं"
-
+    "No" : "नहीं",
+    "name": "नाम",
+    "username": "उपयोगकर्ता नाम",
+    "recoveryphone": "फोन नंबर",
+    "issuer_did": "जारीकर्ता की डीआईडी",
+    "school_name": "स्कूल का नाम",
+    "school_id": "स्कूल आईडी",
+    "Password": "पासवर्ड"
   }
 
 }

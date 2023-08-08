@@ -28,7 +28,7 @@ export class BulkIssuanceService {
     const payload = {
       url: `${this.authConfigService.config.bulkIssuance}/bulk/v1/credential/schema/list`,
       data: {
-        taglist: "tag1" //TODO: need to remove this hard coded tag //ulpq2
+        taglist: "ulpq2" //TODO: need to remove this hard coded tag //ulpq2 tag1
       }
     }
     return this.dataService.post(payload).pipe(retry(2), map((res: any) => res.result));
@@ -65,7 +65,7 @@ export class BulkIssuanceService {
       data: {
         schema_id: schemaId,
         issuerDetail: {
-          did: currentUser.did
+          did: currentUser.issuer_did // for issuer user use direct currentUser.did
         },
         vcData: {
           issuanceDate: currentDateTime,
