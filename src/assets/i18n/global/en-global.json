@@ -400,5 +400,7 @@
     "INVALID_OTP": "Invalid OTP",
     "GET_OTP": "Get OTP",
     "ENTER_VALID_AADHAAR_NUMBER": "Enter valid Aadhaar number",
-    "ENTER_OTP": "Enter OTP"
+    "ENTER_OTP": "Enter OTP",
+    "GENDER": "Gender",
+    "PASSWORD": "Password"
 }

@@ -396,5 +396,7 @@
   "TRY_AGAIN": "पुनः प्रयास करें",
   "START_AADHAAR_KYC": "आधार केवाईसी शुरू करें",
   "GET_OTP": "OTP प्राप्त करें",
-  "ENTER_OTP": "OTP दर्ज करें"
+  "ENTER_OTP": "OTP दर्ज करें",
+  "GENDER": "लिंग",
+  "PASSWORD": "पासवर्ड"
 }

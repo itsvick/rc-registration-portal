@@ -13,6 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 // formly
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
+import { DatepickerModule, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { FormlyModule } from '@ngx-formly/core';
 import { VerifyModule } from 'vc-verification';
 import { ArrayTypeComponent } from '../app/forms/types/array.type';
@@ -105,6 +106,7 @@ import { MaskPipe } from './mask.pipe';
 import { OnboardingComponent } from './onboarding/onboarding.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { KeysPipe } from './utility/pipes/keys.pipe';
+import { DatepickerTypeComponent } from './forms/types/datepicker-type.component';
 
 @NgModule({
   declarations: [
@@ -157,7 +159,8 @@ import { KeysPipe } from './utility/pipes/keys.pipe';
     IssuedCredentialsComponent,
     BulkIssueCredentialsComponent,
     KeysPipe,
-    AadhaarKycComponent
+    AadhaarKycComponent,
+    DatepickerTypeComponent
   ],
   imports: [
     BrowserModule,
@@ -166,19 +169,17 @@ import { KeysPipe } from './utility/pipes/keys.pipe';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    FormlyMatDatepickerModule,
-    MatDatepickerModule,
     NgbProgressbarModule, 
     NgbAccordionModule, 
     NgbPaginationModule,
-    FormlyBootstrapModule,
+    BsDatepickerModule.forRoot(),
+    DatepickerModule.forRoot(),
     KeycloakAngularModule,
     Bootstrap4FrameworkModule,
     AngularMultiSelectModule,
     NgSelectModule,
     VerifyModule.forChild(configData),
     ZXingScannerModule,
-
     HttpClientModule,
     TranslateModule.forRoot(),
 
@@ -194,7 +195,8 @@ import { KeysPipe } from './utility/pipes/keys.pipe';
     NgxPaginationModule,
     NgJsonEditorModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
-    NgxTextEditorModule
+    NgxTextEditorModule,
+    FormlyBootstrapModule
   ],
   exports: [TranslateModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

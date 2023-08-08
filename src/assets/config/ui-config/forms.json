@@ -1190,9 +1190,20 @@
                             {
                                 "name": "dob",
                                 "required": true,
-                                "type": "date",
-                                "validation": {
-                                    "future": false
+                                "custom": true,
+                                "element":{
+                                    "title": "DATE_OF_BIRTH",
+                                    "type": "datepicker",
+                                    "widget": {
+                                        "formlyConfig": {
+                                            "templateOptions": {
+                                                "placeholder": "DD/MM/YYYY",
+                                                "theme": "theme-red",
+                                                "dateInputFormat": "DD/MM/YYYY"
+                                            },
+                                            "className": "fw-bold p16"
+                                        }
+                                    }
                                 }
                             },
                             {
@@ -1200,7 +1211,7 @@
                                 "required": true,
                                 "custom": true,
                                 "element": {
-                                    "title": "gender",
+                                    "title": "GENDER",
                                     "widget": {
                                         "formlyConfig": {
                                             "type": "select",
@@ -1252,7 +1263,7 @@
                                 "custom": true,
                                 "required": true,
                                 "element": {
-                                    "title": "password",
+                                    "title": "PASSWORD",
                                     "type": "password",
                                     "widget": {
                                         "formlyConfig": {

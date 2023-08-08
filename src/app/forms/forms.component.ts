@@ -414,22 +414,15 @@ export class FormsComponent implements OnInit {
       fieldset.fields.forEach(field => {
 
         if (this.responseData.definitions[fieldset.definition] && this.responseData.definitions[fieldset.definition].hasOwnProperty('properties')) {
-          let res = this.responseData.definitions[fieldset.definition].properties;
           if (field.children) {
             this.checkProperty(fieldset, field);
 
             if (this.responseData.definitions[fieldset.definition].properties[field.name].hasOwnProperty('properties')) {
-              let _self = this;
-              Object.keys(_self.responseData.definitions[fieldset.definition].properties[field.name].properties).forEach(function (key) {
-                if (_self.responseData.definitions[fieldset.definition].properties[field.name].properties[key].hasOwnProperty('properties')) {
-                  Object.keys(_self.responseData.definitions[fieldset.definition].properties[field.name].properties[key].properties).forEach(function (key1) {
-
-                    _self.responseData.definitions[fieldset.definition].properties[field.name].properties[key].properties[key1].title = _self.checkString(key1, _self.responseData.definitions[fieldset.definition].properties[field.name].properties[key].properties[key1].title);
-
-
+              Object.keys(this.responseData.definitions[fieldset.definition].properties[field.name].properties).forEach((key) => {
+                if (this.responseData.definitions[fieldset.definition].properties[field.name].properties[key].hasOwnProperty('properties')) {
+                  Object.keys(this.responseData.definitions[fieldset.definition].properties[field.name].properties[key].properties).forEach((key1) => {
+                    this.responseData.definitions[fieldset.definition].properties[field.name].properties[key].properties[key1].title = this.checkString(key1, this.responseData.definitions[fieldset.definition].properties[field.name].properties[key].properties[key1].title);
                   });
-
-
                 }
                 console.log(key);
               });
@@ -455,16 +448,18 @@ export class FormsComponent implements OnInit {
                 field.children.fields[i].validation['message'] = this.translate.instant(field.children.fields[i].validation.message);
                 this.responseData.definitions[fieldset.definition].properties[field.name].properties[field.children.fields[i].name]['widget']['formlyConfig']['validation']['messages']['pattern'] = this.translate.instant(field.children.fields[i].validation.message);
               }
-
             }
           }
-
         }
 
         if (field.custom && field.element) {
           this.responseData.definitions[fieldset.definition].properties[field.name] = field.element;
           if (field.element.hasOwnProperty('title')) {
             this.responseData.definitions[fieldset.definition].properties[field.name]['title'] = this.translate.instant(field.element.title);
+            const placeholder = this.responseData.definitions[fieldset.definition].properties[field.name]?.widget?.formlyConfig?.templateOptions?.placeholder;
+            if (placeholder) {
+              this.responseData.definitions[fieldset.definition].properties[field.name]['widget']['formlyConfig']['templateOptions']['placeholder'] = this.translate.instant(placeholder);
+            }
           }
           this.customFields.push(field.name);
         } else {
@@ -1288,7 +1283,8 @@ export class FormsComponent implements OnInit {
           this.isSubmitForm = false;
         }
       }, (err) => {
-        this.toastMsg.error('error', err.error.params.errmsg);
+        const msg = err.error?.params?.errmsg ? err.error.params.errmsg : (err.error?.message ? err.error.message : 'Something went wrong');
+        this.toastMsg.error('', msg);
         this.isSubmitForm = false;
       });
     }
