@@ -11,6 +11,7 @@ import { VerifyIndentityCode } from "./forms/types/verify-identity-no.type";
 import { FormlyFieldNgSelect } from "./forms/types/multiselect.type";
 import { DatepickerTypeComponent } from "./forms/types/datepicker-type.component";
 import { FormlyColorInput } from "./forms/types/color.type";
+import { SelectWrapper } from "./forms/types/select-wrapper.type";
 
 
 //form validations
@@ -65,8 +66,11 @@ export function patternValidatorMessage(error: any, field: FormlyFieldConfig) {
 
 export const formlyTypeConfig = {
   extras: { resetFieldOnHide: true },
-  wrappers: [{ name: 'form-field-horizontal', component: FormlyHorizontalWrapper },
-  { name: 'panel', component: PanelWrapperComponent }],
+  wrappers: [
+    { name: 'form-field-horizontal', component: FormlyHorizontalWrapper },
+    { name: 'panel', component: PanelWrapperComponent },
+    { name: 'select-wrapper', component: SelectWrapper },
+  ],
   validationMessages: [
     { name: 'required', message: errValidatorMessage },
     { name: 'pattern', message: patternValidatorMessage },

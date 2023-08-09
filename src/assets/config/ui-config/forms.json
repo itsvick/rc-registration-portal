@@ -1191,12 +1191,13 @@
                                 "name": "dob",
                                 "required": true,
                                 "custom": true,
-                                "element":{
+                                "element": {
                                     "title": "DATE_OF_BIRTH",
                                     "type": "datepicker",
                                     "widget": {
                                         "formlyConfig": {
                                             "templateOptions": {
+                                                "required": true,
                                                 "placeholder": "DD/MM/YYYY",
                                                 "theme": "theme-red",
                                                 "dateInputFormat": "DD/MM/YYYY"
@@ -1216,6 +1217,7 @@
                                         "formlyConfig": {
                                             "type": "select",
                                             "templateOptions": {
+                                                "placeholder": "SELECT_GENDER",
                                                 "required": true,
                                                 "options": [
                                                     {
@@ -1244,7 +1246,28 @@
                             },
                             {
                                 "name": "issuer_did",
-                                "required": true
+                                "required": true,
+                                "custom": true,
+                                "element": {
+                                    "title": "ISSUER",
+                                    "widget": {
+                                        "formlyConfig": {
+                                            "type": "select",
+                                            "wrappers": [
+                                                "select-wrapper"
+                                            ],
+                                            "templateOptions": {
+                                                "placeholder": "SELECT_ISSUER",
+                                                "optionsApi": "https://devulp.uniteframework.io/bulk-issuance/bulk/v1/issuerlist",
+                                                "responsePath": "result",
+                                                "required": true,
+                                                "options": [],
+                                                "valueProp": "did",
+                                                "labelProp": "name"
+                                            }
+                                        }
+                                    }
+                                }
                             },
                             {
                                 "name": "school_name",

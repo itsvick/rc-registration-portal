@@ -10,6 +10,14 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
     <input type="text" class="form-control calendar" placement="bottom" bsDatepicker [formlyAttributes]="field"
       #datePicker [bsConfig]="bsConfig" [placeholder]="to.placeholder" (bsValueChange)="onValueChange($event)"
        [formControl]="formControl"/>
+    <div *ngIf="showError" class="text-danger">
+      <ng-container *ngIf="formControl.touched && formControl.hasError('required')">
+        {{'FIELD_IS_REQUIRED' | translate}}
+      </ng-container>
+      <ng-container *ngIf="formControl.dirty && formControl.invalid">
+        {{'ENTER_VALID_DATE' | translate}}
+      </ng-container>
+     </div>
   </div>
   `,
 })

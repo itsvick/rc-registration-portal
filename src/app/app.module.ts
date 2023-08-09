@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA, InjectionToken, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -14,7 +14,7 @@ import { AppComponent } from './app.component';
 // formly
 import { FormlyBootstrapModule } from '@ngx-formly/bootstrap';
 import { DatepickerModule, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
-import { FormlyModule } from '@ngx-formly/core';
+import { FORMLY_CONFIG, FormlyFieldConfig, FormlyModule } from '@ngx-formly/core';
 import { VerifyModule } from 'vc-verification';
 import { ArrayTypeComponent } from '../app/forms/types/array.type';
 import { AutocompleteTypeComponent } from '../app/forms/types/autocomplete.type';
@@ -62,6 +62,10 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { VerifyCertificateComponent } from './issure/verify-certificate/verify-certificate.component';
 
+
+// Create custom Injection Token
+const ConfigDeps = new InjectionToken<(() => Function)[]>('configDeps');
+
 function initConfig(config: AppConfig) {
   return () => config.load()
 }
@@ -93,8 +97,6 @@ import { NgJsonEditorModule } from 'ang-jsoneditor';
 import { NgxTextEditorModule } from 'ngx-text-editor';
 import { VerifyComponent } from './issure/verify/verify.component';
 
-//import * as configData from '../assets/config/config.json';
-import { MatDatepickerModule } from '@angular/material/datepicker';
 import { AadhaarKycComponent } from './authentication/aadhaar-kyc/aadhaar-kyc.component';
 import { BulkIssueCredentialsComponent } from './bulk-issue-credentials/bulk-issue-credentials.component';
 import { UdiseLinkComponent } from './custom/udise-link/udise-link.component';
@@ -107,6 +109,8 @@ import { OnboardingComponent } from './onboarding/onboarding.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { KeysPipe } from './utility/pipes/keys.pipe';
 import { DatepickerTypeComponent } from './forms/types/datepicker-type.component';
+import { SelectWrapper } from './forms/types/select-wrapper.type';
+import { configurationFactory } from './configuration.factory';
 
 @NgModule({
   declarations: [
@@ -160,7 +164,8 @@ import { DatepickerTypeComponent } from './forms/types/datepicker-type.component
     BulkIssueCredentialsComponent,
     KeysPipe,
     AadhaarKycComponent,
-    DatepickerTypeComponent
+    DatepickerTypeComponent,
+    SelectWrapper
   ],
   imports: [
     BrowserModule,
@@ -169,8 +174,8 @@ import { DatepickerTypeComponent } from './forms/types/datepicker-type.component
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    NgbProgressbarModule, 
-    NgbAccordionModule, 
+    NgbProgressbarModule,
+    NgbAccordionModule,
     NgbPaginationModule,
     BsDatepickerModule.forRoot(),
     DatepickerModule.forRoot(),
@@ -204,58 +209,55 @@ import { DatepickerTypeComponent } from './forms/types/datepicker-type.component
   bootstrap: [AppComponent],
   providers: [
     AppConfig,
-    { provide: APP_INITIALIZER, useFactory: initConfig, deps: [AppConfig], multi: true },
+    // { provide: APP_INITIALIZER, useFactory: initConfig, deps: [AppConfig], multi: true },
     {
       provide: APP_INITIALIZER,
-      useFactory: initializeKeycloak,
+      useFactory: configurationFactory,
       multi: true,
-      deps: [KeycloakService, AuthConfigService],
+      // ConfigDeps is now a dependency for configurationFactory
+      deps: [AppConfig, ConfigDeps]
+    },
+    {
+      provide: ConfigDeps,
+      // Use a factory that return an array of dependant functions to be executed
+      useFactory: (
+        http: HttpClient,
+        config: AuthConfigService,
+        keycloackService: KeycloakService,
+        translateService: TranslateService
+      ) => {
+        // Easy to add or remove dependencies
+        return [
+          initializeKeycloak(keycloackService, config),
+          initLang(http, translateService, config)
+        ];
+      },
+      deps: [HttpClient, AuthConfigService, KeycloakService, TranslateService]
     },
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { floatLabel: 'always' } },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initLang,
-      deps: [HttpClient, TranslateService],
-      multi: true
-    },
     {
       provide: APP_INITIALIZER,
       useFactory: initTheme,
       deps: [AuthConfigService],
       multi: true
-    }]
+    },
+    {
+      provide: FORMLY_CONFIG,
+      multi: true,
+      useFactory: (translateService: TranslateService) => {
+        return {
+          validationMessages: [
+            { name: 'required', message: (error: any, field: FormlyFieldConfig) => translateService.instant('PLEASE_ENTER', { value1: field.templateOptions.label }) },
+            { name: 'pattern', message: (error: any, field: FormlyFieldConfig) => translateService.instant('PLEASE_ENTER_VALID', { value1: field.templateOptions.label }) },
+
+          ]
+        };
+      },
+      deps: [TranslateService],
+    },
+  ]
 })
 
 
-export class AppModule {
-  languages;
-  constructor(translate: TranslateService, authConfig: AuthConfigService) {
-
-    authConfig.getConfig().subscribe((config) => {
-      this.languages = config.languages;
-      var installed_languages = [];
-
-      for (let i = 0; i < this.languages.length; i++) {
-        installed_languages.push({
-          "code": this.languages[i],
-          "name": ISO6391.getNativeName(this.languages[i])
-        });
-      }
-
-      localStorage.setItem('languages', JSON.stringify(installed_languages));
-      translate.addLangs(this.languages);
-
-      if (localStorage.getItem('setLanguage') && this.languages.includes(localStorage.getItem('setLanguage'))) {
-        translate.use(localStorage.getItem('setLanguage'));
-
-      } else {
-        const browserLang = translate.getBrowserLang();
-        let lang = this.languages.includes(browserLang) ? browserLang : 'en';
-        translate.use(lang);
-        localStorage.setItem('setLanguage', lang);
-      }
-    });
-
-  }
-}
+export class AppModule { }
 

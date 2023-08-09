@@ -398,5 +398,10 @@
   "GET_OTP": "OTP प्राप्त करें",
   "ENTER_OTP": "OTP दर्ज करें",
   "GENDER": "लिंग",
-  "PASSWORD": "पासवर्ड"
+  "PASSWORD": "पासवर्ड",
+  "ISSUER": "जारीकर्ता",
+  "SELECT_GENDER": "लिंग का चयन करें",
+  "SELECT_ISSUER": "जारीकर्ता चुनें",
+  "PLEASE_ENTER": "कृपया {{value1}} दर्ज करें",
+  "PLEASE_ENTER_VALID": "कृपया वैध {{value1}} दर्ज करें"
 }

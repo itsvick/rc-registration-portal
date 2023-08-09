@@ -28,7 +28,7 @@ export class OnboardingComponent implements OnInit {
       }
     } catch (error) {
       console.log("error==>", error);
-      localStorage.clear();
+      // localStorage.clear();
       this.keycloakService.clearToken();
     }
   }
