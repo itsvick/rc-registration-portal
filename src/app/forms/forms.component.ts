@@ -540,7 +540,6 @@ export class FormsComponent implements OnInit {
 
 
   addWidget(fieldset, field, childrenName) {
-
     this.translate.get(this.langKey + '.' + field.name).subscribe(res => {
       let constr = this.langKey + '.' + field.name;
       if (res != constr) {
@@ -554,7 +553,7 @@ export class FormsComponent implements OnInit {
     else {
       this.res = this.responseData.definitions[fieldset.definition].properties[field.name];
 
-      if (this.res != undefined && !this.res.hasOwnProperty('properties')) {
+      if (this.res && !this.res.hasOwnProperty('properties')) {
         this.responseData.definitions[fieldset.definition].properties[field.name]['widget'] = {
           "formlyConfig": {
             "templateOptions": {
@@ -563,7 +562,6 @@ export class FormsComponent implements OnInit {
             "expressionProperties": {},
             "modelOptions": {}
           }
-
         }
 
         if (field.placeholder) {
@@ -586,14 +584,10 @@ export class FormsComponent implements OnInit {
 
         if (this.responseData.definitions[fieldset.definition].properties[field.name].hasOwnProperty('items')) {
           if (this.responseData.definitions[fieldset.definition].properties[field.name].items.hasOwnProperty('properties')) {
-            let _self = this;
-            Object.keys(_self.responseData.definitions[fieldset.definition].properties[field.name].items.properties).forEach(function (key) {
+            Object.keys(this.responseData.definitions[fieldset.definition].properties[field.name].items.properties).forEach((key) => {
               console.log(key);
-              _self.responseData.definitions[fieldset.definition].properties[field.name].items.properties[key].title = _self.checkString(key, _self.responseData.definitions[fieldset.definition].properties[field.name].items.properties[key].title);
-
-
+              this.responseData.definitions[fieldset.definition].properties[field.name].items.properties[key].title = this.checkString(key, this.responseData.definitions[fieldset.definition].properties[field.name].items.properties[key].title);
             });
-
           }
         }
 
@@ -1093,9 +1087,7 @@ export class FormsComponent implements OnInit {
           var temp = {};
           temp[property] = [this.propertyId];
           let propertyUniqueName = this.entityName.toLowerCase() + property.charAt(0).toUpperCase() + property.slice(1);
-
           propertyUniqueName = (this.entityName == 'student' || this.entityName == 'Student') ? 'studentInstituteAttest' : propertyUniqueName;
-
           let data = {
             "entityName": this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1),
             "entityId": this.entityId,
@@ -1107,7 +1099,6 @@ export class FormsComponent implements OnInit {
           }
           this.sentToAttestation(data);
         }
-
       });
     }, 1000);
 
@@ -1121,12 +1112,10 @@ export class FormsComponent implements OnInit {
       else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
         this.toastMsg.error('error', res.params.errmsg);
         this.isSubmitForm = false;
-
       }
     }, (err) => {
       this.toastMsg.error('error', err.error.params.errmsg);
       this.isSubmitForm = false;
-
     });
 
   }
@@ -1156,8 +1145,6 @@ export class FormsComponent implements OnInit {
     let entity = this.entityName.charAt(0).toUpperCase() + this.entityName.slice(1);
     this.generalService.getData(entity).subscribe((res) => {
       res = (res[0]) ? res[0] : res;
-
-
       let propertyUniqueName = this.entityName.toLowerCase() + this.propertyName.charAt(0).toUpperCase() + this.propertyName.slice(1);
       propertyUniqueName = (this.entityName == 'student' || this.entityName == 'Student') ? 'studentInstituteAttest' : propertyUniqueName;
 
@@ -1177,7 +1164,6 @@ export class FormsComponent implements OnInit {
 
         tempObj.sort((a, b) => (b.propertiesOSID.osUpdatedAt) - (a.osUpdatedAt));
         let claimId = tempObj[0]["_osClaimId"];
-
 
         if (claimId) {
           this.generalService.getData(entity + "/claims/" + claimId).subscribe((res) => {
@@ -1218,8 +1204,6 @@ export class FormsComponent implements OnInit {
     if (this.formSchema.isMultiSchema) {
       let myProperties = {};
       let apiCalls = [];
-
-
 
       this.formSchema.fieldsets.forEach(fieldSet => {
         console.log(fieldSet.definition);

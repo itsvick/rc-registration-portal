@@ -402,5 +402,10 @@
     "ENTER_VALID_AADHAAR_NUMBER": "Enter valid Aadhaar number",
     "ENTER_OTP": "Enter OTP",
     "GENDER": "Gender",
-    "PASSWORD": "Password"
+    "PASSWORD": "Password",
+    "ISSUER": "Issuer",
+    "SELECT_GENDER": "Select Gender",
+    "SELECT_ISSUER": "Select Issuer",
+    "PLEASE_ENTER": "Please enter {{value1}}",
+    "PLEASE_ENTER_VALID": "Please enter valid {{value1}}"
 }
