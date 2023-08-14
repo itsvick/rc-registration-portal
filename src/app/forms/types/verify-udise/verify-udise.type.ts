@@ -28,7 +28,8 @@ export class VerifyUdiseComponent extends FieldType {
     super();
   }
 
-  async verifyUDISE() {
+  async verifyUDISE(event: MouseEvent | KeyboardEvent, fieldKey: string) {
+    event.preventDefault();
     console.log('field', this.field);
     if (this.formControl.valid) {
       this.isLoading = true;

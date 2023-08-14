@@ -32,7 +32,8 @@ export class VerifyAadhaarComponent extends FieldType {
     super();
   }
 
-  async verifyAadhaar() {
+  async verifyAadhaar(event: MouseEvent | KeyboardEvent, fieldKey: string) {
+    event.preventDefault();
     console.log('field', this.field);
     if (this.formControl.valid) {
       this.isLoading = true;
@@ -75,5 +76,9 @@ export class VerifyAadhaarComponent extends FieldType {
 
   openOtpPopup() {
     this.verifyOtpModalRef = this.modalService.open(this.verifyOtpModal, { size: 'sm' });
+  }
+
+  closeOtpPopup() {
+    this.verifyOtpModalRef.close();
   }
 }
