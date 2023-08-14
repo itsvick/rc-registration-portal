@@ -1169,9 +1169,7 @@ textarea.jsoneditor-text {
 .ngx-toolbar {
     display: none !important;
 }
-.cursor-pointer {
-    cursor: pointer;
-}
+
 .jc-content-center {
     justify-content: center;
 }
@@ -1234,4 +1232,7 @@ textarea.jsoneditor-text {
 
 .btn-holder {
     background: #d66025 !important;
+}
+.btn {
+    cursor: pointer !important;
 }

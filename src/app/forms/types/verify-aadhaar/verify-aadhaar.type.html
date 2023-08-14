@@ -6,7 +6,7 @@
       [ngClass]="isNumberValid ? 'form-control' : 'form-control is-invalid'" required [placeholder]="to.placeholder" />
 
     <button class="btn btn-primary cursor-pointer ml-3 btn-holder" *ngIf="!isVerified"
-      (click)="verifyAadhaar(field.key)">{{'VERIFY' | translate}}</button>
+      (click)="verifyAadhaar($event, field.key)">{{'VERIFY' | translate}}</button>
 
     <span class="text-success verifyIcon fw-bold p-1" *ngIf="isVerified">
       <i class="fa fa-check-circle" aria-hidden="true"></i>

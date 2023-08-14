@@ -5,7 +5,7 @@
       [formControl]="formControl" [formlyAttributes]="field" pattern="[0-9]{11}"
       [ngClass]="isNumberValid ? 'form-control' : 'form-control is-invalid'" required [placeholder]="to.placeholder" />
 
-    <button class="btn btn-primary cursor-pointer ml-3 btn-holder" *ngIf="!isVerified" (click)="verifyUDISE(field.key)">{{'VERIFY' | translate}}</button>
+    <button class="btn btn-primary cursor-pointer ml-3 btn-holder" *ngIf="!isVerified" (click)="verifyUDISE($event, field.key)">{{'VERIFY' | translate}}</button>
     <span class="text-success verifyIcon fw-bold p-1" *ngIf="isVerified">
       <i class="fa fa-check-circle" aria-hidden="true"></i>
     </span>
