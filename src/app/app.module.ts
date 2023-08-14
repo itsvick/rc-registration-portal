@@ -111,6 +111,9 @@ import { KeysPipe } from './utility/pipes/keys.pipe';
 import { DatepickerTypeComponent } from './forms/types/datepicker-type.component';
 import { SelectWrapper } from './forms/types/select-wrapper.type';
 import { configurationFactory } from './configuration.factory';
+import { TemplateTypeComponent } from './forms/types/template.type';
+import { VerifyUdiseComponent } from './forms/types/verify-udise/verify-udise.type';
+import { VerifyAadhaarComponent } from './forms/types/verify-aadhaar/verify-aadhaar.type';
 
 @NgModule({
   declarations: [
@@ -165,7 +168,10 @@ import { configurationFactory } from './configuration.factory';
     KeysPipe,
     AadhaarKycComponent,
     DatepickerTypeComponent,
-    SelectWrapper
+    SelectWrapper,
+    TemplateTypeComponent,
+    VerifyUdiseComponent,
+    VerifyAadhaarComponent
   ],
   imports: [
     BrowserModule,

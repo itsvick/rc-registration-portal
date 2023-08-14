@@ -1184,6 +1184,56 @@
                         "definition": "Instructor",
                         "fields": [
                             {
+                                "name": "udiseId",
+                                "custom": true,
+                                "key": "udiseId",
+                                "hideFieldFromSubmit": true,
+                                "type": "verify-mobile",
+                                "element": {
+                                    "title": "UDISE_ID",
+                                    "fieldGroupClassName": "row",
+                                    "widget": {
+                                        "formlyConfig": {
+                                            "type": "verify-mobile",
+                                            "className": "",
+                                            "validation": {
+                                                "pattern": "^[0-9]{11}$",
+                                                "message": "INVALID_UDISE_ID"
+                                            },
+                                            "templateOptions": {
+                                                "placeholder": "ENTER_UDISE_ID",
+                                                "UDISEDetailsAPI": "https://ulp.uniteframework.io/ulp-bff/v1/school/verify"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            {
+                                "name": "aadhaarNumber",
+                                "custom": true,
+                                "key": "aadhaarNumber",
+                                "type": "verify-aadhaar",
+                                "hideFieldFromSubmit": true,
+                                "element": {
+                                    "title": "AADHAR_NUMBER",
+                                    "fieldGroupClassName": "row",
+                                    "widget": {
+                                        "formlyConfig": {
+                                            "type": "verify-aadhaar",
+                                            "className": "",
+                                            "validation": {
+                                                "pattern": "^[0-9]{11}$",
+                                                "message": "ENTER_VALID_AADHAR_NUMBER"
+                                            },
+                                            "templateOptions": {
+                                                "placeholder": "xxxx-xxxx-xxxx",
+                                                "AadhaarVerifyAPI": "https://devulp.uniteframework.io/ulp-bff/v1/sso/aadhaar/ekyc"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            {
                                 "name": "name",
                                 "required": true
                             },
@@ -1271,26 +1321,28 @@
                             },
                             {
                                 "name": "school_name",
-                                "required": true
+                                "required": true,
+                                "disabled": true
                             },
                             {
                                 "name": "school_id",
-                                "required": true
+                                "required": true,
+                                "disabled": true
                             },
                             {
                                 "name": "username",
                                 "required": true
                             },
                             {
-                                "name": "password",
-                                "custom": true,
+                                "name": "kyc_aadhaar_token",
                                 "required": true,
+                                "custom": true,
                                 "element": {
-                                    "title": "PASSWORD",
-                                    "type": "password",
                                     "widget": {
                                         "formlyConfig": {
-                                            "className": "fw-bold p16"
+                                            "templateOptions": {
+                                                "hide": true
+                                            }
                                         }
                                     }
                                 }

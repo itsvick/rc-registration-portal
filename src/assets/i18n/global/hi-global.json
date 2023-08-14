@@ -403,5 +403,10 @@
   "SELECT_GENDER": "लिंग का चयन करें",
   "SELECT_ISSUER": "जारीकर्ता चुनें",
   "PLEASE_ENTER": "कृपया {{value1}} दर्ज करें",
-  "PLEASE_ENTER_VALID": "कृपया वैध {{value1}} दर्ज करें"
+  "PLEASE_ENTER_VALID": "कृपया वैध {{value1}} दर्ज करें",
+  "CONFIRM_OTP": "OTP की पुष्टि करें",
+  "CONFIRM": "पुष्टि करें",
+  "ENTER_OTP_MSG": "कृपया अपने मोबाइल नंबर पर प्राप्त OTP दर्ज करें",
+  "OTP_REQUIRED": "OTP आवश्यक है",
+  "UNABLE_TO_FETCH_DETAILS": "विवरण लाने में त्रुटि"
 }

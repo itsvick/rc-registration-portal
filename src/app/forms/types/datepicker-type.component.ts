@@ -6,7 +6,7 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
   selector: 'app-datepicker',
   template: `
   <div class="form-group">
-    <label *ngIf="to.label"> {{ to.label | translate}} </label>
+    <label *ngIf="to.label"> {{ to.label | translate}} <span class="">*</span></label>
     <input type="text" class="form-control calendar" placement="bottom" bsDatepicker [formlyAttributes]="field"
       #datePicker [bsConfig]="bsConfig" [placeholder]="to.placeholder" (bsValueChange)="onValueChange($event)"
        [formControl]="formControl"/>
