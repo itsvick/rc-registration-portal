@@ -1,0 +1,51 @@
+<div class="form-group">
+  <label class=" p12">{{ to.label }} <span class="">*</span></label>
+  <div class="d-flex">
+    <input oninput="if (/[^0-9]/g.test(value)) value = value.replace(/[^0-9]/g,'')" [id]="field.key"
+      [formControl]="formControl" [formlyAttributes]="field" pattern="[0-9]{12}"
+      [ngClass]="isNumberValid ? 'form-control' : 'form-control is-invalid'" required [placeholder]="to.placeholder" />
+
+    <button class="btn btn-primary cursor-pointer ml-3 btn-holder" *ngIf="!isVerified"
+      (click)="verifyAadhaar(field.key)">{{'VERIFY' | translate}}</button>
+
+    <span class="text-success verifyIcon fw-bold p-1" *ngIf="isVerified">
+      <i class="fa fa-check-circle" aria-hidden="true"></i>
+    </span>
+  </div>
+
+  <div class="invalid-feedback d-block " role="alert" *ngIf="showError && formControl.errors">
+    <formly-validation-message [field]="field"></formly-validation-message>
+  </div>
+
+  <ng-template #verifyOtpModal tabindex="-1" role="dialog" aria-labelledby="verifyOtpModal">
+    <div class="modal-content animate-bottom">
+      <div class="modal-header">
+        <h5 class="modal-title">{{'CONFIRM_OTP' | translate}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="closeOtpPopup()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="p14"> {{'ENTER_OTP_MSG' | translate}}</p>
+        <label class="fw-bold p12"> {{'ENTER_OTP' | translate}}</label>
+        <input maxlength="6" type="input" [(ngModel)]="otp" name="otp" class="form-control"
+          oninput="value = value.replace(/[^0-9]/g, '').substring(0, 6)" #otpModel="ngModel" required />
+        <span class="text-danger" *ngIf="otpModel.touched && otpModel.errors?.required">
+          {{'OTP_REQUIRED' | translate}}
+        </span>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="closeOtpPopup()">{{'Cancel' | translate}}</button>
+        <button type="button" class="btn btn-primary" [disabled]="!otp" (click)="submitOtp()">{{'CONFIRM' | translate}}</button>
+      </div>
+    </div>
+  </ng-template>
+</div>
+
+
+<div class="text-center" *ngIf="isLoading">
+  <div class="center-loading">
+    <div class="spinner-border">
+    </div>
+  </div>
+</div>

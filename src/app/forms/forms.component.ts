@@ -36,7 +36,7 @@ export class FormsComponent implements OnInit {
   required = [];
   entityId: string;
   form2: FormGroup;
-  model = {};
+  model: any = {};
   options: FormlyFormOptions;
   fields: FormlyFieldConfig[];
   header = null;
@@ -66,6 +66,7 @@ export class FormsComponent implements OnInit {
   properties = {};
   queryParams: any;
   isBFF: boolean = false;
+  hideFieldFromSubmit = [];
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -441,6 +442,10 @@ export class FormsComponent implements OnInit {
           if (this.property[field.name].description) {
             delete this.property[field.name].description;
           }
+        }
+
+        if(field.hideFieldFromSubmit) {
+          this.hideFieldFromSubmit.push(field.name);
         }
       });
     } else {
@@ -867,6 +872,17 @@ export class FormsComponent implements OnInit {
 
   submit() {
     this.isSubmitForm = true;
+    console.log("model", this.model);
+
+    if (this.hideFieldFromSubmit.length) {
+      this.hideFieldFromSubmit.forEach(item => {
+        if(this.model.hasOwnProperty(item)) {
+          delete this.model[item];
+        }
+      });
+    }
+
+    console.log("model", this.model);
     if (this.fileFields.length > 0) {
       this.fileFields.forEach(fileField => {
         if (this.model[fileField]) {

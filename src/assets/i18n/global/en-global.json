@@ -407,5 +407,10 @@
     "SELECT_GENDER": "Select Gender",
     "SELECT_ISSUER": "Select Issuer",
     "PLEASE_ENTER": "Please enter {{value1}}",
-    "PLEASE_ENTER_VALID": "Please enter valid {{value1}}"
+    "PLEASE_ENTER_VALID": "Please enter valid {{value1}}",
+    "CONFIRM_OTP": "Confirm OTP",
+    "CONFIRM": "Confirm",
+    "ENTER_OTP_MSG":"Please enter the OTP received on your mobile number",
+    "OTP_REQUIRED": "OTP is required",
+    "UNABLE_TO_FETCH_DETAILS": "Unable to fetch Details"
 }

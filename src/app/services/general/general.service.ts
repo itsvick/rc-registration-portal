@@ -16,11 +16,11 @@ export class GeneralService {
   bffUrl = this.config.getEnv('bffBaseUrl');
   translatedString: string;
   constructor(
-    public dataService: DataService, 
-    private http: HttpClient, 
-    private config: AppConfig, 
+    public dataService: DataService,
+    private http: HttpClient,
+    private config: AppConfig,
     public translate: TranslateService,
-    ) {
+  ) {
   }
 
   postData(apiUrl, data, isBFF = false) {
@@ -115,9 +115,9 @@ export class GeneralService {
     return this.dataService.put(req);
   }
 
-  translateString(constantStr){
-    this.translate.get(constantStr).subscribe((val)=>{
-       this.translatedString = val;
+  translateString(constantStr) {
+    this.translate.get(constantStr).subscribe((val) => {
+      this.translatedString = val;
     });
     return this.translatedString;
   }
@@ -132,28 +132,120 @@ export class GeneralService {
   }
 
 
-  openPDF(url){
+  openPDF(url) {
     url = `${this.baseUrl}` + '/' + `${url}`;
 
     let requestOptions = { responseType: 'blob' as 'blob' };
     // post or get depending on your requirement
     this.http.get(url, requestOptions).pipe(map((data: any) => {
 
-        let blob = new Blob([data], {
-            type: 'application/pdf' // must match the Accept type
-            // type: 'application/octet-stream' // for excel 
-        });
-        var link = document.createElement('a');
-        link.href = window.URL.createObjectURL(blob);
+      let blob = new Blob([data], {
+        type: 'application/pdf' // must match the Accept type
+        // type: 'application/octet-stream' // for excel 
+      });
+      var link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
 
-        window.open(link.href, '_blank')
-       // link.download =  'temp.pdf';
-       // link.click();
-       // window.URL.revokeObjectURL(link.href);
+      window.open(link.href, '_blank')
+      // link.download =  'temp.pdf';
+      // link.click();
+      // window.URL.revokeObjectURL(link.href);
 
     })).subscribe((result: any) => {
     });
   }
-  
+
+  clearEmptyObjects(o) {
+    for (let k in o) {
+      if (!o[k] || typeof o[k] !== "object") {
+        continue // If null or not an object, skip to the next iteration
+      }
+
+      // The property is an object
+      if (Object.keys(o[k]).length === 0) {
+        delete o[k]; // The object had no properties, so delete that property
+      }
+    }
+    return o;
+  }
+
+  createPath(obj, path, value = null) {
+    path = typeof path === 'string' ? path.split('.') : path;
+    let current = obj;
+    while (path.length > 1) {
+      const [head, ...tail] = path;
+      path = tail;
+      if (current[head] === undefined) {
+        current[head] = {};
+      }
+      current = current[head];
+    }
+    current[path[0]] = value;
+    return obj;
+  };
+
+  setPathValue(obj, path, value) {
+    let keys;
+    if (typeof path === 'string') {
+      keys = path.split(".");
+    }
+    else {
+      keys = path;
+    }
+    const propertyName = keys.pop();
+    let propertyParent = obj;
+    while (keys.length > 0) {
+      const key = keys.shift();
+      if (!(key in propertyParent)) {
+        propertyParent[key] = {};
+      }
+      propertyParent = propertyParent[key];
+    }
+    propertyParent[propertyName] = value;
+    return obj;
+  }
+
+  findPath(obj, value, path) {
+    if (typeof obj !== 'object') {
+      return false;
+    }
+    for (let key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        let t = path;
+        let v = obj[key];
+        let newPath = path ? path.slice() : [];
+        newPath.push(key);
+        if (v === value) {
+          return newPath;
+        } else if (typeof v !== 'object') {
+          newPath = t;
+        }
+        let res = this.findPath(v, value, newPath);
+        if (res) {
+          return res;
+        }
+      }
+    }
+    return false;
+  }
+
+
+  ObjectbyString(o, s) {
+    s = s.replace(/\[(\w+)\]/g, '.$1');
+    s = s.replace(/^\./, '');
+    let a = s.split('.');
+    for (let i = 0, n = a.length; i < n; ++i) {
+      let k = a[i];
+      if (k in o) {
+        o = o[k];
+      } else {
+        return;
+      }
+    }
+    return o;
+  };
+
+
+
 }
 

@@ -12,6 +12,9 @@ import { FormlyFieldNgSelect } from "./forms/types/multiselect.type";
 import { DatepickerTypeComponent } from "./forms/types/datepicker-type.component";
 import { FormlyColorInput } from "./forms/types/color.type";
 import { SelectWrapper } from "./forms/types/select-wrapper.type";
+import { TemplateTypeComponent } from "./forms/types/template.type";
+import { VerifyUdiseComponent } from "./forms/types/verify-udise/verify-udise.type";
+import { VerifyAadhaarComponent } from "./forms/types/verify-aadhaar/verify-aadhaar.type";
 
 
 //form validations
@@ -123,5 +126,8 @@ export const formlyTypeConfig = {
       component: DatepickerTypeComponent
     },
     { name: 'color', component: FormlyColorInput },
+    { name: 'template', component: TemplateTypeComponent },
+    { name: 'verify-mobile', component: VerifyUdiseComponent },
+    { name: 'verify-aadhaar', component: VerifyAadhaarComponent }
   ],
 };
