@@ -408,5 +408,6 @@
   "CONFIRM": "पुष्टि करें",
   "ENTER_OTP_MSG": "कृपया अपने मोबाइल नंबर पर प्राप्त OTP दर्ज करें",
   "OTP_REQUIRED": "OTP आवश्यक है",
-  "UNABLE_TO_FETCH_DETAILS": "विवरण लाने में त्रुटि"
+  "UNABLE_TO_FETCH_DETAILS": "विवरण लाने में त्रुटि",
+  "UNABLE_TO_FETCH_PHONE_NUMBER_FROM_MERI_PEHCHAAN": "मेरी-पहचान से फ़ोन नंबर लाने में असमर्थ"
 }

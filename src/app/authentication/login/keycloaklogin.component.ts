@@ -11,6 +11,7 @@ import { DataService } from 'src/app/services/data/data-request.service';
 import { map } from 'rxjs/operators';
 import * as dayjs from 'dayjs';
 import * as customParseFormat from 'dayjs/plugin/customParseFormat';
+import { ToastMessageService } from 'src/app/services/toast-message/toast-message.service';
 
 dayjs.extend(customParseFormat);
 @Component({
@@ -31,7 +32,8 @@ export class KeycloakloginComponent implements OnInit {
     private readonly config: AppConfig,
     private readonly generalService: GeneralService,
     private readonly dataService: DataService,
-    private readonly authConfigService: AuthConfigService
+    private readonly authConfigService: AuthConfigService,
+    private readonly toastMessage: ToastMessageService
   ) { }
 
   async ngOnInit() {
@@ -59,6 +61,12 @@ export class KeycloakloginComponent implements OnInit {
           name: accountRes.attributes.name[0],
           dob: accountRes.attributes.dob[0],
           gender: accountRes.attributes.gender[0]
+        }
+
+        if (!accountRes?.attributes?.phone_number) {
+          this.toastMessage.error('', this.generalService.translateString('UNABLE_TO_FETCH_PHONE_NUMBER_FROM_MERI_PEHCHAAN'));
+          this.router.navigate(['/logout']);
+          return;
         }
       }
 
@@ -101,6 +109,7 @@ export class KeycloakloginComponent implements OnInit {
                 name: accountRes.attributes.name[0],
                 dob,
                 gender: accountRes.attributes.gender[0],
+                username: accountRes.attributes.phone_number[0]
               }
             })
           } else {

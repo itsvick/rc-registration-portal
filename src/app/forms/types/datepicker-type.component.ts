@@ -24,7 +24,7 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 export class DatepickerTypeComponent extends FieldType implements OnInit {
   bsConfig: Partial<BsDatepickerConfig>;
   get theme(): string { return this.to.theme || 'theme-dark-blue'; }
-  get dateInputFormat(): string { return this.to.dateInputFormat || 'MM/DD/YYYY'; }
+  get dateInputFormat(): string { return this.to.dateInputFormat || 'DD/MM/YYYY'; }
 
   ngOnInit(): void {
     this.bsConfig = {

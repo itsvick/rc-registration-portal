@@ -58,6 +58,7 @@ export class FormsComponent implements OnInit {
   headingTitle: string;
   titleVal: string;
   isSignupForm: boolean = false;
+  isPrefilledDataEditable: boolean = true;
   entityUrl: any;
   propertyId: any;
   entityName: string;
@@ -120,6 +121,10 @@ export class FormsComponent implements OnInit {
 
       if (this.formSchema.isSignupForm) {
         this.isSignupForm = this.formSchema.isSignupForm;
+      }
+
+      if (this.formSchema.isPrefilledDataEditable) {
+        this.isPrefilledDataEditable = this.formSchema.isPrefilledDataEditable === "true";
       }
 
       if (this.formSchema.title) {
@@ -253,6 +258,15 @@ export class FormsComponent implements OnInit {
 
     if (this.queryParams) {
       this.model = { ...this.model, ...this.queryParams };
+
+      if (!this.isPrefilledDataEditable) {
+        const fieldsToDisable = Object.keys(this.queryParams)
+        this.fields[0].fieldGroup.forEach((item: any) => {
+          if (fieldsToDisable.includes(item.key)) {
+            item.templateOptions.disabled = true;
+          }
+        })
+      }
     }
 
     this.schemaloaded = true;
