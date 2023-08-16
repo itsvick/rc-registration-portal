@@ -1179,6 +1179,7 @@
                 "title": "REGISTER",
                 "isSignupForm": "true",
                 "langKey": "teacherStudent",
+                "isPrefilledDataEditable": "false",
                 "fieldsets": [
                     {
                         "definition": "Instructor",

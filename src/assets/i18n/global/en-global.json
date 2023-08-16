@@ -410,7 +410,8 @@
     "PLEASE_ENTER_VALID": "Please enter valid {{value1}}",
     "CONFIRM_OTP": "Confirm OTP",
     "CONFIRM": "Confirm",
-    "ENTER_OTP_MSG":"Please enter the OTP received on your mobile number",
+    "ENTER_OTP_MSG": "Please enter the OTP received on your mobile number",
     "OTP_REQUIRED": "OTP is required",
-    "UNABLE_TO_FETCH_DETAILS": "Unable to fetch Details"
+    "UNABLE_TO_FETCH_DETAILS": "Unable to fetch Details",
+    "UNABLE_TO_FETCH_PHONE_NUMBER_FROM_MERI_PEHCHAAN": "Unable to fetch phone number from Meri-pehchaan"
 }
