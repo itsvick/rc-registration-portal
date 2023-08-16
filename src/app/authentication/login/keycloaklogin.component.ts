@@ -64,7 +64,7 @@ export class KeycloakloginComponent implements OnInit {
         }
 
         if (!accountRes?.attributes?.phone_number) {
-          this.toastMessage.error('', 'Unable to fetch phone number from Meri-pehchaan');
+          this.toastMessage.error('', this.generalService.translateString('UNABLE_TO_FETCH_PHONE_NUMBER_FROM_MERI_PEHCHAAN'));
           this.router.navigate(['/logout']);
           return;
         }
