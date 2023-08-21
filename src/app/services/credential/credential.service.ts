@@ -70,21 +70,42 @@ export class CredentialService {
   getAllCredentials(endPoint: string = 'all', issuer?: string): Observable<any> {
     return this.getCredentials(issuer).pipe(
       switchMap((credentials: any) => {
-        return from(credentials).pipe(
-          concatMap((cred: any) => {
-            return this.getCredentialSchemaId(cred.id).pipe(
-              concatMap((res: any) => {
-                cred.schemaId = res.credential_schema;
-                return this.getSchema(res.credential_schema).pipe(
-                  map((schema: any) => {
-                    cred.credential_schema = schema;
-                    return cred;
-                  })
-                );
+        if (credentials.length) {
+          return forkJoin(
+            credentials.map((cred: any) => {
+              return this.getCredentialSchemaId(cred.id).pipe(
+                concatMap((res: any) => {
+                  cred.schemaId = res.credential_schema;
+                  return of(cred);
+                })
+              );
+            })
+          );
+        }
+        return of([]);
+      }), switchMap((res: any) => {
+        console.log("res", res);
+        const schemaIds = [...new Set(res.map((item: any) => item.schemaId))];
+        return from(schemaIds).pipe(
+          switchMap((schemaId: any) => {
+            return this.getSchema(schemaId);
+          }), switchMap((schema: any) => {
+            return of(res);
+          })
+        );
+      }),
+      switchMap((creds: any) => {
+        if (creds.length) {
+          return forkJoin(creds.map((cred: any) => {
+            return this.getSchema(cred.schemaId).pipe(
+              map((schema: any) => {
+                cred.credential_schema = { ...schema };
+                return cred;
               })
             );
-          }), toArray()
-        )
+          }))
+        }
+        return of([]);
       })
     );
   }

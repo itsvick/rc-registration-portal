@@ -10,20 +10,20 @@
         </div>
     </div>
 
-    <ng-container *ngIf="extension === 'pdf'">
-        <div class="text-center img-mb pt-4">
-            <ngx-extended-pdf-viewer [showToolbar]="false" [showBorders]="false"
-                [src]="docUrl"></ngx-extended-pdf-viewer>
-        </div>
-    </ng-container>
+    <div class="text-center img-mb pt-4" *ngIf="extension === 'pdf'">
+        <ngx-extended-pdf-viewer [showToolbar]="false" [showBorders]="false" [src]="docUrl"></ngx-extended-pdf-viewer>
+    </div>
+
+    <div *ngIf="credentialHTML && extension === 'html'" id="content-to-download" [innerHTML]="credentialHTML"></div>
+
     <div class="mt-2 mb-5">
-        <div class="d-flex text-center cursor-pointer justify-content-center" *ngIf="docUrl">
+        <div class="d-flex text-center cursor-pointer justify-content-center" *ngIf="extension">
             <div class="p-2" *ngIf="canShareFile">
                 <img src="assets/images/share.svg" (click)="shareFile()" title="{{ 'SHARE' | translate }}">
                 <div>{{ 'SHARE' | translate }}</div>
             </div>
             <div class="p-2">
-                <img src="assets/images/download.svg" (click)="downloadCertificate(docUrl)"
+                <img src="assets/images/download.svg" (click)="downloadCertificate()"
                     title="{{ 'DOWNLOAD' | translate }}">
                 <div>{{ 'DOWNLOAD' | translate }}</div>
             </div>
