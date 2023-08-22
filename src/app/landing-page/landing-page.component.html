@@ -1,0 +1,16 @@
+<div id="sect1" class="container">
+  <div>
+    <h1 class="text-center page-title">
+      <!-- <span class="text-yellow">AVSAR </span> -->
+      <span class="text-blue text-thin-underline">ULP Issuance Portal</span>
+    </h1>
+    <div class="pb-5 pt-3 text-center text-underline">{{'SELECT_YOUR_DEPARTMENT' | translate }} </div>
+    <div class="card-cover">
+      <div class="card-bx" [ngClass]="{'cursor-pointer': department?.id}" *ngFor="let department of departments"
+        (click)="navigateToOnboarding(department.id)">
+        <img [src]="department?.img" alt="" class="img-fluid" [class]="department.class"
+          title="{{ department.id ? department.name : 'COMING_SOON' | translate }}">
+      </div>
+    </div>
+  </div>
+</div>

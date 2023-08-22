@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { ToastMessageService } from 'src/app/services/toast-message/toast-message.service';
+import { UtilService } from 'src/app/services/util/util.service';
 
 @Component({
   selector: 'app-aadhaar-kyc',
@@ -10,75 +12,60 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./aadhaar-kyc.component.scss']
 })
 export class AadhaarKycComponent implements OnInit {
-  showForm = false;
   isGetOTPClicked = false
-  showKYCStatus = false;
   isAadhaarVerified: boolean;
-  state: any;
-  headerName = 'plain';
 
   aadhaarFormControl = new FormControl('', [Validators.required]);
   otpFormControl = new FormControl('', [Validators.required, Validators.pattern('^[0-9]{4}$')]);
 
-  statusModalRef: NgbModalRef;
-  @ViewChild("statusModal") statusModal: ElementRef;
+  successModalRef: NgbModalRef;
+  @ViewChild("successModal") successModal: ElementRef;
 
   constructor(
     private readonly authService: AuthService,
     private readonly router: Router,
+    private readonly toastMessage: ToastMessageService,
+    private readonly utilService: UtilService,
     private readonly modalService: NgbModal
   ) {
-    const navigation = this.router.getCurrentNavigation();
-    this.state = { ...navigation.extras.state };
-
-    if (!Object.keys(this.state).length) {
-      if (this.authService.isLoggedIn) {
-        this.router.navigate(['/dashboard']);
-      } else {
-        this.router.navigate(['/login']);
-      }
+    if (this.authService!.isLoggedIn) {
+      this.router.navigate(['/login']);
     }
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void { }
 
   getOTP() {
     this.isGetOTPClicked = true;
   }
 
-  closeModal() {
-    this.statusModalRef.close();
-  }
-
   submitOTP() {
     const payload = {
-      "aadhaar_id": this.aadhaarFormControl.value.toString(),
-      "aadhaar_name": this.state.name,
-      "aadhaar_gender": this.state.gender,
-      "aadhaar_dob": this.state.dob
+      aadhaar_id: this.aadhaarFormControl.value.toString(),
+      // aadhaar_name: this.authService.currentUser.name,
+      // aadhaar_gender: this.authService.currentUser.gender,
+      // aadhaar_dob: this.authService.currentUser.dob
     }
     this.authService.aadhaarKYC(payload).subscribe((res: any) => {
-      this.showKYCStatus = true;
       this.isAadhaarVerified = true;
-      this.statusModalRef = this.modalService.open(this.statusModal);
+      // this.toastMessage.success('', this.utilService.translateString('SUCCESSFULLY_REGISTERED'));
+      this.successModalRef = this.modalService.open(this.successModal, {
+        animation: true,
+        centered: true,
+        size: 'sm'
+        // windowClass: 'box-shadow-bottom'
+      });
+      this.successModalRef.dismissed.subscribe(() => {
+        if (!this.authService.currentUser?.school_id || !this.authService.currentUser?.school_name) {
+          this.router.navigate(['/verify-udise']);
+        } else {
+          this.router.navigate(['/dashboard']);
+        }
+      });
+
     }, (error) => {
-      this.showKYCStatus = true;
+      this.toastMessage.success('', this.utilService.translateString('UNABLE_TO_VERIFY_YOUR_AADHAAR'));
       this.isAadhaarVerified = false;
     });
-  }
-
-  startKYC() {
-    this.showForm = true;
-  }
-
-  gotoDashboard() {
-    this.statusModalRef.dismiss();
-    this.router.navigate(['/dashboard']);
-  }
-
-  onRetry() {
-    this.showKYCStatus = false;
-    this.statusModalRef.dismiss();
   }
 }

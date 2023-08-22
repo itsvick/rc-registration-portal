@@ -1,3 +1,13 @@
+.form-card {
+  width: 380px;
+  margin: 0 auto;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  background-color: var(--cardBackground) !important;
+  box-shadow: 0 10px 2px -1px var(--primaryColor);
+  border-bottom-left-radius: 14px !important;
+  border-bottom-right-radius: 14px !important;
+  border-radius: 8px;
+}
 .text-black-grey {
   color: #585858 !important;
 }
@@ -69,15 +79,4 @@ input[type="password"]:focus {
   font-size: 13px;
   top: 0;
   color: #4a454e;
-}
-
-.form-card {
-  width: 380px;
-  margin: 0 auto;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  background-color: var(--cardBackground) !important;
-  box-shadow: 0 10px 2px -1px var(--primaryColor);
-  border-bottom-left-radius: 14px !important;
-  border-bottom-right-radius: 14px !important;
-  border-radius: 8px;
 }

@@ -1,13 +1,13 @@
 <div class="sidebar">
   <section class='sidebarContainer'>
-    <div *ngFor="let item of menuList" class="menu mb-4 s-3" [routerLink]="[item?.redirectTo]" routerLinkActive="active"
+    <div *ngFor="let item of menuList" class="menu mb-2 s-3" [routerLink]="[item?.redirectTo]" routerLinkActive="active"
       [routerLinkActiveOptions]="{exact:true}" (click)="raiseInteractEvent(item?.id)">
       <i [class]="item?.className"></i>
       <div class="title">{{item?.title | translate}}</div>
     </div>
-    <!-- <div class="menu bottom-fixed" (click)="logout()">
-      <i class="fa fa-power-off fs-22 text-primary-color"></i>
-      <div class="title">{{'LOGOUT' | translate }}</div>
-    </div> -->
+    <div class="menu bottom-fixed bottom-btn" (click)="logout()">
+      <i class="fa fa-power-off fs-22 text-light"></i>
+      <div class="text-light font-weight-bold">{{'LOGOUT' | translate }}</div>
+    </div>
   </section>
 </div>

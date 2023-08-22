@@ -22,7 +22,7 @@
     "appType": "attestation",
     "default_theme": {
         "logoPath": "/assets/images/logo.png",
-        "primaryColor": "#050c44",
+        "primaryColor": "#0D6EFD",
         "secondaryColor": "#1987B6",
         "bodyBackground": "#F6F8FC",
         "cardBackground": "#FFFFFF",

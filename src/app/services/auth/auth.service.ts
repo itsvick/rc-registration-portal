@@ -79,7 +79,7 @@ export class AuthService {
   }
 
   get isLoggedIn(): boolean {
-    let authToken = localStorage.getItem('accessToken');
+    let authToken = localStorage.getItem('token');
     return authToken !== null ? true : false;
   }
 
@@ -164,6 +164,17 @@ export class AuthService {
   verifyAadhar(aadharId: number | string) {
     const api = `${this.baseUrl}/v1/aadhaar/verify`;
     return this.http.post(api, { aadhaar_id: aadharId });
+  }
+
+  getUDISEDetails(payload: any): Observable<any> {
+    // const api = `${this.baseUrl}/v1/school/verify`;
+    const api = "https://produlp.uniteframework.io/ulp-bff/v1/school/verify";
+    return this.http.post(api, payload).pipe(map((res: any) => res?.response?.data));
+  }
+
+  linkUDISE(payload: any) {
+    const api = `${this.authConfigService.config.bulkIssuance}/bulk/v1/instructor/udise`;
+    return this.http.post(api, payload);
   }
 
   verifyAccountAadharLink(payload: any) {

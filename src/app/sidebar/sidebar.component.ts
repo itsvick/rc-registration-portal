@@ -31,7 +31,10 @@ export class SidebarComponent implements OnInit {
       });
       this.menuList = filtered[0][this.sidebarFor];
     });
+  }
 
+  logout() {
+    this.router.navigate(['/logout']);
   }
 
   raiseInteractEvent(id: string, type: string = 'CLICK', subtype?: string) {

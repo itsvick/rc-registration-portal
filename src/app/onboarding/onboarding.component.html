@@ -1,130 +1,48 @@
-<div id="sect1">
-  <div class="mx-2">
-    <div class="row">
-      <div class="col-md-6 col-sm-12">
-        <div class="mt-3 pb-2 flex-center">
-          <div class="d-flex mx-3 mt-3">
-            <img src="assets/images/headerlogo.png" class="img-fluid" alt="...">
-            <div>
-              <h5 class="card-title fs-14 font-600">
-                <span class="text-gray-0 fs-12">DEPARTMENT OF</span> <br>
-                <span class="fs-16"> Basic Education</span><br>
-                <span class="text-orange fs-10">GOVERNMENT OF UTTAR PRADESH</span>
-              </h5>
-            </div>
-          </div>
-        </div>
-        <div>
-          <h1 class="text-center page-title">
-            <span class="text-yellow">ULP </span>
-            <span class="text-blue">Registration Portal</span>
-          </h1>
-          <hr class="horizontal-line1" />
-
-          <!-- <ul class="bullet-point">
-              <li *ngFor="let item of featureList">
-                <span class="check-icon">
-                  <img src="assets/icons/checkmark.svg" [alt]="item" /> </span>{{item}}
-              </li>
-            </ul> -->
-          <div class="pt-3 text-grey1 fs-24 text-center"> {{'SELECT_USER_TYPE' | translate }} </div>
-          <div class="text-center mt-3 pt-3 d-flex jc-content-center">
-            <div class="square ht-199 pt-4 pb-2 mr-5" routerLink="/login" (click)="setEntity('Instructor')"><img
-                src="assets/images/profile.png" alt="" class="cursor-pointer">
-              <div class="py-2 text-blk pt-4 fs-16 font-600"> {{'PRINCIPAL' | translate }}</div>
-              <div class="flex-center">
-                <div class="icon-hol mt-2 flex-center">
-                  <i class="fa-solid fa-arrow-right text-white"></i>
-                </div>
-              </div>
-            </div>
-            <div class="square ht-199 pb-2 pt-4" routerLink="/login" (click)="setEntity('Instructor')"><img
-                src="assets/images/beo.png" alt="" class="cursor-pointer">
-              <div class="py-2 text-blk pt-3 fs-16 font-600">{{'BLOCK_EDUCATIONAL_OFFICER' | translate }}</div>
-              <div class="flex-center">
-                <div class="icon-hol mt-2 flex-center">
-                  <i class="fa-solid fa-arrow-right text-white"></i>
-                </div>
-              </div>
-            </div>
-            <!-- <button type="button" class="custom-button blue-button mt-20 pr-80 mr-5"  >{{'REGISTER' | translate}}</button>
-              <button type="button" class="custom-button blue-button mt-20 pr-90" >Login with SSO</button> -->
-          </div>
-          <div class="text-center mt-4">
-            <!-- <button class="btn btn-primary" [routerLink]="['/form/instructor-signup']">Register</button> -->
-            <a [routerLink]="['/form/instructor-signup']">Not registered! Register here</a>
-          </div>
-        </div>
+<div class="background">
+  <div class="mx-2 overlay">
+    <div class="">
+      <div class="mt-4 pb-2 flex-center">
+        <img src="assets/images/header.svg" height="60" alt="header">
       </div>
-      <div class="col-md-6 col-sm-12 bg-dark-blue pt-5 pb-5">
-        <div class="container flex-center">
-          <div class="w-100 px-3 mx-3">
-            <ul class="nav nav-tabs process-model more-icon-preocess" role="tablist">
-              <li role="presentation" class="active"><a href="#discover" aria-controls="discover" role="tab"
-                  data-toggle="tab">
-                  <div class="orange-border">
-                    <div class="white-box">
-                      <div class="i" aria-hidden="true"> 1</div>
-                    </div>
-                  </div>
-                </a>
-                <div class="text-white fs-16 mt-2 min-w-100"> {{'SELECT_USER' | translate }}</div>
-              </li>
-              <li role="presentation"><a href="#strategy" aria-controls="strategy" role="tab" data-toggle="tab">
-                  <div class="orange-border">
-                    <div class="white-box">
-                      <div class="i" aria-hidden="true"> 2</div>
-                    </div>
-                  </div>
-                </a>
-                <div class="text-white fs-16 mt-2 min-w-100">{{'LOGIN_SIGNUP' | translate }}</div>
-              </li>
-              <li role="presentation"><a href="#optimization" aria-controls="optimization" role="tab" data-toggle="tab">
-                  <div class="orange-border">
-                    <div class="white-box">
-                      <div class="i" aria-hidden="true"> 3</div>
-                    </div>
-                  </div>
-                </a>
-                <div class="text-white fs-16 mt-2 min-w-100"> {{'REGISTRATION_FORM' | translate }}</div>
-              </li>
-            </ul>
-            <!-- end design process steps-->
-            <!-- Tab panes -->
-            <div class="tab-content mt-5">
-              <div role="tabpanel" class="tab-pane active" id="discover">
-                <div class="fs-24 text-white font-600">{{'PLEASE_LOGININTO' | translate }}</div>
-                <div class="fs-18 pt-4 text-white font-400">
-                  {{'IF_YOU_HAVE_DIGILOCKER' | translate }}
-                </div>
-                <div class="fs-18 pt-4 text-white font-400">
-                  {{'IF_YOU_DONT_REMEMBER' | translate }}
-                </div>
-                <div class="mt-5 mb-5">
-                  <div class="flex-center">
-                    <div class="iframe-container1">
-                        <lite-youtube videoid="D0UnqGm_miA" playlabel="YouTube video"></lite-youtube>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div role="tabpanel" class="tab-pane" id="strategy">
-                <div class="mt-5 mb-5">
-                  <div class="iframe-container1">
-                      <lite-youtube videoid="D0UnqGm_miA" playlabel="YouTube video"></lite-youtube>
-                  </div>
-                </div>
-              </div>
-              <div role="tabpanel" class="tab-pane" id="optimization">
-                <div class="mt-5 mb-5">
-                  <div class="iframe-container1">
-                      <lite-youtube videoid="D0UnqGm_miA" playlabel="YouTube video"></lite-youtube>
-                  </div>
-                </div>
-              </div>
+      <div>
+        <h3 class="text-center page-title text-blue text-thin-underline">ULP Issuance Portal </h3>
+        <!-- <hr class="horizontal-line1" /> -->
+        <div class="pt-3 text-grey1 fs-24 text-center text-underline"> {{'SELECT_USER_TYPE' | translate }} </div>
+        <div class="text-center mt-3 pt-3 d-flex jc-content-center">
+          <div class="square mr-5" (click)="openSignInModal()">
+            <img src="assets/images/user.svg" alt="" class="cursor-pointer">
+            <div class="pt-2 fs-18 text-light font-inter font-weight-bold"> {{'PRINCIPAL' | translate }}</div>
+            <img class="pt-3 cursor-pointer" src="assets/images/next-arrow.svg" height="44" alt="user">
+          </div>
+          <div class="square" (click)="setEntity('Instructor')"><img src="assets/images/user.svg" alt=""
+              class="cursor-pointer">
+            <div class="pt-2 fs-18 text-light font-inter font-weight-bold">{{'BLOCK_EDUCATIONAL_OFFICER' | translate }}
             </div>
+            <img class="pt-3 cursor-pointer" src="assets/images/next-arrow.svg" height="44" alt="user">
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
+
+
+<ng-template #signInModal tabindex="-1" role="dialog" aria-labelledby="signInModal">
+  <div class="animate-bottom">
+    <div class="modal-header text-center">
+      <h4 class="text-center modal-title w-100 text-primary font-weight-bold">{{'WELCOME' | translate}}!</h4>
+      <span class="close cursor-pointer" (click)="closeModal()">&times;</span>
+    </div>
+    <div class="modal-body">
+      <p class="text-center text-secondary">{{'WELCOME_LOGIN_NOTE' | translate}}.</p>
+      <div class="d-flex flex-column">
+        <button class="btn btn-primary mt-3" [routerLink]="['/login']" type="button"
+          (click)="closeModal()">{{'LOGIN_USING_MOBILE_AND_OTP' | translate}} &nbsp;<i
+            class="fa fa-solid fa-arrow-right"></i></button>
+        <button class="btn btn-primary mt-2" [routerLink]="['/form/instructor-signup']" type="button"
+          (click)="registerUser();closeModal()">{{'REGISTER_AS_NEW_USER' | translate}} &nbsp;<i
+            class="fa fa-solid fa-arrow-right"></i></button>
+      </div>
+    </div>
+  </div>
+</ng-template>

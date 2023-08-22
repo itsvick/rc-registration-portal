@@ -6,33 +6,39 @@
       "default": [
         {
           "id": "home",
-          "title": "HOME",
+          "title": "DASHBOARD",
           "redirectTo": "/dashboard",
           "className" : "fa fa-home"
         },
         {
           "id": "register-student",
-          "title": "REGISTER_STUDENT",
+          "title": "ISSUE_NEW_CREDENTIALS",
           "redirectTo": "/dashboard/bulk-issue-credential",
           "className": "fa fa-user-plus"
         },
         {
+          "id": "reissue-credentials",
+          "title": "REISSUE_CREDENTIALS",
+          "redirectTo": "/dashboard/reissue-credential",
+          "className": "fa fa-user-plus disable"
+        },
+        {
+          "id": "revoke-credentials",
+          "title": "REVOKE_CREDENTIALS",
+          "redirectTo": "/dashboard/revoke-credential",
+          "className": "fa fa-user-plus disable"
+        },
+        {
           "id": "issued-credential",
-          "title": "ISSUED_CREDENTIAL",
+          "title": "VIEW_ISSUED_CREDENTIALS",
           "redirectTo": "/dashboard/issued-credential",
           "className": "fa fa-key"
         },
         {
           "id": "claim-approval",
-          "title": "CLAIM_APPROVAL",
+          "title": "APPROVE_CLAIMS",
           "redirectTo": "",
           "className": "fa fa-user-check disable"
-        },
-        {
-          "id": "add-user-staff",
-          "title": "ADD_ISSUER_STAFF",
-          "redirectTo": "",
-          "className": "fa fa-graduation-cap disable"
         }
       ]
     },

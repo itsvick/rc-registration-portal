@@ -12,6 +12,7 @@ import { map } from 'rxjs/operators';
 import * as dayjs from 'dayjs';
 import * as customParseFormat from 'dayjs/plugin/customParseFormat';
 import { ToastMessageService } from 'src/app/services/toast-message/toast-message.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 dayjs.extend(customParseFormat);
 @Component({
@@ -33,7 +34,8 @@ export class KeycloakloginComponent implements OnInit {
     private readonly generalService: GeneralService,
     private readonly dataService: DataService,
     private readonly authConfigService: AuthConfigService,
-    private readonly toastMessage: ToastMessageService
+    private readonly toastMessage: ToastMessageService,
+    private readonly authService: AuthService
   ) { }
 
   async ngOnInit() {
@@ -131,6 +133,8 @@ export class KeycloakloginComponent implements OnInit {
           } else if (res?.result?.aadhaar_token && res?.result?.kyc_aadhaar_token !== res?.result?.aadhaar_token) { // Institute given Aadhaar and Aadhaar KYC not matched
             navigationExtras.state.aadhaarMatchError = true;
             this.router.navigate(['/aadhaar-kyc'], navigationExtras); // re-kyc
+          } else if (!this.authService.currentUser?.school_id || !this.authService.currentUser?.school_name) {
+            this.router.navigate(['/verify-udise']);
           } else {
             this.router.navigate(['/dashboard']);
           }
