@@ -38,9 +38,9 @@ main {
 }
 
 .box {
-  width: 350px;
-  height: 109px;
-  background: #050c44;
+  width: 380px;
+  height: 110px;
+  background: var(--primaryColor);
   box-shadow: 0px 8.24562px 11.5439px rgba(0, 0, 0, 0.16);
   border-radius: 8px;
   color: #fff;

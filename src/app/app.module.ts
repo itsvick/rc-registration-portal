@@ -114,6 +114,8 @@ import { configurationFactory } from './configuration.factory';
 import { TemplateTypeComponent } from './forms/types/template.type';
 import { VerifyUdiseComponent } from './forms/types/verify-udise/verify-udise.type';
 import { VerifyAadhaarComponent } from './forms/types/verify-aadhaar/verify-aadhaar.type';
+import { LandingPageComponent } from './landing-page/landing-page.component';
+import { UdiseVerificationComponent } from './udise-verification/udise-verification.component';
 
 @NgModule({
   declarations: [
@@ -171,7 +173,9 @@ import { VerifyAadhaarComponent } from './forms/types/verify-aadhaar/verify-aadh
     SelectWrapper,
     TemplateTypeComponent,
     VerifyUdiseComponent,
-    VerifyAadhaarComponent
+    VerifyAadhaarComponent,
+    LandingPageComponent,
+    UdiseVerificationComponent
   ],
   imports: [
     BrowserModule,

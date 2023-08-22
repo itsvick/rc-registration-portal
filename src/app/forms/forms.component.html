@@ -2,18 +2,21 @@
 <ng-template #noModal>
   <div class="mt-120"></div>
   <div class="col-md-6 offset-md-3 mt-5">
-    <h3 class="font-weight-bold"> {{headingTitle}}</h3>
     <div class="card mb-5">
-      <div *ngIf="schemaloaded; else loader" class="card-body">
+      <div *ngIf="schemaloaded; else loader" class="card-body p-5">
+        <h3 class="font-weight-bold text-center text-primary"> {{headingTitle}}</h3>
+        <p class="text-center fs-14 text-secondary">{{description}}</p>
         <div>
           <form [formGroup]="form2" (ngSubmit)="submit()" *ngIf="fields">
             <formly-form [model]="model" [fields]="fields" [options]="options" [form]="form2"></formly-form>
-            <button type="submit" class="btn btn-primary w-100 submit-button" [disabled]="!form2.valid">{{'SUBMIT' |
-              translate}}</button>
+            <button type="submit" class="btn btn-primary w-100 submit-button"
+              [disabled]="!form2.valid">{{submitBtnText}} &nbsp;&nbsp;
+              <i class="fa fa-solid fa-arrow-right"></i>
+            </button>
           </form>
         </div>
-        <div class="text-center text-secondary-color p-3 font-weight-bold" *ngIf="isSignupForm">
-          <a href="/login"> {{'ALREADY_REGISTERED_LOGIN' | translate}}? </a>
+        <div class="text-center p-3" *ngIf="isSignupForm">
+          {{'HAVE_AN_ACCOUNT' | translate}} <a href="/login"> {{'LOGIN_HERE' | translate}}? </a>
         </div>
       </div>
     </div>
@@ -70,6 +73,13 @@
     </div>
   </div>
 </ng-template>
+
+<div class="text-center" *ngIf="isLoading">
+  <div class="center-loading">
+    <div class="spinner-border">
+    </div>
+  </div>
+</div>
 
 <script>
   $('#btn-one').click(function () {

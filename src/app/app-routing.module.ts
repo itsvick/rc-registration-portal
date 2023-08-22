@@ -38,13 +38,15 @@ import { MainDashboardComponent } from './main-dashboard/main-dashboard.componen
 import { IssuedCredentialsComponent } from './issued-credentials/issued-credentials.component';
 import { BulkIssueCredentialsComponent } from './bulk-issue-credentials/bulk-issue-credentials.component';
 import { AadhaarKycComponent } from './authentication/aadhaar-kyc/aadhaar-kyc.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
+import { UdiseVerificationComponent } from './udise-verification/udise-verification.component';
 
 // import { CreateCertificateComponent } from './create-certificate/create-certificate.component';
 // import { FaqComponent } from './custom-components/faq/faq.component';
 const routes: Routes = [
   // Home
   // { path: '', component: HomeComponent },
-  { path: '', component: OnboardingComponent },
+  { path: '', component: LandingPageComponent },
   // {
   //   path: 'udise-link', component: UdiseLinkComponent,
   //   canActivate: [AuthGuard],
@@ -82,10 +84,31 @@ const routes: Routes = [
     data: {
       showToolbar: false,
       telemetry: {
-        env: 'home', pageid: 'home', type: 'list', subtype: 'scroll'
+        env: 'home', pageid: 'aadhaar-kyc', type: 'list', subtype: 'scroll'
       },
     },
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'verify-udise',
+    component: UdiseVerificationComponent,
+    data: {
+      showToolbar: false,
+      telemetry: {
+        env: 'onboarding', pageid: 'udise-verification', type: 'list', subtype: 'scroll'
+      },
+    },
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'onboarding',
+    component: OnboardingComponent,
+    data: {
+      showToolbar: false,
+      telemetry: {
+        env: 'home', pageid: 'home', type: 'list', subtype: 'scroll'
+      },
+    }
   },
 
   // Forms

@@ -85,6 +85,7 @@ hr {
     top: 0;
     width: 100%;
     z-index: 2;
+    border-bottom: 1px solid #e5e5e5;
     @media (max-width: 767.98px) {
         .custom-header {
             justify-content: normal !important;

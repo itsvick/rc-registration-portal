@@ -28,7 +28,7 @@
     // --primaryTextColor: #000000;
     // --secondaryTextColor: #8D9091;
     // SL
-    --primaryColor: #050c44;
+    --primaryColor: #0d6efd; //#0D6EFD 050c44
     --secondaryColor: #0098ab;
     --bodyBackground: #f6f8fc;
     --cardBackground: #ffffff;
@@ -340,9 +340,13 @@ body {
 
 body {
     margin: 0;
-    font-family: "Lato", sans-serif !important;
+    font-family: "Poppins", sans-serif !important;
     color: rgb(0, 0, 0);
     background: var(--bodyBackground) !important;
+}
+
+.font-inter {
+    font-family: "Inter", sans-serif !important;
 }
 
 .fs-7 {
@@ -491,8 +495,11 @@ button.calendar:active {
     border-bottom-right-radius: 0px;
 }
 
-.modal-content {
+.box-shadow-bottom .modal-content {
     background-color: var(--cardBackground) !important;
+    box-shadow: 0 10px 0px -1px var(--primaryColor);
+    border-bottom-left-radius: 16px !important;
+    border-bottom-right-radius: 16px !important;
 }
 
 .modal-dialog.panel-right .modal-body {
@@ -676,16 +683,26 @@ formly-autocomplete-type .ng-select {
     font-size: 16px !important;
 }
 
+.fs-18 {
+    font-size: 18px !important;
+}
+.fs-24 {
+    font-size: 24px !important;
+}
 .fs-25 {
     font-size: 25px;
+}
+
+.fs-38 {
+    font-size: 38px;
 }
 
 /* Button */
 
 .btn {
-    border-radius: 25px !important;
-    text-transform: capitalize !important;
-    box-shadow: none !important;
+    // border-radius: 25px !important;
+    // text-transform: capitalize !important;
+    // box-shadow: none !important;
 }
 .btn-size {
     width: 18% !important;
@@ -1235,4 +1252,22 @@ textarea.jsoneditor-text {
 }
 .btn {
     cursor: pointer !important;
+}
+
+.text-blue {
+    color: #050c44;
+}
+.text-thin-underline {
+    text-decoration: underline;
+    -webkit-text-decoration-skip: ink;
+    text-decoration-skip-ink: auto;
+    text-underline-offset: 4px;
+    text-underline-position: from-font;
+    text-decoration-thickness: 1px;
+    text-decoration-color: #ccc;
+}
+.text-underline {
+    text-decoration: underline;
+    text-decoration-skip-ink: auto;
+    text-underline-offset: 4px;
 }

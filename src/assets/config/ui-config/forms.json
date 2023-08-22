@@ -1177,6 +1177,8 @@
                 "formclass": "row",
                 "header": "default",
                 "title": "REGISTER",
+                "description": "WELCOME_TO_PORTAL_REGISTER",
+                "submitBtnText": "SIGN_UP",
                 "isSignupForm": "true",
                 "langKey": "teacherStudent",
                 "isPrefilledDataEditable": "false",
@@ -1184,56 +1186,6 @@
                     {
                         "definition": "Instructor",
                         "fields": [
-                            {
-                                "name": "udiseId",
-                                "custom": true,
-                                "key": "udiseId",
-                                "hideFieldFromSubmit": true,
-                                "type": "verify-mobile",
-                                "element": {
-                                    "title": "UDISE_ID",
-                                    "fieldGroupClassName": "row",
-                                    "widget": {
-                                        "formlyConfig": {
-                                            "type": "verify-mobile",
-                                            "className": "",
-                                            "validation": {
-                                                "pattern": "^[0-9]{11}$",
-                                                "message": "INVALID_UDISE_ID"
-                                            },
-                                            "templateOptions": {
-                                                "placeholder": "ENTER_UDISE_ID",
-                                                "UDISEDetailsAPI": "https://ulp.uniteframework.io/ulp-bff/v1/school/verify"
-                                            }
-                                        }
-                                    }
-                                }
-                            },
-                            {
-                                "name": "aadhaarNumber",
-                                "custom": true,
-                                "key": "aadhaarNumber",
-                                "type": "verify-aadhaar",
-                                "hideFieldFromSubmit": true,
-                                "element": {
-                                    "title": "AADHAR_NUMBER",
-                                    "fieldGroupClassName": "row",
-                                    "widget": {
-                                        "formlyConfig": {
-                                            "type": "verify-aadhaar",
-                                            "className": "",
-                                            "validation": {
-                                                "pattern": "^[0-9]{11}$",
-                                                "message": "ENTER_VALID_AADHAR_NUMBER"
-                                            },
-                                            "templateOptions": {
-                                                "placeholder": "xxxx-xxxx-xxxx",
-                                                "AadhaarVerifyAPI": "https://devulp.uniteframework.io/ulp-bff/v1/sso/aadhaar/ekyc"
-                                            }
-                                        }
-                                    }
-                                }
-                            },
                             {
                                 "name": "name",
                                 "required": true
@@ -1303,55 +1255,29 @@
                                     "title": "ISSUER",
                                     "widget": {
                                         "formlyConfig": {
-                                            "type": "select",
-                                            "wrappers": [
-                                                "select-wrapper"
-                                            ],
-                                            "templateOptions": {
-                                                "placeholder": "SELECT_ISSUER",
-                                                "optionsApi": "https://devulp.uniteframework.io/bulk-issuance/bulk/v1/issuerlist",
-                                                "responsePath": "result",
-                                                "required": true,
-                                                "options": [],
-                                                "valueProp": "did",
-                                                "labelProp": "name"
-                                            }
-                                        }
-                                    }
-                                }
-                            },
-                            {
-                                "name": "school_name",
-                                "required": true,
-                                "disabled": true
-                            },
-                            {
-                                "name": "school_id",
-                                "required": true,
-                                "disabled": true
-                            },
-                            {
-                                "name": "username",
-                                "required": true
-                            },
-                            {
-                                "name": "kyc_aadhaar_token",
-                                "required": true,
-                                "custom": true,
-                                "element": {
-                                    "widget": {
-                                        "formlyConfig": {
                                             "templateOptions": {
                                                 "hide": true
                                             }
                                         }
                                     }
                                 }
+                            },
+                            {
+                                "name": "username",
+                                "required": true
+                            },
+                            {
+                                "name": "email",
+                                "required": true,
+                                "validation": {
+                                    "pattern": "^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z0-9.-]+$",
+                                    "message": "EMAILT_NOT_VALID"
+                                }
                             }
                         ]
                     }
                 ],
-                "redirectTo": "/"
+                "redirectTo": "/login"
             }
         }
     ]

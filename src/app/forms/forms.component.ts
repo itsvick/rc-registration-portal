@@ -56,6 +56,8 @@ export class FormsComponent implements OnInit {
   notes: any;
   langKey: string;
   headingTitle: string;
+  description: string;
+  submitBtnText: string;
   titleVal: string;
   isSignupForm: boolean = false;
   isPrefilledDataEditable: boolean = true;
@@ -68,6 +70,7 @@ export class FormsComponent implements OnInit {
   queryParams: any;
   isBFF: boolean = false;
   hideFieldFromSubmit = [];
+  isLoading = false;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -129,6 +132,15 @@ export class FormsComponent implements OnInit {
 
       if (this.formSchema.title) {
         this.headingTitle = this.translate.instant(this.formSchema.title);
+      }
+
+      if (this.formSchema.description) {
+        this.description = this.translate.instant(this.formSchema.description);
+      }
+
+      if (this.formSchema.submitBtnText) {
+        const btnText = this.formSchema?.submitBtnText || "SUBMIT";
+        this.submitBtnText = this.translate.instant(btnText);
       }
 
       if (this.formSchema.redirectTo) {
@@ -886,6 +898,7 @@ export class FormsComponent implements OnInit {
 
   submit() {
     this.isSubmitForm = true;
+    this.isLoading = true;
     console.log("model", this.model);
 
     if (this.hideFieldFromSubmit.length) {
@@ -1174,6 +1187,7 @@ export class FormsComponent implements OnInit {
       forkJoin(apiCalls.map((item: any) => this.generalService.postData(item.url, item.payload)))
         .subscribe((result: any) => {
           console.log("result", result);
+          this.isLoading = false;
 
           if (result[0]?.params?.status === "SUCCESSFUL") {
             this.router.navigate(['/dashboard']);
@@ -1188,6 +1202,7 @@ export class FormsComponent implements OnInit {
 
           //  }
         }, (err) => {
+          this.isLoading = false;
           this.toastMsg.error('error', err?.error?.params?.errmsg || 'Something went wrong');
           this.isSubmitForm = false;
         });
@@ -1196,11 +1211,12 @@ export class FormsComponent implements OnInit {
       this.model['sorder'] = this.exLength;
 
       this.generalService.postData(this.apiUrl, this.model, this.isBFF).subscribe((res) => {
-        this.toastMsg.success('', 'Form submitted Successfully!');
+        this.isLoading = false;
+        this.toastMsg.success('', this.generalService.translateString('FORM_SUBMITTED_SUCCESSFULLY'));
         if (res.success) {
           this.router.navigate([this.redirectTo]);
         }
-        if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
+        if (res?.params?.status == 'SUCCESSFUL' && !this.model['attest']) {
           this.router.navigate([this.redirectTo]);
         }
         else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
@@ -1208,6 +1224,7 @@ export class FormsComponent implements OnInit {
           this.isSubmitForm = false;
         }
       }, (err) => {
+        this.isLoading = false;
         const msg = err.error?.params?.errmsg ? err.error.params.errmsg : (err.error?.message ? err.error.message : 'Something went wrong');
         this.toastMsg.error('', msg);
         this.isSubmitForm = false;
