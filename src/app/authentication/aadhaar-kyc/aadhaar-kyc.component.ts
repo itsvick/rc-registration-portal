@@ -28,7 +28,7 @@ export class AadhaarKycComponent implements OnInit {
     private readonly utilService: UtilService,
     private readonly modalService: NgbModal
   ) {
-    if (this.authService!.isLoggedIn) {
+    if (!this.authService?.isLoggedIn) {
       this.router.navigate(['/login']);
     }
   }
