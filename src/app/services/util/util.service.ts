@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { jsPDF } from 'jspdf';
-import html2canvas from 'html2canvas';
+// import { jsPDF } from 'jspdf';
+// import html2canvas from 'html2canvas';
 
 @Injectable({
   providedIn: 'root'
@@ -37,20 +37,20 @@ export class UtilService {
   }
 
   downloadPdfWithContent(content: HTMLElement, fileName: string) {
-    if (!content) {
-      console.error('Element not found!');
-      return;
-    }
-    html2canvas(content).then((canvas) => {
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const imgData = canvas.toDataURL('image/png');
-      const imgProps = pdf.getImageProperties(imgData);
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+    // if (!content) {
+    //   console.error('Element not found!');
+    //   return;
+    // }
+    // html2canvas(content).then((canvas) => {
+    //   const pdf = new jsPDF('p', 'mm', 'a4');
+    //   const imgData = canvas.toDataURL('image/png');
+    //   const imgProps = pdf.getImageProperties(imgData);
+    //   const pdfWidth = pdf.internal.pageSize.getWidth();
+    //   const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-      pdf.save(fileName);
-    });
+    //   pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+    //   pdf.save(fileName);
+    // });
   }
 
 
