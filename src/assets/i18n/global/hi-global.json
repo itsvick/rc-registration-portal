@@ -433,5 +433,9 @@
   "REVOKE_CREDENTIALS": "प्रमाणपत्र निरसन करें",
   "VIEW_ISSUED_CREDENTIALS": "जारी प्रमाणपत्र देखें",
   "APPROVE_CLAIMS": "दावों को मंजूरी दें",
-  "DASHBOARD": "डैशबोर्ड"
+  "DASHBOARD": "डैशबोर्ड",
+  "SELECT_CREDENTIAL_TYPE": "प्रमाणपत्र प्रकार का चयन करें",
+  "EXPIRED": "मापदण्ड",
+  "REVOKED": "निरस्त",
+  "VIEW": "देखें"
 }
