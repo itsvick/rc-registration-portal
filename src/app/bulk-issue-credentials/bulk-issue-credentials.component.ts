@@ -102,8 +102,6 @@ export class BulkIssueCredentialsComponent implements OnInit {
     }
   }
 
-
-
   parseCSVFile(inputValue): Promise<any[]> {
     return new Promise((resolve, reject) => {
       Papa.parse(inputValue.target.files[0], {
@@ -152,20 +150,6 @@ export class BulkIssueCredentialsComponent implements OnInit {
 
     return requiredFields.every(value => csvKeys.includes(value));
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   raiseInteractEvent(id: string, type: string = 'CLICK', subtype?: string) {
     const telemetryInteract: IInteractEventInput = {

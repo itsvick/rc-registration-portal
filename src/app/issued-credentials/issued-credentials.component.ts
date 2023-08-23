@@ -28,6 +28,7 @@ export class IssuedCredentialsComponent implements OnInit {
   issuedCredentials = [];
   allIssuedCredentials = [];
   isLoading = false;
+  isBackdropLoader = false;
   page = 1;
   pageSize = 20;
   tableRows: any[] = [];
@@ -93,7 +94,8 @@ export class IssuedCredentialsComponent implements OnInit {
   }
 
   getCredentials() {
-    this.isLoading = true;
+    // this.isLoading = true;
+    this.isBackdropLoader = true;
     this.issuedCredentials = [];
     this.tableRows = [];
     this.page = 1;
@@ -116,11 +118,13 @@ export class IssuedCredentialsComponent implements OnInit {
         return of([]);
       }))
       .subscribe((res: any) => {
-        this.isLoading = false;
+        // this.isLoading = false;
+        this.isBackdropLoader = false;
         this.allIssuedCredentials = res;
         // this.pageChange();
       }, (error: any) => {
-        this.isLoading = false;
+        // this.isLoading = false;
+        this.isBackdropLoader = false;
         this.allIssuedCredentials = [];
         if (error.status !== 400 || error?.error?.result?.error?.status !== 404) {
           this.toastMessage.error("", this.generalService.translateString('ERROR_WHILE_FETCHING_ISSUED_CREDENTIALS'));

@@ -437,5 +437,9 @@
     "REVOKE_CREDENTIALS": "Revoke Credentials",
     "VIEW_ISSUED_CREDENTIALS": "View Issued Credentials",
     "APPROVE_CLAIMS": "Approve Claims",
-    "DASHBOARD": "Dashboard"
+    "DASHBOARD": "Dashboard",
+    "SELECT_CREDENTIAL_TYPE": "Select Credential Type",
+    "EXPIRED": "Expired",
+    "REVOKED": "Revoked",
+    "VIEW": "View"
 }
