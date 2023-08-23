@@ -12,8 +12,8 @@ import { TelemetryService } from 'src/app/services/telemetry/telemetry.service';
 import { IImpressionEventInput, IInteractEventInput } from 'src/app/services/telemetry/telemetry.interface';
 import { AuthConfigService } from 'src/app/authentication/auth-config.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { jsPDF } from 'jspdf';
-import html2canvas from 'html2canvas';
+// import { jsPDF } from 'jspdf';
+// import html2canvas from 'html2canvas';
 import { UtilService } from 'src/app/services/util/util.service';
 
 const RENDER_CREDENTIAL_FORMAT: string = 'PDF'; //or PDF HTML
@@ -237,21 +237,21 @@ export class DocViewComponent implements OnInit, OnDestroy {
 
 
     downloadCredential() {
-        const content = document.getElementById('content-to-download');
-        if (!content) {
-            console.error('Element not found!');
-            return;
-        }
-        html2canvas(content).then((canvas) => {
-            const pdf = new jsPDF('p', 'mm', 'a4');
-            const imgData = canvas.toDataURL('image/png');
-            const imgProps = pdf.getImageProperties(imgData);
-            const pdfWidth = pdf.internal.pageSize.getWidth();
-            const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        // const content = document.getElementById('content-to-download');
+        // if (!content) {
+        //     console.error('Element not found!');
+        //     return;
+        // }
+        // html2canvas(content).then((canvas) => {
+        //     const pdf = new jsPDF('p', 'mm', 'a4');
+        //     const imgData = canvas.toDataURL('image/png');
+        //     const imgProps = pdf.getImageProperties(imgData);
+        //     const pdfWidth = pdf.internal.pageSize.getWidth();
+        //     const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
 
-            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-            pdf.save('content.pdf');
-        });
+        //     pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+        //     pdf.save('content.pdf');
+        // });
     }
 
     ngOnDestroy(): void {
