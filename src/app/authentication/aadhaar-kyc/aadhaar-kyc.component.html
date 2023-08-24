@@ -26,7 +26,7 @@
         </div>
       </div>
       <div class="d-flex justify-content-center">
-        <button type="submit" class="btn btn-primary mt-4 fs-14 fw-600"
+        <button type="submit" class="btn btn-primary btn-lg btn-block mt-4 fs-18 mt-4 fw-600"
           [ngClass]="{'disable-btn': !aadhaarFormControl?.valid}" [disabled]="!aadhaarFormControl?.valid">
           {{'GET_OTP' | translate}}&nbsp;<i class="fa fa-solid fa-arrow-right"></i></button>
       </div>
@@ -46,7 +46,7 @@
         </div>
       </div>
       <div class="d-flex justify-content-center">
-        <button type="button" class="btn btn-primary mt-4 fs-14 fw-600" [disabled]="!otpFormControl?.valid"
+        <button type="button" class="btn btn-primary btn-lg btn-block mt-4 fs-18 mt-4 fw-600" [disabled]="!otpFormControl?.valid"
           [ngClass]="{'disable-btn': !otpFormControl?.valid}" (click)="submitOTP()"> {{'SUBMIT' | translate}}&nbsp;<i
             class="fa fa-solid fa-arrow-right"></i></button>
       </div>
