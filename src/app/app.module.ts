@@ -29,8 +29,7 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
 
 //Local imports
 import { QuarModule } from '@altack/quar';
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import { FormlyMatDatepickerModule } from '@ngx-formly/material/datepicker';
+// import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { Bootstrap4FrameworkModule } from 'angular6-json-schema-form';
 import { SearchComponent } from '../app/discovery/search/search.component';
 import { ModalRouterAddLinkDirective, ModalRouterEditLinkDirective } from '../app/layouts/modal/modal.directive';
@@ -248,7 +247,7 @@ import { RegisterComponent } from './register/register.component';
       },
       deps: [HttpClient, AuthConfigService, KeycloakService, TranslateService]
     },
-    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { floatLabel: 'always' } },
+    // { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { floatLabel: 'always' } },
     {
       provide: APP_INITIALIZER,
       useFactory: initTheme,
