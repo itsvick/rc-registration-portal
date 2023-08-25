@@ -441,5 +441,7 @@
     "SELECT_CREDENTIAL_TYPE": "Select Credential Type",
     "EXPIRED": "Expired",
     "REVOKED": "Revoked",
-    "VIEW": "View"
+    "VIEW": "View",
+    "SCHOOL_ID": "School ID",
+    "AADHAAR_ID": "Aadhaar ID"
 }

@@ -3,8 +3,8 @@
     "version": "0.1",
     "headers": [
         {
-            "default":{
-                "right":[
+            "default": {
+                "right": [
                     {
                         "title": "LOGIN",
                         "redirectTo": "/login"
@@ -13,12 +13,11 @@
             }
         },
         {
-            "plain":{
-                "right":[
+            "plain": {
+                "right": [
                     {
-                        "title": "LOGOUT",
-                        "redirectTo": "/logout",
-                        "className" : "font-weight-bold"
+                        "icon": "fa fal fa-user-circle",
+                        "redirectTo": "/dashboard/my-account"
                     }
                 ]
             }
@@ -39,7 +38,7 @@
                     {
                         "title": "LOGOUT",
                         "redirectTo": "/logout",
-                        "className" : "font-weight-bold"
+                        "className": "font-weight-bold"
                     }
                 ]
             }
@@ -60,7 +59,7 @@
                     {
                         "title": "LOGOUT",
                         "redirectTo": "/logout",
-                        "className" : "font-weight-bold"
+                        "className": "font-weight-bold"
                     }
                 ]
             }
@@ -81,7 +80,7 @@
                     {
                         "title": "LOGOUT",
                         "redirectTo": "/logout",
-                        "className" : "font-weight-bold"
+                        "className": "font-weight-bold"
                     }
                 ]
             }
@@ -98,7 +97,7 @@
                     {
                         "title": "LOGOUT",
                         "redirectTo": "/logout",
-                        "className" : "font-weight-bold"
+                        "className": "font-weight-bold"
                     }
                 ]
             }
@@ -115,18 +114,18 @@
                     {
                         "title": "LOGOUT",
                         "redirectTo": "/logout",
-                        "className" : "font-weight-bold"
+                        "className": "font-weight-bold"
                     }
                 ]
             }
         },
         {
-            "issuer":{
-                "left":[
+            "issuer": {
+                "left": [
                     {
                         "title": "Home",
                         "redirectTo": "/dashboard",
-                        "activeTab" : "active"
+                        "activeTab": "active"
                     },
                     {
                         "title": "Document",
@@ -137,14 +136,14 @@
                     {
                         "title": "LOGOUT",
                         "redirectTo": "/logout",
-                        "className" : "font-weight-bold"
+                        "className": "font-weight-bold"
                     }
                 ]
             }
         },
         {
-            "records":{
-                "left":[
+            "records": {
+                "left": [
                     {
                         "title": "Home",
                         "redirectTo": "/dashboard"
@@ -152,39 +151,40 @@
                     {
                         "title": "Document",
                         "redirectTo": "/records",
-                        "activeTab" : "active"
+                        "activeTab": "active"
                     }
                 ]
             }
         },
         {
-            "ntse-admin":{
-                "left":[
+            "ntse-admin": {
+                "left": [
                     {
                         "title": "Home",
                         "redirectTo": "/dashboard",
-                        "activeTab" : "active"
+                        "activeTab": "active"
                     },
                     {
                         "title": "Document",
                         "redirectTo": "/records"
                     }
-                ], "right": [
+                ],
+                "right": [
                     {
                         "title": "LOGOUT",
                         "redirectTo": "/logout",
-                        "className" : "font-weight-bold"
+                        "className": "font-weight-bold"
                     }
                 ]
             }
         },
         {
-            "list":{
+            "list": {
                 "right": [
                     {
                         "title": "LOGOUT",
                         "redirectTo": "/logout",
-                        "className" : "font-weight-bold"
+                        "className": "font-weight-bold"
                     }
                 ]
             }

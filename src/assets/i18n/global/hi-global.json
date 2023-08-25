@@ -437,5 +437,7 @@
   "SELECT_CREDENTIAL_TYPE": "प्रमाणपत्र प्रकार का चयन करें",
   "EXPIRED": "मापदण्ड",
   "REVOKED": "निरस्त",
-  "VIEW": "देखें"
+  "VIEW": "देखें",
+  "SCHOOL_ID": "स्कूल आईडी",
+  "AADHAAR_ID": "आधार आईडी"
 }

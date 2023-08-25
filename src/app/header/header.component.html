@@ -27,7 +27,7 @@
                 <!-- <a role="link" aria-disabled="true" *ngIf="entityName == 'issue' || entityName == 'Issuer'"><img class="logo-ncert" src="/assets/images/ncertlogo1.png" /></a> -->
                 <!-- <img class="logo ml-2" *ngIf="!entityName" src="assets/images/Logo-MOE.png" /> -->
                 <img class="logo ml-2" src="assets/images/logo.png" routerLink="/" />
-
+                <h3 *ngIf="title" class="d-flex align-items-center font-weight-bold title pl-2">{{title}}</h3>
             </div>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <ng-template [ngIf]="headerSchema?.left">
@@ -48,8 +48,23 @@
                         </li>
                     </ul>
                 </ng-template>
+                <div class="d-flex align-items-center ml-auto" *ngIf="languages?.length > 1">
+                    <select class="nav-link-color language text-light"
+                        [ngClass]="{'lang-btn': (entityName != 'issue' && entityName != 'Issuer'), 'lang-btn ' : (entityName == 'issue' ||  entityName == 'Issuer')}"
+                        (change)="languageChange($event)">
+                        <option *ngFor="let lang of languages" [value]="lang.code"
+                            [ngClass]="{'color-white': (entityName == 'issue' || entityName == 'Issuer')}"
+                            [selected]="(lang.code == langCode)? true : false">{{lang.name}}</option>
+                    </select>
+                    <!-- <span (click)="changeTheme()">
+                        <a class="nav-link pr-0">
+                            <img style="width: 20px;" src="assets/images/theme_icon.svg" />
+                        </a>
+                    </span> -->
+                </div>
                 <ng-template [ngIf]="headerSchema?.right">
-                    <ul *ngFor="let header of headerSchema.right" class="navbar-nav ml-auto d-flex align-items-center">
+                    <ul *ngFor="let header of headerSchema.right" class="navbar-nav d-flex align-items-center"
+                        [ngClass]="{'ml-auto': !languages?.length > 1}">
                         <div class="d-flex">
                             <a role="link" aria-disabled="true"
                                 *ngIf="entityName == 'issue' || entityName == 'Issuer'"><img class="mr-2"
@@ -68,7 +83,7 @@
                             <a *ngIf="header?.image" class="nav-link" [routerLink]="[header.redirectTo]">
                                 <img style="width: 25px;" src={{header?.image}} />
                             </a>
-                            <a *ngIf="header?.icon" class="nav-link" [routerLink]="[header.redirectTo]">
+                            <a *ngIf="header?.icon" class="text-primary" [routerLink]="[header.redirectTo]">
                                 <i style="font-size: 25px;" class="{{header?.icon}}" aria-hidden="true"></i>
                             </a>
                             <ng-template [ngIf]="header?.title && tab === header?.title">
@@ -88,27 +103,7 @@
                         <img style="width: 20px;" src="assets/images/theme_icon.svg" />
                     </a>
                 </span> -->
-
-
             </div>
-            <div class="d-flex align-items-center ml-auto">
-                <span *ngIf="languages?.length > 1">
-                    <!-- <i style="font-size: 25px;" class="fa fa-language text-primary-color mt-3" aria-hidden="true"></i> -->
-                    <select class="nav-link-color language"
-                        [ngClass]="{'lang-btn': (entityName != 'issue' && entityName != 'Issuer'), 'lang-btn ' : (entityName == 'issue' ||  entityName == 'Issuer')}"
-                        (change)="languageChange($event)">
-                        <option *ngFor="let lang of languages" [value]="lang.code"
-                            [ngClass]="{'color-white': (entityName == 'issue' || entityName == 'Issuer')}"
-                            [selected]="(lang.code == langCode)? true : false">{{lang.name}}</option>
-                    </select>
-                </span>
-                <!-- <span (click)="changeTheme()">
-                    <a class="nav-link pr-0">
-                        <img style="width: 20px;" src="assets/images/theme_icon.svg" />
-                    </a>
-                </span> -->
-            </div>
-
         </div>
     </nav>
 </header>

@@ -149,11 +149,16 @@ select {
 }
 
 .language {
-    border: solid 1px #303972 !important;
+    background-color: var(--primaryColor);
     padding: 6px;
     border-radius: 5px;
 
     i {
         color: #fff !important;
     }
+}
+
+
+.title {
+    color: #050c44;
 }
