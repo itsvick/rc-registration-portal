@@ -90,6 +90,7 @@ export class LandingPageComponent implements OnInit {
     if (!issuerId) {
       return;
     }
+    localStorage.setItem('issuerId', issuerId);
     this.router.navigate(['/onboarding'], { queryParams: { issuerId: issuerId } });
   }
 

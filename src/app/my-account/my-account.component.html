@@ -1,0 +1,33 @@
+<div class="mt-6 container">
+  <h5 class="fs-18">{{'ACCOUNT' | translate}}</h5>
+  <div class="row">
+    <div class="col-3">
+      <div class="account-card">
+        <i class="fa fal fa-user-circle fa-lg"></i>
+        <p>{{accountDetails?.name}}</p>
+      </div>
+    </div>
+    <div class="col-9 user-info">
+      <div class="row">
+        <div class="col-3 title d-flex align-items-center">{{'SCHOOL_ID' | translate}}</div>
+        <div class="col-5 value text-grey-color">{{accountDetails?.school_id}}</div>
+      </div>
+      <div class="row">
+        <div class="col-3 title d-flex align-items-center">{{'AADHAAR_ID' | translate}}</div>
+        <div class="col-5 value text-grey-color">{{accountDetails?.kyc_aadhaar_token}}</div>
+      </div>
+      <!-- <div class="row">
+        <div class="col-3 title d-flex align-items-center">UDISE Id</div>
+        <div class="col-5 value">{{asasasa}}</div>
+      </div> -->
+      <div class="row">
+        <div class="col-3 title d-flex align-items-center">{{'MOBILE_NUMBER' | translate}}</div>
+        <div class="col-5 value text-grey-color">{{accountDetails?.recoveryphone}}</div>
+      </div>
+      <div class="row">
+        <div class="col-3 title d-flex align-items-center">{{'School Name' | translate}}</div>
+        <div class="col-5 value text-grey-color">{{accountDetails?.school_name}}</div>
+      </div>
+    </div>
+  </div>
+</div>

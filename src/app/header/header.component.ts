@@ -27,6 +27,7 @@ export class HeaderComponent implements OnInit {
   entityName: string;
   logoUrl: any;
   apiUrl: any;
+  title: string;
 
   constructor(
     public router: Router, private config: AppConfig, public schemaService: SchemaService,
@@ -50,6 +51,7 @@ export class HeaderComponent implements OnInit {
     }
 
     this.logo = this.config.getEnv(localStorage.getItem('ELOCKER_THEME') + '_theme').logoPath;
+    this.title = this.config.getConfig('title');
     this.schemaService.getHeaderJSON().subscribe(async (HeaderSchemas) => {
       var filtered = HeaderSchemas.headers.filter(obj => {
         return Object.keys(obj)[0] === this.headerFor;

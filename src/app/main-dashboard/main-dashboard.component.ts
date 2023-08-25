@@ -58,7 +58,7 @@ export class MainDashboardComponent implements OnInit {
       url: `${this.authConfigService.config.bffUrl}/v1/portal/count`,
       data: {
         "countFields": [
-          // "students_registered",
+          "students_registered",
           "claims_pending",
           "claims_approved",
           "claims_rejected",

@@ -116,6 +116,8 @@ import { VerifyUdiseComponent } from './forms/types/verify-udise/verify-udise.ty
 import { VerifyAadhaarComponent } from './forms/types/verify-aadhaar/verify-aadhaar.type';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { UdiseVerificationComponent } from './udise-verification/udise-verification.component';
+import { MyAccountComponent } from './my-account/my-account.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -175,7 +177,9 @@ import { UdiseVerificationComponent } from './udise-verification/udise-verificat
     VerifyUdiseComponent,
     VerifyAadhaarComponent,
     LandingPageComponent,
-    UdiseVerificationComponent
+    UdiseVerificationComponent,
+    MyAccountComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

@@ -40,6 +40,8 @@ import { BulkIssueCredentialsComponent } from './bulk-issue-credentials/bulk-iss
 import { AadhaarKycComponent } from './authentication/aadhaar-kyc/aadhaar-kyc.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { UdiseVerificationComponent } from './udise-verification/udise-verification.component';
+import { MyAccountComponent } from './my-account/my-account.component';
+import { RegisterComponent } from './register/register.component';
 
 // import { CreateCertificateComponent } from './create-certificate/create-certificate.component';
 // import { FaqComponent } from './custom-components/faq/faq.component';
@@ -59,7 +61,8 @@ const routes: Routes = [
   // },
   // Auth
   {
-    path: 'login', component: KeycloakloginComponent,
+    path: 'login',
+    component: KeycloakloginComponent,
     canActivate: [AuthGuard],
     data: {
       showToolbar: false,
@@ -67,6 +70,10 @@ const routes: Routes = [
         env: 'login', pageid: 'login', type: 'edit', subtype: 'scroll'
       }
     }
+  },
+  {
+    path: 'register',
+    component: RegisterComponent
   },
   {
     path: 'logout',
@@ -160,7 +167,7 @@ const routes: Routes = [
       },
       {
         path: 'my-account',
-        component: DocViewComponent,
+        component: MyAccountComponent,
         data: {
           showToolbar: false,
           telemetry: {
