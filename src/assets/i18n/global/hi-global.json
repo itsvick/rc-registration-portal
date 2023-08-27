@@ -439,5 +439,9 @@
   "REVOKED": "निरस्त",
   "VIEW": "देखें",
   "SCHOOL_ID": "स्कूल आईडी",
-  "AADHAAR_ID": "आधार आईडी"
+  "AADHAAR_ID": "आधार आईडी",
+  "EMAIL_ID": "ईमेल आईडी",
+  "COMPLETE_KYC": "केवाईसी पूरा करें",
+  "VERIFY_UDISE": "UDISE सत्यापित करें",
+  "INVALID_UDISE_ID": "अमान्य UDISE आईडी"
 }

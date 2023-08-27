@@ -70,11 +70,13 @@ export class OnboardingComponent implements OnInit {
   }
 
   openSignInModal() {
-    this.signInModalRef = this.modalService.open(this.signInModal, {
-      animation: true,
-      centered: true,
-      windowClass: 'box-shadow-bottom'
-    });
+    // this.signInModalRef = this.modalService.open(this.signInModal, {
+    //   animation: true,
+    //   centered: true,
+    //   windowClass: 'box-shadow-bottom'
+    // });
+
+    this.router.navigate(['/login']);
   }
   
   closeModal() {

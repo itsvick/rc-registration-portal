@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SchemaService } from '../services/data/schema.service';
 import { IImpressionEventInput, IInteractEventInput } from '../services/telemetry/telemetry.interface';
 import { TelemetryService } from '../services/telemetry/telemetry.service';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,15 +13,23 @@ import { TelemetryService } from '../services/telemetry/telemetry.service';
 export class SidebarComponent implements OnInit {
   @Input() sidebarFor: string = 'default';
   menuList: any[];
+  isKYCCompleted = false;
 
   constructor(
     private readonly router: Router,
     private readonly schemaService: SchemaService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly telemetryService: TelemetryService,
+    private readonly authService: AuthService
   ) { }
 
   ngOnInit(): void {
+    if (!this.authService.currentUser?.kyc_aadhaar_token || !this.authService.currentUser?.school_id) {
+      this.isKYCCompleted = false;
+    } else {
+      this.isKYCCompleted = true;
+    }
+
     this.initialize();
   }
 

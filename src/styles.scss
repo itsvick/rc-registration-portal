@@ -498,8 +498,8 @@ button.calendar:active {
 .box-shadow-bottom .modal-content {
     background-color: var(--cardBackground) !important;
     box-shadow: 0 10px 0px -1px var(--primaryColor);
-    border-bottom-left-radius: 16px !important;
-    border-bottom-right-radius: 16px !important;
+    border-bottom-left-radius: 12px !important;
+    border-bottom-right-radius: 12px !important;
 }
 
 .modal-dialog.panel-right .modal-body {
@@ -661,6 +661,10 @@ formly-autocomplete-type .ng-select {
 
 .w-45 {
     width: 45px;
+}
+
+.w-400 {
+    width: 400px;
 }
 
 .min-70 {

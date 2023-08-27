@@ -1,9 +1,8 @@
-<app-header *ngIf="header != null" [headerFor]='header'></app-header>
+<app-header *ngIf="header != null" [headerFor]="header"></app-header>
 <ng-template #noModal>
-  <div class="mt-120"></div>
-  <div class="col-md-6 offset-md-3 mt-5">
-    <div class="card mb-5">
-      <div *ngIf="schemaloaded; else loader" class="card-body p-5">
+  <div class="d-flex justify-content-center mt-4 p-0 mb-5">
+    <div class="card border-bottom w-400">
+      <div *ngIf="schemaloaded; else loader" class="p-3">
         <h3 class="font-weight-bold text-center text-primary"> {{headingTitle}}</h3>
         <p class="text-center fs-14 text-secondary">{{description}}</p>
         <div>
@@ -16,7 +15,7 @@
           </form>
         </div>
         <div class="text-center p-3" *ngIf="isSignupForm">
-          {{'HAVE_AN_ACCOUNT' | translate}} <a href="/login"> {{'LOGIN_HERE' | translate}}? </a>
+          {{'HAVE_AN_ACCOUNT' | translate}}? <a href="/login"> {{'LOGIN_HERE' | translate}}</a>
         </div>
       </div>
     </div>

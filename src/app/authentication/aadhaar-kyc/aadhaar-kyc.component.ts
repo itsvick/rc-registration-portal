@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormControl, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ToastMessageService } from 'src/app/services/toast-message/toast-message.service';
 import { UtilService } from 'src/app/services/util/util.service';
 
@@ -13,59 +13,49 @@ import { UtilService } from 'src/app/services/util/util.service';
 })
 export class AadhaarKycComponent implements OnInit {
   isGetOTPClicked = false
-  isAadhaarVerified: boolean;
 
-  aadhaarFormControl = new FormControl('', [Validators.required]);
-  otpFormControl = new FormControl('', [Validators.required, Validators.pattern('^[0-9]{4}$')]);
+  aadhaarFormControl = new FormControl('', [Validators.required, Validators.minLength(12), Validators.maxLength(12), Validators.pattern('^[0-9]{12}$')]);
+  otpFormControl = new FormControl('', [Validators.required, Validators.pattern('^[0-9]{6}$')]);
+  consentFormControl = new FormControl(false, [Validators.required, Validators.requiredTrue]);
 
   successModalRef: NgbModalRef;
   @ViewChild("successModal") successModal: ElementRef;
 
   constructor(
     private readonly authService: AuthService,
-    private readonly router: Router,
     private readonly toastMessage: ToastMessageService,
     private readonly utilService: UtilService,
-    private readonly modalService: NgbModal
-  ) {
-    if (!this.authService?.isLoggedIn) {
-      this.router.navigate(['/login']);
-    }
-  }
+    public readonly activeModal: NgbActiveModal
+  ) { }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {
+    this.aadhaarFormControl.valueChanges.subscribe((value: any) => {
+      this.aadhaarFormControl.setValue(value.replace(/\D/g, ''), { emitEvent: false });
+    });
+
+    this.otpFormControl.valueChanges.subscribe((value: any) => {
+      this.otpFormControl.setValue(value.replace(/\D/g, ''), { emitEvent: false });
+    });
+
+  }
 
   getOTP() {
     this.isGetOTPClicked = true;
   }
 
+  closeModal(event: MouseEvent) {
+    this.activeModal.dismiss('Cross click');
+  }
+
   submitOTP() {
     const payload = {
       aadhaar_id: this.aadhaarFormControl.value.toString(),
-      // aadhaar_name: this.authService.currentUser.name,
-      // aadhaar_gender: this.authService.currentUser.gender,
-      // aadhaar_dob: this.authService.currentUser.dob
     }
     this.authService.aadhaarKYC(payload).subscribe((res: any) => {
-      this.isAadhaarVerified = true;
-      // this.toastMessage.success('', this.utilService.translateString('SUCCESSFULLY_REGISTERED'));
-      this.successModalRef = this.modalService.open(this.successModal, {
-        animation: true,
-        centered: true,
-        size: 'sm'
-        // windowClass: 'box-shadow-bottom'
-      });
-      this.successModalRef.dismissed.subscribe(() => {
-        if (!this.authService.currentUser?.school_id || !this.authService.currentUser?.school_name) {
-          this.router.navigate(['/verify-udise']);
-        } else {
-          this.router.navigate(['/dashboard']);
-        }
-      });
+      this.activeModal.close();
 
     }, (error) => {
       this.toastMessage.success('', this.utilService.translateString('UNABLE_TO_VERIFY_YOUR_AADHAAR'));
-      this.isAadhaarVerified = false;
     });
   }
 }

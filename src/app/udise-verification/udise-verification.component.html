@@ -1,64 +1,62 @@
-<!-- <app-header [headerFor]='headerName'></app-header> -->
-
-<div class="mt-4 pb-2 d-flex justify-content-center">
-  <img src="assets/images/header.svg" height="60" alt="header">
-</div>
-<h3 class="text-center mt-4 fs-38 font-weight-bold text-blue text-thin-underline">ULP Issuance Portal </h3>
-
-<div class="container">
-  <div class="form-card text-center d-flex flex-column justify-content-center align-items-center p-4 ">
-    <h4 class="text-primary font-weight-bold">UDISE Verification</h4>
-    <p class="text-secondary mb-0 fs-12">{{'UDISE_WELCOME_NOTE' | translate}}</p>
-    <form (ngSubmit)="getOTP()">
-      <div class="pt-3 d-flex justify-content-center">
-        <div class="d-flex justify-content-center w-400 flex-column">
-          <div class="">
-            <div class="label-float">
-              <input type="text" placeholder="" [formControl]="udiseFormControl" autofocus="true" />
-              <label>{{'ENTER_UDISE_ID' | translate}}</label>
-            </div>
-            <p class="text-danger text-left pt-1 fs-12" *ngIf="udiseFormControl?.invalid && udiseFormControl?.touched">
-              {{'UDISE_ID_REQUIRED' | translate}}
-            </p>
-          </div>
-          <div class="">
-            <div class="label-float">
-              <input type="text" placeholder="" [formControl]="mobileFormControl" />
-              <label>{{'ENTER_MOBILE_NUMBER_ASSOCIATED_WITH_UDISE' | translate}}</label>
-            </div>
-            <p class="text-danger text-left pt-1 fs-12" *ngIf="udiseFormControl?.invalid && udiseFormControl?.touched">
-              {{'ENTER_VALID_MOBILE_NUMBER' | translate}}
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="d-flex justify-content-center">
-        <button type="submit" class="btn btn-primary btn-lg btn-block mt-4 fs-18 mt-4 fw-600"
-          [ngClass]="{'disable-btn': !udiseFormControl?.valid}" [disabled]="!udiseFormControl?.valid">
-          {{'GET_OTP' | translate}}&nbsp;<i class="fa fa-solid fa-arrow-right"></i></button>
-      </div>
-    </form>
-    <form *ngIf="isGetOTPClicked" (ngSubmit)="submitOTP()">
-      <div class="pt-3 d-flex justify-content-center">
-        <div class="d-flex justify-content-center w-400">
-          <div class="">
-            <div class="label-float">
-              <input type="number" [formControl]="otpFormControl" autofocus="true" />
-              <label>{{'ENTER_OTP' | translate}}</label>
-            </div>
-            <p class="text-danger text-left pt-1 fs-12" *ngIf="otpFormControl?.invalid && otpFormControl?.touched">
-              {{'INVALID_OTP' | translate}}
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="d-flex justify-content-center">
-        <button type="button" class="btn btn-primary btn-lg btn-block mt-4 fs-18 mt-4 fw-600" [disabled]="!otpFormControl?.valid"
-          [ngClass]="{'disable-btn': !otpFormControl?.valid}" (click)="submitOTP()"> {{'SUBMIT' | translate}}&nbsp;
-          <i class="fa fa-solid fa-arrow-right"></i></button>
-      </div>
-    </form>
+<div class="form-card d-flex flex-column justify-content-center align-items-center p-4 ">
+  <div class="close-btn" (click)="closeModal($event)" data-dismiss="modal" aria-label="Close">
+    <span aria-hidden="true" class="close cursor-pointer">&times;</span>
   </div>
+  <h4 class="text-primary font-weight-bold">UDISE Verification</h4>
+  <p class="text-secondary mb-0 fs-12">{{'UDISE_WELCOME_NOTE' | translate}}</p>
+  <form (ngSubmit)="getOTP()">
+    <div class="pt-3 d-flex justify-content-center">
+      <div class="d-flex justify-content-center w-400 flex-column">
+        <div>
+          <div class="label-float">
+            <input type="text" placeholder="" [formControl]="udiseFormControl" minlength="11" maxlength="11"/>
+            <label>{{'ENTER_UDISE_ID' | translate}}</label>
+          </div>
+          <p class="text-danger text-left pt-1 fs-12" *ngIf="udiseFormControl?.invalid && udiseFormControl?.dirty">
+            {{'UDISE_ID_REQUIRED' | translate}}
+          </p>
+        </div>
+        <div>
+          <div class="label-float">
+            <input type="text" placeholder="" [formControl]="mobileFormControl" minlength="10" maxlength="10" />
+            <label>{{'ENTER_MOBILE_NUMBER_ASSOCIATED_WITH_UDISE' | translate}}</label>
+          </div>
+          <p class="text-danger text-left pt-1 fs-12" *ngIf="mobileFormControl?.invalid && mobileFormControl?.dirty">
+            {{'ENTER_VALID_MOBILE_NUMBER' | translate}}
+          </p>
+        </div>
+        <div class="alert alert-danger mt-3" role="alert" *ngIf="invalidUDISE">
+          {{'INVALID_UDISE_ID' | translate}}
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center">
+      <button type="submit" class="btn btn-primary btn-lg btn-block mt-4 fs-18 mt-4 fw-600"
+        [ngClass]="{'disable-btn': !udiseFormControl?.valid}" [disabled]="!udiseFormControl?.valid">
+        {{'GET_OTP' | translate}}&nbsp;<i class="fa fa-solid fa-arrow-right"></i></button>
+    </div>
+  </form>
+  <form *ngIf="isGetOTPClicked" (ngSubmit)="submitOTP()">
+    <div class="pt-3 d-flex justify-content-center">
+      <div class="d-flex justify-content-center w-400">
+        <div class="w-400">
+          <div class="label-float">
+            <input type="text" [formControl]="otpFormControl" minlength="6" maxlength="6"/>
+            <label>{{'ENTER_OTP' | translate}}</label>
+          </div>
+          <p class="text-danger text-left pt-1 fs-12" *ngIf="otpFormControl?.invalid && otpFormControl?.touched">
+            {{'INVALID_OTP' | translate}}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center">
+      <button type="submit" class="btn btn-primary btn-lg btn-block mt-4 fs-18 mt-4 fw-600"
+        [disabled]="!otpFormControl?.valid" [ngClass]="{'disable-btn': !otpFormControl?.valid}">
+        {{'SUBMIT' | translate}}&nbsp;
+        <i class="fa fa-solid fa-arrow-right"></i></button>
+    </div>
+  </form>
 </div>
 
 <div class="text-center" *ngIf="isLoading">
