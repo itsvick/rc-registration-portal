@@ -150,10 +150,6 @@ export class IssuedCredentialsComponent implements OnInit {
       (this.page - 1) * this.pageSize,
       (this.page - 1) * this.pageSize + this.pageSize,
     );
-    // this.tableRows = this.issuedCredentials.map((row, i) => Object.values(row.credentialSubject)).slice(
-    //   (this.page - 1) * this.pageSize,
-    //   (this.page - 1) * this.pageSize + this.pageSize,
-    // );
   }
 
   ngAfterViewInit(): void {
