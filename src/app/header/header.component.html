@@ -1,31 +1,20 @@
+<div *ngIf="showBanner">
+    <div class="d-flex mt-4 pb-2 justify-content-center">
+        <img src="assets/images/header.svg" height="60" alt="header">
+    </div>
+    <h3 class="text-center page-title text-blue text-thin-underline mt-3">ULP Issuance Portal </h3>
+</div>
+
 <header class="header">
-    <!-- <div class="banner">
-
-        <span class="span-1"></span>
-        <span class="span-2">{{ 'DEMO' | translate}} <a href="https://docs.sunbirdrc.dev/"><u>{{'HERE' |
-                    translate}}</u></a></span>
-        <span class="span-3" (click)="changeTheme()">
-            <a class="nav-link">
-                <img style="padding:0;margin:0;"
-                    src="https://sunbird-certificate-demo.xiv.in/auth/resources/sr2et/login/sunbird-rc/img/theme-icon.svg" />
-            </a>
-        </span>
-
-    </div> -->
-
-    <nav class="navbar navbar-expand-lg navbar-light bg-header nav-b navbar-inverse"
+    <nav *ngIf="!showBanner" class="navbar navbar-expand-lg navbar-light bg-header nav-b navbar-inverse"
         [ngClass]="{'bg-header1': (entityName != 'issue' && entityName != 'Issuer'), 'bg-header' : (entityName == 'issue' || entityName == 'Issuer')}">
         <div class="container-fluid custom-header">
             <button class="navbar-toggler p-0 m-0 custom-toggler mr-2" type="button" data-toggle="collapse"
                 data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false"
                 aria-label="Toggle navigation">
                 <i class="fa fa-bars toggler"></i>
-                <!-- <span class="navbar-toggler-icon"></span> -->
             </button>
             <div class="nav-item active logo-text d-flex p-2" style="width: auto;">
-                <!-- <a role="link" aria-disabled="true" *ngIf="entityName && entityName != 'issue' && entityName != 'Issuer'"><img class="logo" src={{logo}} /></a> -->
-                <!-- <a role="link" aria-disabled="true" *ngIf="entityName == 'issue' || entityName == 'Issuer'"><img class="logo-ncert" src="/assets/images/ncertlogo1.png" /></a> -->
-                <!-- <img class="logo ml-2" *ngIf="!entityName" src="assets/images/Logo-MOE.png" /> -->
                 <img class="logo ml-2" src="assets/images/logo.png" routerLink="/" />
                 <h3 *ngIf="title" class="d-flex align-items-center font-weight-bold title pl-2">{{title}}</h3>
             </div>
@@ -40,7 +29,7 @@
                                 <img style="width: 25px;" src={{header?.image}} />
                             </a>
                             <a *ngIf="header?.icon" class="nav-link" [routerLink]="[header.redirectTo]">
-                                <i style="font-size: 25px;" class="{{header?.icon}}" aria-hidden="true"></i>
+                                <i style="font-size: 38px;" class="{{header?.icon}}" aria-hidden="true"></i>
                             </a>
                             <ng-template [ngIf]="header?.title && tab === header?.title">
                                 <hr>
@@ -92,17 +81,6 @@
                         </li>
                     </ul>
                 </ng-template>
-                <!-- <span *ngIf="languages.length > 1">
-                    <i style="font-size: 25px;" class="fa fa-language text-primary-color mt-3" aria-hidden="true"></i>
-                    <select class="lang-btn text-primary-color" (change)="languageChange($event)">
-                        <option *ngFor="let lang of languages" [value]="lang.code"  [selected]="(lang.code == langCode)? true : false">{{lang.name}}</option>
-                      </select>
-                </span> -->
-                <!-- <span (click)="changeTheme()">
-                    <a class="nav-link">
-                        <img style="width: 20px;" src="assets/images/theme_icon.svg" />
-                    </a>
-                </span> -->
             </div>
         </div>
     </nav>

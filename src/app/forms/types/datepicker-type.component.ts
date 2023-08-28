@@ -7,7 +7,7 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
   template: `
   <div class="form-group">
     <label *ngIf="to.label"> {{ to.label | translate}} <span class="">*</span></label>
-    <input type="text" class="form-control calendar" placement="bottom" bsDatepicker [formlyAttributes]="field"
+    <input type="text" class="form-control calendar" placement="bottom" [readonly]="true" bsDatepicker [formlyAttributes]="field"
       #datePicker [bsConfig]="bsConfig" [placeholder]="to.placeholder" (bsValueChange)="onValueChange($event)"
        [formControl]="formControl"/>
     <div *ngIf="showError" class="text-danger">
@@ -20,6 +20,9 @@ import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
      </div>
   </div>
   `,
+  styles: [
+    '.form-control[readonly] { background-color: #fff; }'
+  ]
 })
 export class DatepickerTypeComponent extends FieldType implements OnInit {
   bsConfig: Partial<BsDatepickerConfig>;

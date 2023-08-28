@@ -1175,7 +1175,7 @@
                 "thirdParty": true,
                 "type": "entity",
                 "formclass": "row",
-                "header": "default",
+                "header": "banner",
                 "title": "REGISTER",
                 "description": "WELCOME_TO_PORTAL_REGISTER",
                 "submitBtnText": "SIGN_UP",
@@ -1264,7 +1264,23 @@
                             },
                             {
                                 "name": "username",
-                                "required": true
+                                "title": "MOBILE_NUMBER",
+                                "required": true,
+                                "custom": true,
+                                "element": {
+                                    "title": "MOBILE_NUMBER",
+                                    "widget": {
+                                        "formlyConfig": {
+                                            "type": "string",
+                                            "templateOptions": {
+                                                "required": true,
+                                                "pattern": "[6-9]{1}[0-9]{9}",
+                                                "placeholder": "MOBILE_NUMBER",
+                                                "message": "MOBILE_NO_MUST_10_DIGIT"
+                                            }
+                                        }
+                                    }
+                                }
                             },
                             {
                                 "name": "email",

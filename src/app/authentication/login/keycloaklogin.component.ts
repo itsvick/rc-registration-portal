@@ -128,16 +128,18 @@ export class KeycloakloginComponent implements OnInit {
             }
           }
 
-          if (!res?.result?.kyc_aadhaar_token) { // Aadhar KYC is pending
-            this.router.navigate(['/aadhaar-kyc'], navigationExtras);
-          } else if (res?.result?.aadhaar_token && res?.result?.kyc_aadhaar_token !== res?.result?.aadhaar_token) { // Institute given Aadhaar and Aadhaar KYC not matched
-            navigationExtras.state.aadhaarMatchError = true;
-            this.router.navigate(['/aadhaar-kyc'], navigationExtras); // re-kyc
-          } else if (!this.authService.currentUser?.school_id || !this.authService.currentUser?.school_name) {
-            this.router.navigate(['/verify-udise']);
-          } else {
-            this.router.navigate(['/dashboard']);
-          }
+          // if (!res?.result?.kyc_aadhaar_token) { // Aadhar KYC is pending
+          //   this.router.navigate(['/aadhaar-kyc'], navigationExtras);
+          // } else if (res?.result?.aadhaar_token && res?.result?.kyc_aadhaar_token !== res?.result?.aadhaar_token) { // Institute given Aadhaar and Aadhaar KYC not matched
+          //   navigationExtras.state.aadhaarMatchError = true;
+          //   this.router.navigate(['/aadhaar-kyc'], navigationExtras); // re-kyc
+          // } else if (!this.authService.currentUser?.school_id || !this.authService.currentUser?.school_name) {
+          //   this.router.navigate(['/verify-udise']);
+          // } else {
+          //   this.router.navigate(['/dashboard']);
+          // }
+
+          this.router.navigate(['/dashboard/my-account']);
         }, (err) => {
           this.router.navigate(['/logout']);
           console.log(err);

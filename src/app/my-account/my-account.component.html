@@ -1,5 +1,10 @@
 <div class="mt-6 container">
   <h5 class="fs-18">{{'ACCOUNT' | translate}}</h5>
+  <p *ngIf="!isAadhaarKYCCompleted && !isUDISEVerified" class="text-danger">Please complete your e-KYC and UDISE
+    verification to issue</p>
+  <p *ngIf="!isAadhaarKYCCompleted && isUDISEVerified" class="text-danger">Please complete your e-KYC to issue</p>
+  <p *ngIf="!isUDISEVerified && isAadhaarKYCCompleted" class="text-danger">Please complete your UDISE verification to
+    issue</p>
   <div class="row">
     <div class="col-3">
       <div class="account-card">
@@ -9,21 +14,33 @@
     </div>
     <div class="col-9 user-info">
       <div class="row">
-        <div class="col-3 title d-flex align-items-center">{{'SCHOOL_ID' | translate}}</div>
-        <div class="col-5 value text-grey-color">{{accountDetails?.school_id}}</div>
+        <div class="col-3 title d-flex align-items-center">{{'EMAIL_ID' | translate}}</div>
+        <div class="col-5 value text-grey-color">{{accountDetails?.email}}</div>
+      </div>
+      <div class="row">
+        <div class="col-3 title d-flex align-items-center">{{'MOBILE_NUMBER' | translate}}</div>
+        <div class="col-5 value text-grey-color">{{accountDetails?.recoveryphone}}</div>
       </div>
       <div class="row">
         <div class="col-3 title d-flex align-items-center">{{'AADHAAR_ID' | translate}}</div>
-        <div class="col-5 value text-grey-color">{{accountDetails?.kyc_aadhaar_token}}</div>
+        <div class="col-5 value text-grey-color">
+          <span *ngIf="isAadhaarKYCCompleted">{{accountDetails?.kyc_aadhaar_token}}</span>
+          <button *ngIf="!isAadhaarKYCCompleted" class="btn btn-primary" (click)="completeKYC()">{{'COMPLETE_KYC' |
+            translate}}</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3 title d-flex align-items-center">{{'SCHOOL_ID' | translate}}</div>
+        <div class="col-5 value text-grey-color">
+          <span *ngIf="isUDISEVerified">{{accountDetails?.school_id}}</span>
+          <button *ngIf="!isUDISEVerified" class="btn btn-primary" (click)="verifyUDISE()">{{'VERIFY_UDISE' |
+            translate}}</button>
+        </div>
       </div>
       <!-- <div class="row">
         <div class="col-3 title d-flex align-items-center">UDISE Id</div>
         <div class="col-5 value">{{asasasa}}</div>
       </div> -->
-      <div class="row">
-        <div class="col-3 title d-flex align-items-center">{{'MOBILE_NUMBER' | translate}}</div>
-        <div class="col-5 value text-grey-color">{{accountDetails?.recoveryphone}}</div>
-      </div>
       <div class="row">
         <div class="col-3 title d-flex align-items-center">{{'School Name' | translate}}</div>
         <div class="col-5 value text-grey-color">{{accountDetails?.school_name}}</div>
@@ -31,3 +48,16 @@
     </div>
   </div>
 </div>
+
+
+
+<ng-template #successModal tabindex="-1" role="dialog" aria-labelledby="successModal">
+  <div class="animate-bottom">
+    <div class="modal-body">
+      <p class="text-center mb-0 p-2 fs-16">
+        <i style="color: green" class="fa far fa-check-circle"></i>
+        &nbsp;&nbsp;&nbsp;{{'SUCCESSFULLY_REGISTERED' | translate}}.
+      </p>
+    </div>
+  </div>
+</ng-template>

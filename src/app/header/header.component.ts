@@ -6,8 +6,6 @@ import { AppConfig } from '../app.config';
 import { SchemaService } from '../services/data/schema.service';
 import { GeneralService } from '../services/general/general.service';
 
-declare var $: any;
-
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
@@ -28,10 +26,15 @@ export class HeaderComponent implements OnInit {
   logoUrl: any;
   apiUrl: any;
   title: string;
+  showBanner: boolean = false;
 
   constructor(
-    public router: Router, private config: AppConfig, public schemaService: SchemaService,
-    public translate: TranslateService, private themeService: ThemeService, private generalService: GeneralService
+    private readonly router: Router,
+    private readonly config: AppConfig,
+    private readonly schemaService: SchemaService,
+    private readonly translate: TranslateService,
+    private readonly themeService: ThemeService,
+    private readonly generalService: GeneralService
   ) { }
 
   async ngOnInit() {
@@ -40,9 +43,14 @@ export class HeaderComponent implements OnInit {
     this.langCode = localStorage.getItem('setLanguage');
     this.ELOCKER_THEME = localStorage.getItem('ELOCKER_THEME');
 
+
+    if (this.headerFor === 'banner') {
+      this.showBanner = true;
+      return;
+    }
     this.entityName = localStorage.getItem('entity');
-    
-    if(this.entityName == 'Issuer'){
+
+    if (this.entityName == 'Issuer') {
       await this.getData();
     }
 
@@ -58,17 +66,13 @@ export class HeaderComponent implements OnInit {
       });
       this.headerSchema = filtered[0][this.headerFor];
 
-      if( this.headerSchema.hasOwnProperty('left'))
-      {
+      if (this.headerSchema.hasOwnProperty('left')) {
         this.headerSchema['left'][0]["activeTab"] = (this.headerSchema['left'].length == 1 || (localStorage.getItem('activeTab') == null)) ? 'active' : '';
       }
 
-      if( this.headerSchema.hasOwnProperty('right'))
-      {
+      if (this.headerSchema.hasOwnProperty('right')) {
         this.headerSchema['right'][0]["activeTab"] = (this.headerSchema['right'].length == 1 || (localStorage.getItem('activeTab') == null)) ? 'active' : '';
       }
-
-
 
       if (localStorage.getItem('activeTab')) {
         let activeT = JSON.parse(localStorage.getItem('activeTab'));
@@ -87,7 +91,7 @@ export class HeaderComponent implements OnInit {
     this.generalService.getData('Issuer').subscribe((res) => {
       this.logoUrl = res[0].logoUrl;
     });
-}
+  }
 
   languageChange(lang) {
     if (this.langCode != lang.target.value) {
@@ -108,14 +112,7 @@ export class HeaderComponent implements OnInit {
   }
 
   onTabChange(index, pos) {
-
     localStorage.setItem('activeTab', JSON.stringify({ 'pos': pos, 'i': index }))
-
-    // console.log(this.headerSchema);
-
-
-    // this.preTitle = activeTabIs.title;
-
   }
 
 }

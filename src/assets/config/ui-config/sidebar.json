@@ -37,7 +37,7 @@
         {
           "id": "claim-approval",
           "title": "APPROVE_CLAIMS",
-          "redirectTo": "",
+          "redirectTo": "/dashboard/approve-claims",  
           "className": "fa fa-user-check disable"
         }
       ]

@@ -443,5 +443,9 @@
     "REVOKED": "Revoked",
     "VIEW": "View",
     "SCHOOL_ID": "School ID",
-    "AADHAAR_ID": "Aadhaar ID"
+    "AADHAAR_ID": "Aadhaar ID",
+    "EMAIL_ID": "Email ID",
+    "COMPLETE_KYC": "Complete e-KYC",
+    "VERIFY_UDISE": "Verify UDISE",
+    "INVALID_UDISE_ID": "Invalid UDISE ID"
 }
