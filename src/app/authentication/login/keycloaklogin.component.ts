@@ -108,14 +108,22 @@ export class KeycloakloginComponent implements OnInit {
             if (accountRes?.attributes?.dob?.[0]) {
               dob = dayjs(accountRes.attributes.dob[0], 'DD/MM/YYYY').format('DD/MM/YYYY');
             }
-            this.router.navigate(['/form/instructor-signup'], {
-              queryParams: {
-                name: accountRes.attributes.name[0],
-                dob,
-                gender: accountRes.attributes.gender[0],
-                username: accountRes.attributes.phone_number[0]
-              }
-            })
+
+            const issuedId = localStorage.getItem('issuerId');
+            if (issuedId) {
+              this.router.navigate(['/form/instructor-signup'], {
+                queryParams: {
+                  name: accountRes.attributes.name[0],
+                  dob,
+                  gender: accountRes.attributes.gender[0],
+                  username: accountRes.attributes.phone_number[0],
+                  issuer_did: issuedId
+                }
+              })
+            } else {
+              this.toastMessage.error('', this.generalService.translateString('PLEASE_SELECT_DEPARTMENT_FIRST'));
+              this.router.navigate(['/']);
+            }
           } else {
             this.router.navigate(['/logout']);
           }
