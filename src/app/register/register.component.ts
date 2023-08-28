@@ -18,7 +18,7 @@ export class RegisterComponent implements OnInit {
     const issuerId = localStorage.getItem('issuerId');
 
     if (issuerId) {
-      this.router.navigate(['/form/instructor-signup'], { queryParams: { issuerId: issuerId } });
+      this.router.navigate(['/form/instructor-signup'], { queryParams: { issuer_did: issuerId } });
     } else {
       this.toastMessageService.error('', this.utilService.translateString('PLEASE_SELECT_DEPARTMENT_FIRST'));
       this.router.navigate(['/']);
