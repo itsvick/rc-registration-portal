@@ -13,6 +13,7 @@ import * as dayjs from 'dayjs';
 import * as customParseFormat from 'dayjs/plugin/customParseFormat';
 import { ToastMessageService } from 'src/app/services/toast-message/toast-message.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { UtilService } from 'src/app/services/util/util.service';
 
 dayjs.extend(customParseFormat);
 @Component({
@@ -35,7 +36,8 @@ export class KeycloakloginComponent implements OnInit {
     private readonly dataService: DataService,
     private readonly authConfigService: AuthConfigService,
     private readonly toastMessage: ToastMessageService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly utilService: UtilService
   ) { }
 
   async ngOnInit() {
@@ -138,8 +140,13 @@ export class KeycloakloginComponent implements OnInit {
           // } else {
           //   this.router.navigate(['/dashboard']);
           // }
-
-          this.router.navigate(['/dashboard/my-account']);
+          if (this.authService.isKYCCompleted()) {
+            this.utilService.kycCompleted.next(true);
+            this.router.navigate(['/dashboard']);  
+          } else {
+            this.utilService.kycCompleted.next(false);
+            this.router.navigate(['/dashboard/my-account']);
+          }
         }, (err) => {
           this.router.navigate(['/logout']);
           console.log(err);

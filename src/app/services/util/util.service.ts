@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { BehaviorSubject, Subject } from 'rxjs';
 // import { jsPDF } from 'jspdf';
 // import html2canvas from 'html2canvas';
 
@@ -7,6 +8,8 @@ import { TranslateService } from '@ngx-translate/core';
   providedIn: 'root'
 })
 export class UtilService {
+
+  kycCompleted: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(
     private readonly translateService: TranslateService
@@ -78,5 +81,16 @@ export class UtilService {
    */
   translateString(constant: string): string {
     return this.translateService.instant(constant);
+  }
+
+
+  variableNameToReadableString(variableName) {
+    // Replace underscores and split words
+    let words = variableName.split('_').join(' ').split(/(?=[A-Z])/).join(' ');
+
+    // Capitalize the first letter of each word
+    words = words.charAt(0).toUpperCase() + words.slice(1);
+
+    return words;
   }
 }

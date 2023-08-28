@@ -22,27 +22,23 @@
         <div class="col-5 value text-grey-color">{{accountDetails?.recoveryphone}}</div>
       </div>
       <div class="row">
-        <div class="col-3 title d-flex align-items-center">{{'AADHAAR_ID' | translate}}</div>
+        <div class="col-3 title d-flex align-items-center" [ngClass]="{'text-danger': !accountDetails?.kyc_aadhaar_token}">{{'AADHAAR_ID' | translate}}</div>
         <div class="col-5 value text-grey-color">
           <span *ngIf="isAadhaarKYCCompleted">{{accountDetails?.kyc_aadhaar_token}}</span>
-          <button *ngIf="!isAadhaarKYCCompleted" class="btn btn-primary" (click)="completeKYC()">{{'COMPLETE_KYC' |
-            translate}}</button>
         </div>
+        <button *ngIf="!isAadhaarKYCCompleted" class="btn btn-primary ml-2" (click)="completeKYC()">{{'COMPLETE_KYC' |
+          translate}}</button>
       </div>
       <div class="row">
-        <div class="col-3 title d-flex align-items-center">{{'SCHOOL_ID' | translate}}</div>
+        <div class="col-3 title d-flex align-items-center" [ngClass]="{'text-danger': !accountDetails?.school_id}">{{'SCHOOL_ID' | translate}}</div>
         <div class="col-5 value text-grey-color">
           <span *ngIf="isUDISEVerified">{{accountDetails?.school_id}}</span>
-          <button *ngIf="!isUDISEVerified" class="btn btn-primary" (click)="verifyUDISE()">{{'VERIFY_UDISE' |
-            translate}}</button>
         </div>
+        <button *ngIf="!isUDISEVerified" class="btn btn-primary ml-2" (click)="verifyUDISE()">{{'VERIFY_UDISE' |
+          translate}}</button>
       </div>
-      <!-- <div class="row">
-        <div class="col-3 title d-flex align-items-center">UDISE Id</div>
-        <div class="col-5 value">{{asasasa}}</div>
-      </div> -->
       <div class="row">
-        <div class="col-3 title d-flex align-items-center">{{'School Name' | translate}}</div>
+        <div class="col-3 title d-flex align-items-center" [ngClass]="{'text-danger': !accountDetails?.school_name}" >{{'School Name' | translate}}</div>
         <div class="col-5 value text-grey-color">{{accountDetails?.school_name}}</div>
       </div>
     </div>
@@ -56,7 +52,7 @@
     <div class="modal-body">
       <p class="text-center mb-0 p-2 fs-16">
         <i style="color: green" class="fa far fa-check-circle"></i>
-        &nbsp;&nbsp;&nbsp;{{'SUCCESSFULLY_REGISTERED' | translate}}.
+        &nbsp;&nbsp;&nbsp;{{modalMessage}}
       </p>
     </div>
   </div>
