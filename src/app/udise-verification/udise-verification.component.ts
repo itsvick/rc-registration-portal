@@ -20,7 +20,7 @@ export class UdiseVerificationComponent implements OnInit {
 
   udiseFormControl = new FormControl('', [Validators.required, Validators.pattern('^[0-9]{11}$')]);
   mobileFormControl = new FormControl('', [Validators.required, Validators.pattern('^[0-9]{10}$')]);
-  otpFormControl = new FormControl('', [Validators.required, Validators.pattern('^[0-9]{4}$')]);
+  otpFormControl = new FormControl('', [Validators.required, Validators.pattern('^[0-9]{6}$')]);
 
   constructor(
     private readonly authService: AuthService,
@@ -58,7 +58,7 @@ export class UdiseVerificationComponent implements OnInit {
     }
     this.authService.getUDISEDetails(payload).subscribe((response) => {
       this.isLoading = false;
-      if (!response.status) {
+      if (!response?.udiseCode) {
         this.invalidUDISE = true;
       } else {
         this.udiseDetails = response;

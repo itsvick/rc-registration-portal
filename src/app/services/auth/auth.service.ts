@@ -99,6 +99,13 @@ export class AuthService {
     return details;
   }
 
+  isKYCCompleted() {
+    if (this.currentUser?.kyc_aadhaar_token && this.currentUser?.school_id && this.currentUser?.school_name) {
+      return true;
+    }
+    return false;
+  }
+
   doLogout() {
     if (this.digilockerAccessToken){
       const payload = {

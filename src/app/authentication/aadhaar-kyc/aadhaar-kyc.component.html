@@ -19,7 +19,7 @@
             </p>
           </div>
           <button type="submit" class="btn btn-primary btn-lg btn-block mt-4 fs-18 mt-4 fw-600"
-          [ngClass]="{'disable-btn': !aadhaarFormControl?.valid}" [disabled]="!aadhaarFormControl?.valid">
+          [ngClass]="{'disable-btn': !aadhaarFormControl?.valid  || isGetOTPClicked}" [disabled]="!aadhaarFormControl?.valid  || isGetOTPClicked">
           {{'GET_OTP' | translate}}&nbsp;<i class="fa fa-solid fa-arrow-right"></i></button>
         </div>
       </div>

@@ -447,5 +447,7 @@
     "EMAIL_ID": "Email ID",
     "COMPLETE_KYC": "Complete e-KYC",
     "VERIFY_UDISE": "Verify UDISE",
-    "INVALID_UDISE_ID": "Invalid UDISE ID"
+    "INVALID_UDISE_ID": "Invalid UDISE ID",
+    "E_KYC_DONE_SUCCESSFULLY": "e-KYC done successfully",
+    "UDISE_VERIFICATION_SUCCESS": "UDISE Verification done successfully"
 }

@@ -1,11 +1,11 @@
 <app-header [headerFor]='headerName'></app-header>
 
 <section>
-  <aside class="col-sm-3 pl-0">
+  <aside class="col-sm-3 pl-0 pr-0">
     <app-sidebar></app-sidebar>
   </aside>
 
-  <main class="col-sm-9 p-0 bg-sch-img">
+  <main class="col-sm-9 p-0 pl-2 bg-sch-img">
     <p *ngIf="isFirstTimeLogin && currentUser?.name">{{'WELCOME_NOTE' | translate: {name: currentUser?.name} }}</p>
     <div *ngIf="!isChildRoute">
       <div class="text-center fs-24 text-bl mb-4 mt-5"> {{'TRACK_ALL_MAJOR' | translate}}</div>

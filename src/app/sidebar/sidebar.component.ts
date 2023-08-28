@@ -4,6 +4,7 @@ import { SchemaService } from '../services/data/schema.service';
 import { IImpressionEventInput, IInteractEventInput } from '../services/telemetry/telemetry.interface';
 import { TelemetryService } from '../services/telemetry/telemetry.service';
 import { AuthService } from '../services/auth/auth.service';
+import { UtilService } from '../services/util/util.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -20,17 +21,17 @@ export class SidebarComponent implements OnInit {
     private readonly schemaService: SchemaService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly telemetryService: TelemetryService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly utilService: UtilService
   ) { }
 
   ngOnInit(): void {
-    if (!this.authService.currentUser?.kyc_aadhaar_token || !this.authService.currentUser?.school_id) {
-      this.isKYCCompleted = false;
-    } else {
-      this.isKYCCompleted = true;
-    }
-
+    this.isKYCCompleted = this.authService.isKYCCompleted();
     this.initialize();
+    this.utilService.kycCompleted.subscribe((res) => {
+      console.log("res====>", res);
+      this.isKYCCompleted = res;
+    });
   }
 
   initialize() {

@@ -7,6 +7,7 @@ import { DataService } from '../services/data/data-request.service';
 import { AuthConfigService } from '../authentication/auth-config.service';
 import { HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { UtilService } from '../services/util/util.service';
 
 @Component({
   selector: 'app-my-account',
@@ -18,6 +19,7 @@ export class MyAccountComponent implements OnInit {
   accountDetails: any;
   isAadhaarKYCCompleted = false;
   isUDISEVerified = false;
+  modalMessage: string;
 
 
   successModalRef: NgbModalRef;
@@ -27,7 +29,8 @@ export class MyAccountComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly modalService: NgbModal,
     private readonly dataService: DataService,
-    private readonly authConfigService: AuthConfigService
+    private readonly authConfigService: AuthConfigService,
+    private readonly util: UtilService
   ) { }
 
   ngOnInit(): void {
@@ -49,6 +52,7 @@ export class MyAccountComponent implements OnInit {
       size: 'md'
     });
     aadhaarModalRef.closed.subscribe(() => {
+      this.modalMessage = this.util.translateString('E_KYC_DONE_SUCCESSFULLY');
       this.getDetails();
       this.showSuccessModal();
     });
@@ -61,6 +65,7 @@ export class MyAccountComponent implements OnInit {
       size: 'md'
     });
     udiseModalRef.closed.subscribe(() => {
+      this.modalMessage = this.util.translateString('UDISE_VERIFICATION_SUCCESS');
       this.getDetails();
       this.showSuccessModal();
     });
