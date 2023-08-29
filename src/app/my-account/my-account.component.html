@@ -15,7 +15,7 @@
     <div class="col-9 user-info">
       <div class="row">
         <div class="col-3 title d-flex align-items-center">{{'EMAIL_ID' | translate}}</div>
-        <div class="col-5 value text-grey-color">{{accountDetails?.email}}</div>
+        <div class="col-5 value text-grey-color">{{accountDetails?.email || '---'}}</div>
       </div>
       <div class="row">
         <div class="col-3 title d-flex align-items-center">{{'MOBILE_NUMBER' | translate}}</div>
@@ -24,27 +24,24 @@
       <div class="row">
         <div class="col-3 title d-flex align-items-center" [ngClass]="{'text-danger': !accountDetails?.kyc_aadhaar_token}">{{'AADHAAR_ID' | translate}}</div>
         <div class="col-5 value text-grey-color">
-          <span *ngIf="isAadhaarKYCCompleted">{{accountDetails?.kyc_aadhaar_token}}</span>
+          <span *ngIf="isAadhaarKYCCompleted">{{accountDetails?.kyc_aadhaar_token || '---'}}</span>
         </div>
-        <button *ngIf="!isAadhaarKYCCompleted" class="btn btn-primary ml-2" (click)="completeKYC()">{{'COMPLETE_KYC' |
-          translate}}</button>
+        <button *ngIf="!isAadhaarKYCCompleted" class="btn btn-primary ml-2" (click)="completeKYC()">{{'COMPLETE_KYC' | translate}}</button>
       </div>
       <div class="row">
         <div class="col-3 title d-flex align-items-center" [ngClass]="{'text-danger': !accountDetails?.school_id}">{{'SCHOOL_ID' | translate}}</div>
         <div class="col-5 value text-grey-color">
-          <span *ngIf="isUDISEVerified">{{accountDetails?.school_id}}</span>
+          <span *ngIf="isUDISEVerified">{{accountDetails?.school_id || '---'}}</span>
         </div>
-        <button *ngIf="!isUDISEVerified" class="btn btn-primary ml-2" (click)="verifyUDISE()">{{'VERIFY_UDISE' |
-          translate}}</button>
+        <button *ngIf="!isUDISEVerified" class="btn btn-primary ml-2" (click)="verifyUDISE()">{{'VERIFY_UDISE' | translate}}</button>
       </div>
       <div class="row">
         <div class="col-3 title d-flex align-items-center" [ngClass]="{'text-danger': !accountDetails?.school_name}" >{{'School Name' | translate}}</div>
-        <div class="col-5 value text-grey-color">{{accountDetails?.school_name}}</div>
+        <div class="col-5 value text-grey-color">{{accountDetails?.school_name || '---'}}</div>
       </div>
     </div>
   </div>
 </div>
-
 
 
 <ng-template #successModal tabindex="-1" role="dialog" aria-labelledby="successModal">
