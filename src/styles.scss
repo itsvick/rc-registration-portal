@@ -1275,3 +1275,35 @@ textarea.jsoneditor-text {
     text-decoration-skip-ink: auto;
     text-underline-offset: 4px;
 }
+.sidebar-collapse.collapse{
+    width: 52px;
+    overflow: hidden;
+    display: block !important;
+
+}
+.sidebar-collapse.show{
+    width: 100%;
+}
+
+.sidebar-icon.collapsed{
+   left:17px;
+}
+
+.sidebar-icon{
+    position: absolute;
+    left: 300px;
+    top: 110px;
+    background: var(--primaryColor);
+    color: #fff;
+    padding: 9px;
+    display: block;
+    border-radius: 6px;
+    height: 28px;
+    width: 31px;
+    line-height: 11px;
+    text-align: center;
+}
+
+.text-float{
+    float: left;
+}
