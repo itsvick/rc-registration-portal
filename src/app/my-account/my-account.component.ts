@@ -33,15 +33,7 @@ export class MyAccountComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.accountDetails = this.authService.currentUser;
-
-    if (this.accountDetails?.kyc_aadhaar_token) {
-      this.isAadhaarKYCCompleted = true;
-    }
-
-    if (this.accountDetails?.school_id) {
-      this.isUDISEVerified = true;
-    }
+    this.getAccountDetails();
   }
 
   completeKYC() {
@@ -86,6 +78,20 @@ export class MyAccountComponent implements OnInit {
       localStorage.setItem('currentUser', JSON.stringify(res.result));
       this.accountDetails = res.result;
       return res;
-    })).subscribe();
+    })).subscribe(() => {
+      this.getAccountDetails();
+    });
+  }
+
+  getAccountDetails() {
+    this.accountDetails = this.authService.currentUser;
+
+    if (this.accountDetails?.kyc_aadhaar_token) {
+      this.isAadhaarKYCCompleted = true;
+    }
+
+    if (this.accountDetails?.school_id) {
+      this.isUDISEVerified = true;
+    }
   }
 }
