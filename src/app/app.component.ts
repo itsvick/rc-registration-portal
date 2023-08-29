@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { AppConfig } from './app.config';
 import { ThemeService } from "../app/services/theme/theme.service";
+import { AppConfig } from './app.config';
 import { TelemetryService } from './services/telemetry/telemetry.service';
 
 @Component({
@@ -13,15 +13,14 @@ export class AppComponent {
   isFooter = false;
   ELOCKER_THEME;
   constructor(private config: AppConfig, private themeService: ThemeService, private telemetryService: TelemetryService) {
-    
-     if(this.config.getEnv('appType') && this.config.getEnv('appType') != 'digital_wallet'){
+
+    if (this.config.getEnv('appType') && this.config.getEnv('appType') != 'digital_wallet') {
       this.isFooter = true;
-      if(window.location.pathname != '/install'){
+      if (window.location.pathname != '/install') {
         this.footerText = this.config.getEnv('footerText');
       }
     }
-    
-   
+
     this.ELOCKER_THEME = localStorage.getItem('ELOCKER_THEME');
 
     if (this.ELOCKER_THEME) {
@@ -36,7 +35,7 @@ export class AppComponent {
     //   }
     //   this.themeService.setTheme(this.ELOCKER_THEME);
     //   localStorage.setItem('ELOCKER_THEME', this.ELOCKER_THEME);
-  //  }
+    //  }
 
 
   }

@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA, InjectionToken, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -117,6 +117,13 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { UdiseVerificationComponent } from './udise-verification/udise-verification.component';
 import { MyAccountComponent } from './my-account/my-account.component';
 import { RegisterComponent } from './register/register.component';
+import { ignoreCasePipe } from './utility/pipes/ignore-case.pipe';
+import { DataTableComponent } from './data-table/data-table.component';
+import { AuthInterceptor } from './authentication/auth.interceptor';
+import { AuthService } from './services/auth/auth.service';
+import { Router } from '@angular/router';
+import { UtilService } from './services/util/util.service';
+import { ToastMessageService } from './services/toast-message/toast-message.service';
 
 @NgModule({
   declarations: [
@@ -169,6 +176,7 @@ import { RegisterComponent } from './register/register.component';
     IssuedCredentialsComponent,
     BulkIssueCredentialsComponent,
     KeysPipe,
+    ignoreCasePipe,
     AadhaarKycComponent,
     DatepickerTypeComponent,
     SelectWrapper,
@@ -178,7 +186,8 @@ import { RegisterComponent } from './register/register.component';
     LandingPageComponent,
     UdiseVerificationComponent,
     MyAccountComponent,
-    RegisterComponent
+    RegisterComponent,
+    DataTableComponent
   ],
   imports: [
     BrowserModule,
@@ -268,6 +277,13 @@ import { RegisterComponent } from './register/register.component';
       },
       deps: [TranslateService],
     },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      deps: [ToastMessageService, UtilService, Router],
+      multi: true
+    }
+
   ]
 })
 

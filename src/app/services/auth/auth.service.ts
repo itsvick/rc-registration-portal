@@ -67,7 +67,7 @@ export class AuthService {
   }
 
   getToken() {
-    return localStorage.getItem('accessToken');
+    return localStorage.getItem('token');
   }
 
   set digilockerAccessToken(token: string) {
@@ -175,7 +175,7 @@ export class AuthService {
 
   getUDISEDetails(payload: any): Observable<any> {
     // const api = `${this.baseUrl}/v1/school/verify`;
-    const api = "https://produlp.uniteframework.io/ulp-bff/v1/school/verify";
+    const api = "https://produlp.uniteframework.io/ulp-bff/v1/school/verify"; //TODO: Change the Host of the school verify API
     return this.http.post(api, payload).pipe(map((res: any) => res?.response?.data));
   }
 

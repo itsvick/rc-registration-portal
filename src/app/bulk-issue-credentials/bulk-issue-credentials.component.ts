@@ -8,6 +8,21 @@ import { TelemetryService } from '../services/telemetry/telemetry.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CsvService } from '../services/csv/csv.service';
 import * as Papa from "papaparse";
+import { UtilService } from '../services/util/util.service';
+
+/**
+ * An object used to get page information from the server
+ */
+export class Page {
+  // The number of elements in the page
+  size: number = 0;
+  // The total number of elements
+  totalElements: number = 0;
+  // The total number of pages
+  totalPages: number = 0;
+  // The current page number
+  pageNumber: number = 0;
+}
 
 @Component({
   selector: 'app-bulk-issue-credentials',
@@ -21,6 +36,9 @@ export class BulkIssueCredentialsComponent implements OnInit {
   schemaDetails: any;
   strictLoader: boolean = false;
 
+  csvObject: any;
+  tableColumns: any[] = [];
+
   @ViewChild('fileUpload') fileUpload: ElementRef<HTMLElement>;
   constructor(
     private readonly dataService: DataService,
@@ -30,8 +48,11 @@ export class BulkIssueCredentialsComponent implements OnInit {
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
     private readonly telemetryService: TelemetryService,
-    private readonly csvService: CsvService
-  ) { }
+    private readonly csvService: CsvService,
+    private readonly utilService: UtilService
+  ) {
+
+  }
 
   ngOnInit(): void {
     this.getSchemaList();
@@ -85,7 +106,7 @@ export class BulkIssueCredentialsComponent implements OnInit {
 
 
   public async importDataFromCSV(event: any) {
-    this.strictLoader = true;
+    // this.strictLoader = true;
     try {
       const parsedCSV = await this.parseCSVFile(event);
 
@@ -93,7 +114,18 @@ export class BulkIssueCredentialsComponent implements OnInit {
         throw new Error(this.generalService.translateString('IT_SEEMS_UPLOADED_EMPTY_CSV_FILE_PLEASE_UPLOAD_VALID_CSV'));
       }
 
-      this.uploadCSVValues(parsedCSV);
+      this.csvObject = parsedCSV;
+      
+      this.tableColumns = Object.keys(parsedCSV[0]).map((item) => {
+        return { prop: item };
+      });
+      console.log("tableCOlumns", this.tableColumns);
+      // .map((item) => {
+      //   const key = this.utilService.variableNameToReadableString(item);
+      //   return { name: key };
+      // });
+      console.log("parsedCSV", parsedCSV);
+      // this.uploadCSVValues(parsedCSV);
     } catch (error) {
       this.strictLoader = false;
       const errorMessage = error?.message ? error.message : this.generalService.translateString('ERROR_WHILE_PARSING_CSV_FILE');
@@ -123,6 +155,11 @@ export class BulkIssueCredentialsComponent implements OnInit {
     });
   }
 
+  onIssueCredentials(event) {
+    console.log("event", event);
+    this.strictLoader = true;
+    this.uploadCSVValues(event);
+  }
 
   uploadCSVValues(parsedCSV) {
     const isValidCSV = this.validateCSV(parsedCSV);
@@ -130,11 +167,13 @@ export class BulkIssueCredentialsComponent implements OnInit {
 
     if (!isValidCSV) {
       this.toastMsg.error("", this.generalService.translateString('SOME_FIELDS_MISSED'));
+      return;
     }
 
     this.bulkIssuanceService.issueBulkCredentials(this.schemaDetails.id, parsedCSV).subscribe((response: any) => {
       this.strictLoader = false;
       console.log("response", response);
+      this.generateBulkRegisterResponse(response);
       this.toastMsg.success("", this.generalService.translateString("CREDENTIAL_ISSUED_SUCCESSFULLY"))
     }, (error) => {
       this.strictLoader = false;
@@ -149,6 +188,20 @@ export class BulkIssueCredentialsComponent implements OnInit {
     const csvKeys = Object.keys(parsedCSV[0]);
 
     return requiredFields.every(value => csvKeys.includes(value));
+  }
+
+
+  generateBulkRegisterResponse(response: any) {
+    const csv = response.map((item: any) => {
+      return {
+        ...item.studentDetails,
+        status: item.status,
+        error: item.status ? '' : item.error
+      }
+    });
+
+    const csvData = Papa.unparse(csv, { quotes: true });
+    this.utilService.downloadFile('report.csv', 'text/csv;charset=utf-8;', csvData);
   }
 
   raiseInteractEvent(id: string, type: string = 'CLICK', subtype?: string) {

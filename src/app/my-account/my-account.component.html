@@ -19,7 +19,7 @@
       </div>
       <div class="row">
         <div class="col-3 title d-flex align-items-center">{{'MOBILE_NUMBER' | translate}}</div>
-        <div class="col-5 value text-grey-color">{{accountDetails?.recoveryphone}}</div>
+        <div class="col-5 value text-grey-color">{{accountDetails?.username}}</div>
       </div>
       <div class="row">
         <div class="col-3 title d-flex align-items-center" [ngClass]="{'text-danger': !accountDetails?.kyc_aadhaar_token}">{{'AADHAAR_ID' | translate}}</div>
