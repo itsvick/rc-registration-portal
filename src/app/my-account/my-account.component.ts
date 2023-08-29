@@ -74,7 +74,15 @@ export class MyAccountComponent implements OnInit {
     let headerOptions = new HttpHeaders({
       Authorization: 'Bearer ' + localStorage.getItem('token')
     });
-    this.dataService.get({ url: `${this.authConfigService.config.bulkIssuance}/bulk/v1/instructor/getdetail`, header: headerOptions }).pipe(map((res: any) => {
+
+    let apiUrl;
+    if (localStorage.getItem('isDigilockerUser') === 'true') {
+      apiUrl = `${this.authConfigService.config.bulkIssuance}/bulk/v1/instructor/digi/getdetail`;
+    } else {
+      apiUrl = `${this.authConfigService.config.bulkIssuance}/bulk/v1/instructor/getdetail`;
+    }
+
+    this.dataService.get({ url: apiUrl, header: headerOptions }).pipe(map((res: any) => {
       localStorage.setItem('currentUser', JSON.stringify(res.result));
       this.accountDetails = res.result;
       return res;

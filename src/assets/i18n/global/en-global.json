@@ -453,5 +453,10 @@
     "YOUR_SESSION_EXPIRED": "Your session has expired! Please login again",
     "PLEASE_COMPLETE_YOUR_E_KYC_AND_UDISE": "Please complete your e-KYC and UDISE verification to issue",
     "PLEASE_COMPLETE_YOUR_E-KYC_TO_ISSUE": "Please complete your e-KYC to issue",
-    "PLEASE_COMPLETE_YOUR_UDISE_VERIFICATION_TO_ISSUE": "Please complete your UDISE verification to issue"
+    "PLEASE_COMPLETE_YOUR_UDISE_VERIFICATION_TO_ISSUE": "Please complete your UDISE verification to issue",
+    "SUCCESSFULLY_DOWNLOADED": "Successfully downloaded",
+    "PLEASE_SELECT_AT_LEAST_ONE_ROW": "Please select at least one row",
+    "SHOWING": "Showing",
+    "FROM": "from",
+    "ENTRIES": "entries"
 }

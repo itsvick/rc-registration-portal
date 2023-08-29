@@ -1,25 +1,25 @@
 <app-header [headerFor]='headerName'></app-header>
 <div style="position: relative;">
-  <i class="fa fa-angle-right sidebar-icon" (click)="childClick()"  data-toggle="collapse" data-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample"></i>
+  <i class="fa sidebar-icon cursor-pointer" [ngClass]="sidebarToggle ? 'fa-angle-left' : 'fa-angle-right'"
+    (click)="toggleSidebarMenu()" data-toggle="collapse" data-target="#collapseWidthExample" aria-expanded="false"
+    aria-controls="collapseWidthExample"></i>
 </div>
 <section>
 
- 
   <div class="text-float">
-  <aside class="collapse width show sidebar-collapse"  id="collapseWidthExample">
-    <app-sidebar></app-sidebar>
-  </aside>
+    <aside class="collapse width show sidebar-collapse" id="collapseWidthExample">
+      <app-sidebar></app-sidebar>
+    </aside>
   </div>
 
   <main class="p-0 pl-2 bg-sch-img" [ngClass]="{'col-sm-9':sidebarToggle,'col-sm-11':!sidebarToggle}">
     <p *ngIf="isFirstTimeLogin && currentUser?.name">{{'WELCOME_NOTE' | translate: {name: currentUser?.name} }}</p>
     <div *ngIf="!isChildRoute">
-      <div class="text-center fs-24 text-bl mb-4 mt-5"> {{'TRACK_ALL_MAJOR' | translate}}</div>
+      <div class="text-center fs-24 text-bl mb-4 mt-6"> {{'TRACK_ALL_MAJOR' | translate}}</div>
       <div class="px-5 pb-5">
         <div class="row pb-55 pt-3">
           <div class="col-md-6 flex-center">
-            <div routerLink="/dashboard/issued-credential"
-              class="box cursor-pointer">
+            <div routerLink="/dashboard/issued-credential" class="box cursor-pointer">
               <div class="fs-18 font-weight-bold text-center">
                 <div class="fs-24">{{metrics?.credentials_issued}}</div>
                 <div>{{'ENROLMENT_CREDENTIAL' | translate}}</div>
@@ -30,8 +30,7 @@
             </div>
           </div>
           <div class="col-md-6 flex-center">
-            <div routerLink="/dashboard/claim-approval" [queryParams]="{filter: 'approved'}"
-              class="box cursor-pointer">
+            <div routerLink="/dashboard/claim-approval" [queryParams]="{filter: 'approved'}" class="box cursor-pointer">
               <div class="fs-18 font-weight-bold text-center">
                 <div class="fs-24">{{metrics?.claims_approved}}</div>
                 <div>{{'APPROVED_CLAIMS' | translate}}</div>
@@ -46,8 +45,7 @@
       <div class="px-5">
         <div class="row pb-55 pt-3">
           <div class="col-md-6 flex-center">
-            <div routerLink="/dashboard/claim-approval"
-              class="box cursor-pointer">
+            <div routerLink="/dashboard/claim-approval" class="box cursor-pointer">
               <div class="fs-18 font-weight-bold text-center">
                 <div class="fs-24">{{metrics?.claims_pending}}</div>
                 <div>{{'PENDING_CLAIM_APPROVAL' | translate}}</div>
@@ -58,8 +56,7 @@
             </div>
           </div>
           <div class="col-md-6 flex-center">
-            <div routerLink="/dashboard/claim-approval" [queryParams]="{filter: 'rejected'}"
-              class="box cursor-pointer">
+            <div routerLink="/dashboard/claim-approval" [queryParams]="{filter: 'rejected'}" class="box cursor-pointer">
               <div class="fs-18 font-weight-bold text-center">
                 <div class="fs-24">{{metrics?.claims_rejected}}</div>
                 <div>{{'REJECTED_CLAIMS' | translate}}</div>

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ToastMessageService } from '../services/toast-message/toast-message.service';
+import { UtilService } from '../services/util/util.service';
 
 @Component({
   selector: 'app-data-table',
@@ -15,8 +16,10 @@ export class DataTableComponent implements OnInit {
   page = 1;
   tableData: any[] = [];
   indexCount = 0;
+  endPageCount = 0;
   constructor(
-    private readonly toastMsg: ToastMessageService
+    private readonly toastMsg: ToastMessageService,
+    private readonly utilService: UtilService
   ) { }
 
   ngOnInit(): void {
@@ -25,9 +28,9 @@ export class DataTableComponent implements OnInit {
 
 
   pageChange() {
-    this.data = this.data.map((item, index) => {
-      return { ...item, rowId: index + 1 }
-    });
+    // this.data = this.data.map((item, index) => {
+    //   return { ...item, rowId: index + 1 }
+    // });
     this.tableData = this.data.slice(
       (this.page - 1) * this.pageSize,
       (this.page - 1) * this.pageSize + this.pageSize,
@@ -39,6 +42,7 @@ export class DataTableComponent implements OnInit {
       this.indexCount = (this.page - 1) * this.pageSize;
     }
 
+    this.endPageCount = this.data?.length > (this.pageSize * this.page) ? this.pageSize * this.page : this.data.length;
     console.log("this.tble", this.tableData)
   }
 
@@ -64,10 +68,18 @@ export class DataTableComponent implements OnInit {
   }
 
   onIssueCredentials() {
-    let selectedRows = this.data.filter(x => x.checked).map(({ rowId, checked, ...rest }) => { return rest });
+    // const rows = [...this.data.map((item, index) => {
+    //   return { ...item, rowId: index + 1 }
+    // })];
+
+    let selectedRows = this.data.filter((item, index) => item.checked)
+      .map(({ checked, ...rest }) => { return rest });
+
+    this.data = this.data.filter((item) => !item.checked);
+    this.pageChange();
 
     if (!selectedRows.length) {
-      this.toastMsg.error('', 'Please select at least one row');
+      this.toastMsg.error('', this.utilService.translateString('PLEASE_SELECT_ATLEAST_ONE_RECORD'));
       return;
     }
     this.issueCredentials.emit(selectedRows);

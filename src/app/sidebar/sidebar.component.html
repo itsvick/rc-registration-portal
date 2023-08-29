@@ -1,25 +1,23 @@
-<div class="sidebar" >
+<div class="sidebar">
   <section class='sidebarContainer'>
-<div>
-     
-    <ng-container *ngIf="menuList && isKYCCompleted"  >
-      <div *ngFor="let item of menuList" class="menu mb-2 s-3" [routerLink]="[item?.redirectTo]"
-        routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" (click)="raiseInteractEvent(item?.id)">
-        <i [class]="item?.className"></i>
-        <div class="title">{{item?.title | translate}}</div>
+    <div>
+      <ng-container *ngIf="menuList && isKYCCompleted">
+        <div *ngFor="let item of menuList" class="menu mb-2 s-3" [routerLink]="[item?.redirectTo]"
+          routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" (click)="raiseInteractEvent(item?.id)">
+          <i [class]="item?.className"></i>
+          <div class="title">{{item?.title | translate}}</div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="!isKYCCompleted">
+        <div *ngFor="let item of menuList" class="menu mb-2 s-3">
+          <i [class]="item?.className" class="disable"></i>
+          <div class="title disable">{{item?.title | translate}}</div>
+        </div>
+      </ng-container>
+      <div class="menu" (click)="logout()">
+        <i class="fa fa-power-off fs-22 text-light"></i>
+        <div class="font-weight-bold">{{'LOGOUT' | translate }}</div>
       </div>
-    </ng-container>
-    <ng-container *ngIf="!isKYCCompleted">
-      <div *ngFor="let item of menuList" class="menu mb-2 s-3">
-        <i [class]="item?.className" class="disable"></i>
-        <div class="title disable">{{item?.title | translate}}</div>
-      </div>
-    </ng-container>
-    <div class="menu" (click)="logout()">
-      <i class="fa fa-power-off fs-22 text-light"></i>
-      <div class="text-light font-weight-bold">{{'LOGOUT' | translate }}</div>
     </div>
-  </div>  
   </section>
 </div>
-

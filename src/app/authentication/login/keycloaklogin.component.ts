@@ -130,6 +130,7 @@ export class KeycloakloginComponent implements OnInit {
           }
         });
       } else {
+        localStorage.setItem('isDigilockerUser', 'true');
         this.getDetails().subscribe((res: any) => {
           // const navigationExtras: NavigationExtras = {
           //   state: {
