@@ -15,7 +15,7 @@
   <main class="p-0 pl-2 bg-sch-img" [ngClass]="{'col-sm-9':sidebarToggle,'col-sm-11':!sidebarToggle}">
     <p *ngIf="isFirstTimeLogin && currentUser?.name">{{'WELCOME_NOTE' | translate: {name: currentUser?.name} }}</p>
     <div *ngIf="!isChildRoute">
-      <div class="text-center fs-24 text-bl mb-4 mt-5"> {{'TRACK_ALL_MAJOR' | translate}}</div>
+      <div class="text-center fs-24 text-bl mb-4 mt-6"> {{'TRACK_ALL_MAJOR' | translate}}</div>
       <div class="px-5 pb-5">
         <div class="row pb-55 pt-3">
           <div class="col-md-6 flex-center">

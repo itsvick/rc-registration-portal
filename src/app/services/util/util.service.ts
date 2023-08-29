@@ -9,7 +9,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 })
 export class UtilService {
 
-  kycCompleted: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  kycCompleted: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private readonly translateService: TranslateService
