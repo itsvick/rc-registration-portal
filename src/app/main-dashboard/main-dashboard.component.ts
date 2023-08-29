@@ -22,7 +22,10 @@ export class MainDashboardComponent implements OnInit {
   currentUser: any;
   headerName: string = 'plain';
   metrics: any;
+  sidebarToggle:boolean=true
+
   private unsubscribe$ = new Subject<void>();
+
   constructor(
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
@@ -31,7 +34,9 @@ export class MainDashboardComponent implements OnInit {
     private readonly authConfigService: AuthConfigService,
     private readonly toastMessageService: ToastMessageService,
     private readonly generalService: GeneralService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    
+    
   ) {
     this.router.events.pipe(
       takeUntil(this.unsubscribe$),
@@ -52,6 +57,10 @@ export class MainDashboardComponent implements OnInit {
     this.currentUser = this.authService.currentUser;
     // this.getMetrics();
   }
+
+childClick(){
+  this.sidebarToggle=!this.sidebarToggle
+}
 
   getMetrics() {
     const payload = {

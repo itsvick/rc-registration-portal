@@ -1,11 +1,17 @@
 <app-header [headerFor]='headerName'></app-header>
-
+<div style="position: relative;">
+  <i class="fa fa-angle-right sidebar-icon" (click)="childClick()"  data-toggle="collapse" data-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample"></i>
+</div>
 <section>
-  <aside class="col-sm-3 pl-0 pr-0">
+
+ 
+  <div class="text-float">
+  <aside class="collapse width show sidebar-collapse"  id="collapseWidthExample">
     <app-sidebar></app-sidebar>
   </aside>
+  </div>
 
-  <main class="col-sm-9 p-0 pl-2 bg-sch-img">
+  <main class="p-0 pl-2 bg-sch-img" [ngClass]="{'col-sm-9':sidebarToggle,'col-sm-11':!sidebarToggle}">
     <p *ngIf="isFirstTimeLogin && currentUser?.name">{{'WELCOME_NOTE' | translate: {name: currentUser?.name} }}</p>
     <div *ngIf="!isChildRoute">
       <div class="text-center fs-24 text-bl mb-4 mt-5"> {{'TRACK_ALL_MAJOR' | translate}}</div>
