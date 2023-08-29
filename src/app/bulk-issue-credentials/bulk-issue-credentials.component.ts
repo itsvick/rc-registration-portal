@@ -9,6 +9,7 @@ import { IImpressionEventInput, IInteractEventInput } from '../services/telemetr
 import { TelemetryService } from '../services/telemetry/telemetry.service';
 import { ToastMessageService } from '../services/toast-message/toast-message.service';
 import { UtilService } from '../services/util/util.service';
+import { AuthService } from '../services/auth/auth.service';
 
 /**
  * An object used to get page information from the server
@@ -52,10 +53,17 @@ export class BulkIssueCredentialsComponent implements OnInit {
     private readonly telemetryService: TelemetryService,
     private readonly csvService: CsvService,
     private readonly utilService: UtilService,
-    private readonly modalService: NgbModal
+    private readonly modalService: NgbModal,
+    private readonly authService: AuthService,
+    private readonly toastMsgService: ToastMessageService
   ) { }
 
   ngOnInit(): void {
+    if(!this.authService.isKYCCompleted()) {
+      this.toastMsgService.error('', this.utilService.translateString('PLEASE_COMPLETE_YOUR_E_KYC_AND_UDISE'));
+      this.router.navigate(['/dashboard/my-account']);
+      return
+    }
     this.getSchemaList();
   }
 

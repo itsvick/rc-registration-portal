@@ -1,18 +1,18 @@
+import { KeyValue } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-import { concatMap, map, switchMap } from 'rxjs/operators';
+import * as dayjs from 'dayjs';
+import * as customParseFormat from 'dayjs/plugin/customParseFormat';
+import { forkJoin, of } from 'rxjs';
+import { concatMap, switchMap } from 'rxjs/operators';
 import { AuthService } from '../services/auth/auth.service';
+import { BulkIssuanceService } from '../services/bulk-issuance/bulk-issuance.service';
 import { CredentialService } from '../services/credential/credential.service';
 import { GeneralService } from '../services/general/general.service';
 import { IImpressionEventInput, IInteractEventInput } from '../services/telemetry/telemetry.interface';
 import { TelemetryService } from '../services/telemetry/telemetry.service';
 import { ToastMessageService } from '../services/toast-message/toast-message.service';
 import { UtilService } from '../services/util/util.service';
-import * as dayjs from 'dayjs';
-import * as customParseFormat from 'dayjs/plugin/customParseFormat';
-import { BulkIssuanceService } from '../services/bulk-issuance/bulk-issuance.service';
-import { forkJoin, of } from 'rxjs';
-import { KeyValue } from '@angular/common';
 
 
 dayjs.extend(customParseFormat);
@@ -48,12 +48,17 @@ export class IssuedCredentialsComponent implements OnInit {
     private readonly generalService: GeneralService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly telemetryService: TelemetryService,
-    private readonly utilService: UtilService,
-    private readonly toastService: ToastMessageService,
-    private readonly bulkIssuanceService: BulkIssuanceService
+    private readonly bulkIssuanceService: BulkIssuanceService,
+    private readonly toastMsgService: ToastMessageService
   ) { }
 
   ngOnInit(): void {
+    if(!this.authService.isKYCCompleted()) {
+      this.toastMsgService.error('', this.generalService.translateString('PLEASE_COMPLETE_YOUR_E_KYC_AND_UDISE'));
+      this.router.navigate(['/dashboard/my-account']);
+      return;
+    }
+
     this.getCredentials();
     this.getSchemaList();
   }

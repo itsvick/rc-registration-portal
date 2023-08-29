@@ -22,7 +22,7 @@ export class MainDashboardComponent implements OnInit {
   currentUser: any;
   headerName: string = 'plain';
   metrics: any;
-  sidebarToggle:boolean=true
+  sidebarToggle: boolean = true
 
   private unsubscribe$ = new Subject<void>();
 
@@ -35,8 +35,8 @@ export class MainDashboardComponent implements OnInit {
     private readonly toastMessageService: ToastMessageService,
     private readonly generalService: GeneralService,
     private readonly authService: AuthService,
-    
-    
+
+
   ) {
     this.router.events.pipe(
       takeUntil(this.unsubscribe$),
@@ -58,9 +58,9 @@ export class MainDashboardComponent implements OnInit {
     // this.getMetrics();
   }
 
-childClick(){
-  this.sidebarToggle=!this.sidebarToggle
-}
+  toggleSidebarMenu() {
+    this.sidebarToggle = !this.sidebarToggle;
+  }
 
   getMetrics() {
     const payload = {
