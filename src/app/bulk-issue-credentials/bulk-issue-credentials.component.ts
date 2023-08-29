@@ -1,13 +1,13 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { DataService } from '../services/data/data-request.service';
-import { ToastMessageService } from '../services/toast-message/toast-message.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import * as Papa from "papaparse";
 import { BulkIssuanceService } from '../services/bulk-issuance/bulk-issuance.service';
+import { CsvService } from '../services/csv/csv.service';
 import { GeneralService } from '../services/general/general.service';
 import { IImpressionEventInput, IInteractEventInput } from '../services/telemetry/telemetry.interface';
 import { TelemetryService } from '../services/telemetry/telemetry.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CsvService } from '../services/csv/csv.service';
-import * as Papa from "papaparse";
+import { ToastMessageService } from '../services/toast-message/toast-message.service';
 import { UtilService } from '../services/util/util.service';
 
 /**
@@ -39,9 +39,11 @@ export class BulkIssueCredentialsComponent implements OnInit {
   csvObject: any;
   tableColumns: any[] = [];
 
+  downloadModalRef: NgbModalRef;
+  @ViewChild("downloadModal") downloadModal: ElementRef;
   @ViewChild('fileUpload') fileUpload: ElementRef<HTMLElement>;
+
   constructor(
-    private readonly dataService: DataService,
     private readonly toastMsg: ToastMessageService,
     private readonly bulkIssuanceService: BulkIssuanceService,
     private readonly generalService: GeneralService,
@@ -49,10 +51,9 @@ export class BulkIssueCredentialsComponent implements OnInit {
     private readonly activatedRoute: ActivatedRoute,
     private readonly telemetryService: TelemetryService,
     private readonly csvService: CsvService,
-    private readonly utilService: UtilService
-  ) {
-
-  }
+    private readonly utilService: UtilService,
+    private readonly modalService: NgbModal
+  ) { }
 
   ngOnInit(): void {
     this.getSchemaList();
@@ -202,6 +203,15 @@ export class BulkIssueCredentialsComponent implements OnInit {
 
     const csvData = Papa.unparse(csv, { quotes: true });
     this.utilService.downloadFile('report.csv', 'text/csv;charset=utf-8;', csvData);
+    this.showDownloadModal();
+  }
+
+  showDownloadModal() {
+    this.downloadModalRef = this.modalService.open(this.downloadModal, {
+      animation: true,
+      centered: true,
+      size: 'sm'
+    });
   }
 
   raiseInteractEvent(id: string, type: string = 'CLICK', subtype?: string) {

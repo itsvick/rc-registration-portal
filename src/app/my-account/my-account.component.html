@@ -1,7 +1,7 @@
 <div class="mt-6 container">
   <h5 class="fs-18">{{'ACCOUNT' | translate}}</h5>
   <p *ngIf="!isAadhaarKYCCompleted && !isUDISEVerified" class="text-danger">{{'PLEASE_COMPLETE_YOUR_E_KYC_AND_UDISE' | translate}}</p>
-  <p *ngIf="!isAadhaarKYCCompleted && isUDISEVerified" class="text-danger">{{'"PLEASE_COMPLETE_YOUR_E-KYC_TO_ISSUE' | translate}}</p>
+  <p *ngIf="!isAadhaarKYCCompleted && isUDISEVerified" class="text-danger">{{'PLEASE_COMPLETE_YOUR_E-KYC_TO_ISSUE' | translate}}</p>
   <p *ngIf="!isUDISEVerified && isAadhaarKYCCompleted" class="text-danger">{{'PLEASE_COMPLETE_YOUR_UDISE_VERIFICATION_TO_ISSUE' | translate}}</p>
   <div class="row">
     <div class="col-3">
