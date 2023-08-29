@@ -21,7 +21,6 @@ export class MyAccountComponent implements OnInit {
   isUDISEVerified = false;
   modalMessage: string;
 
-
   successModalRef: NgbModalRef;
   @ViewChild("successModal") successModal: ElementRef;
 
