@@ -1,19 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { KeycloakService } from 'keycloak-angular';
-import { NavigationExtras, Router, RouterStateSnapshot } from '@angular/router';
-import { AppConfig } from '../../app.config';
-import { GeneralService } from 'src/app/services/general/general.service';
-import { KeycloakLoginOptions } from 'keycloak-js';
-import { Observable } from 'rxjs';
 import { HttpHeaders } from '@angular/common/http';
-import { AuthConfigService } from '../auth-config.service';
-import { DataService } from 'src/app/services/data/data-request.service';
-import { map } from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterStateSnapshot } from '@angular/router';
 import * as dayjs from 'dayjs';
 import * as customParseFormat from 'dayjs/plugin/customParseFormat';
-import { ToastMessageService } from 'src/app/services/toast-message/toast-message.service';
+import { KeycloakService } from 'keycloak-angular';
+import { KeycloakLoginOptions } from 'keycloak-js';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { DataService } from 'src/app/services/data/data-request.service';
+import { GeneralService } from 'src/app/services/general/general.service';
+import { ToastMessageService } from 'src/app/services/toast-message/toast-message.service';
 import { UtilService } from 'src/app/services/util/util.service';
+import { AppConfig } from '../../app.config';
+import { AuthConfigService } from '../auth-config.service';
 
 dayjs.extend(customParseFormat);
 @Component({
@@ -99,7 +99,8 @@ export class KeycloakloginComponent implements OnInit {
           if (res.result) {
             localStorage.setItem('currentUser', JSON.stringify(res.result));
           }
-          this.router.navigate(['/dashboard']);
+
+          this.navigateAfterLogin();
         }, error => {
           console.log(error);
 
@@ -130,13 +131,13 @@ export class KeycloakloginComponent implements OnInit {
         });
       } else {
         this.getDetails().subscribe((res: any) => {
-          const navigationExtras: NavigationExtras = {
-            state: {
-              name: res.result?.name,
-              dob: res.result?.dob,
-              gender: res.result?.gender,
-            }
-          }
+          // const navigationExtras: NavigationExtras = {
+          //   state: {
+          //     name: res.result?.name,
+          //     dob: res.result?.dob,
+          //     gender: res.result?.gender,
+          //   }
+          // }
 
           // if (!res?.result?.kyc_aadhaar_token) { // Aadhar KYC is pending
           //   this.router.navigate(['/aadhaar-kyc'], navigationExtras);
@@ -148,13 +149,7 @@ export class KeycloakloginComponent implements OnInit {
           // } else {
           //   this.router.navigate(['/dashboard']);
           // }
-          if (this.authService.isKYCCompleted()) {
-            this.utilService.kycCompleted.next(true);
-            this.router.navigate(['/dashboard']);  
-          } else {
-            this.utilService.kycCompleted.next(false);
-            this.router.navigate(['/dashboard/my-account']);
-          }
+          this.navigateAfterLogin();
         }, (err) => {
           this.router.navigate(['/logout']);
           console.log(err);
@@ -185,6 +180,17 @@ export class KeycloakloginComponent implements OnInit {
       localStorage.setItem('currentUser', JSON.stringify(res.result));
       return res;
     }));
+  }
+
+
+  navigateAfterLogin() {
+    if (this.authService.isKYCCompleted()) {
+      this.utilService.kycCompleted.next(true);
+      this.router.navigate(['/dashboard']);  
+    } else {
+      this.utilService.kycCompleted.next(false);
+      this.router.navigate(['/dashboard/my-account']);
+    }
   }
 
 }

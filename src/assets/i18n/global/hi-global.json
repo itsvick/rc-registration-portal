@@ -445,5 +445,6 @@
   "VERIFY_UDISE": "UDISE सत्यापित करें",
   "INVALID_UDISE_ID": "अमान्य UDISE आईडी",
   "E_KYC_DONE_SUCCESSFULLY": "केवाईसी पूरा किया गया",
-  "UDISE_VERIFICATION_SUCCESS": "UDISE सत्यापित कर दिया गया"
+  "UDISE_VERIFICATION_SUCCESS": "UDISE सत्यापित कर दिया गया",
+  "YOUR_SESSION_EXPIRED": "आपका सत्र समाप्त हो गया है! कृपया फिर भाग लें"
 }

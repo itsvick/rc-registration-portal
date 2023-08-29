@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FieldType } from '@ngx-formly/core';
 import * as dayjs from 'dayjs';
-import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { BsDatepickerConfig, BsDatepickerDirective } from 'ngx-bootstrap/datepicker';
 @Component({
   selector: 'app-datepicker',
   template: `
@@ -29,6 +29,13 @@ export class DatepickerTypeComponent extends FieldType implements OnInit {
   get theme(): string { return this.to.theme || 'theme-dark-blue'; }
   get dateInputFormat(): string { return this.to.dateInputFormat || 'DD/MM/YYYY'; }
 
+  @ViewChild(BsDatepickerDirective, { static: false }) datepicker?: BsDatepickerDirective;
+
+  @HostListener('document:mousewheel')
+  onScrollEvent() {
+    console.log("on scroll");
+    this.datepicker?.hide();
+  }
   ngOnInit(): void {
     this.bsConfig = {
       dateInputFormat: this.dateInputFormat,

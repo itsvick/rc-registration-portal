@@ -449,5 +449,6 @@
     "VERIFY_UDISE": "Verify UDISE",
     "INVALID_UDISE_ID": "Invalid UDISE ID",
     "E_KYC_DONE_SUCCESSFULLY": "e-KYC done successfully",
-    "UDISE_VERIFICATION_SUCCESS": "UDISE Verification done successfully"
+    "UDISE_VERIFICATION_SUCCESS": "UDISE Verification done successfully",
+    "YOUR_SESSION_EXPIRED": "Your session has expired! Please login again"
 }

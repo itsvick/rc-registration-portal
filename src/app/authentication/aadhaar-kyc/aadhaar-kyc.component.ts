@@ -1,8 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
 import { FormControl, Validators } from '@angular/forms';
+import { NgbActiveModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ToastMessageService } from 'src/app/services/toast-message/toast-message.service';
 import { UtilService } from 'src/app/services/util/util.service';
 
@@ -49,13 +48,13 @@ export class AadhaarKycComponent implements OnInit {
 
   submitOTP() {
     const payload = {
-      aadhaar_id: this.aadhaarFormControl.value.toString(),
+      aadhaar_id: this.aadhaarFormControl.value,
     }
     this.authService.aadhaarKYC(payload).subscribe((res: any) => {
       this.activeModal.close();
 
     }, (error) => {
-      this.toastMessage.success('', this.utilService.translateString('UNABLE_TO_VERIFY_YOUR_AADHAAR'));
+      this.toastMessage.error('', this.utilService.translateString('UNABLE_TO_VERIFY_YOUR_AADHAAR'));
     });
   }
 }
