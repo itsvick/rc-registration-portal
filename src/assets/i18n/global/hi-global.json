@@ -226,7 +226,7 @@
   "STUDENT_REGISTRATION": "छात्र पंजीकरण",
   "REGISTER_ISSUE_MANAGE_CERT": "नए छात्रों को पंजीकृत करें",
   "STUD_REGISTRATION_CLAIM": "छात्र पंजीकरण स्वीकृत करें",
-  "TRACK_ALL_MAJOR": "अपने स्कूल के सभी प्रमुख अवसर मेट्रिक्स को यहां ट्रैक करें",
+  "TRACK_ALL_MAJOR": "अवसर मेट्रिक्स संक्षेप",
   "SELECT_TYPE_ISSUE_CRED": "इश्यू क्रेडेंशियल्स का प्रकार चुनें :",
   "UPLOAD_EXCELL_SHEET": "एक्सेल शीट अपलोड करें",
   "UPLOAD_EXCELL_SHEET1": "छात्र विवरण के साथ",
@@ -454,5 +454,8 @@
   "PLEASE_SELECT_AT_LEAST_ONE_ROW": "कृपया कम से कम एक पंक्ति का चयन करें",
   "SHOWING": "दिखाया गया",
   "FROM": "से",
-  "ENTRIES": "प्रविष्टियाँ"
+  "ENTRIES": "प्रविष्टियाँ",
+  "LOGGED_IN_SUCCESSFULLY": "वापसी पर स्वागत है! आप सफलतापूर्वक लॉग इन हो गए हैं",
+  "AADHAAR_TOKEN": "आधार टोकन",
+  "C_KYC": "KYC"
 }

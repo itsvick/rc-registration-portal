@@ -1190,7 +1190,7 @@
                                 "name": "name",
                                 "required": true,
                                 "validation": {
-                                    "pattern": "^[a-zA-Z]+ [a-zA-Z]+$",
+                                    "pattern": "^[a-zA-Z ]+$",
                                     "message": "NAME_NOT_VALID"
                                 }
                             },

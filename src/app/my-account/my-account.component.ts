@@ -8,6 +8,7 @@ import { AuthConfigService } from '../authentication/auth-config.service';
 import { HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { UtilService } from '../services/util/util.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-account',
@@ -29,7 +30,8 @@ export class MyAccountComponent implements OnInit {
     private readonly modalService: NgbModal,
     private readonly dataService: DataService,
     private readonly authConfigService: AuthConfigService,
-    private readonly util: UtilService
+    private readonly util: UtilService,
+    private readonly router: Router
   ) { }
 
   ngOnInit(): void {
@@ -84,15 +86,18 @@ export class MyAccountComponent implements OnInit {
 
     this.dataService.get({ url: apiUrl, header: headerOptions }).pipe(map((res: any) => {
       localStorage.setItem('currentUser', JSON.stringify(res.result));
-      this.accountDetails = res.result;
       return res;
     })).subscribe(() => {
       this.getAccountDetails();
+      if (this.authService.isKYCCompleted()) {
+        this.router.navigate(['/dashboard']);
+      }
     });
   }
 
   getAccountDetails() {
     this.accountDetails = this.authService.currentUser;
+    this.maskAadhaar();
 
     if (this.accountDetails?.kyc_aadhaar_token) {
       this.isAadhaarKYCCompleted = true;
@@ -100,6 +105,16 @@ export class MyAccountComponent implements OnInit {
 
     if (this.accountDetails?.school_id) {
       this.isUDISEVerified = true;
+    }
+
+    if (this.authService.isKYCCompleted()) {
+      this.util.kycCompleted.next(true);
+    }
+  }
+
+  maskAadhaar() {
+    if (this.accountDetails.kyc_aadhaar_token) {
+      this.accountDetails.kyc_aadhaar_token = "**** **** " + this.accountDetails.kyc_aadhaar_token.slice(-4);
     }
   }
 }

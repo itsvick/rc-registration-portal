@@ -185,6 +185,7 @@ export class KeycloakloginComponent implements OnInit {
 
 
   navigateAfterLogin() {
+    this.toastMessage.success('', this.generalService.translateString('LOGGED_IN_SUCCESSFULLY'));
     if (this.authService.isKYCCompleted()) {
       this.utilService.kycCompleted.next(true);
       this.router.navigate(['/dashboard']);  
