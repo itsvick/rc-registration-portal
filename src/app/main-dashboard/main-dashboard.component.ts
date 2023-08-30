@@ -84,7 +84,7 @@ export class MainDashboardComponent implements OnInit {
         }
       }, error => {
         console.error(error);
-        this.toastMessageService.error('', this.generalService.translateString('SOMETHING_WENT_WRONG'));
+        // this.toastMessageService.error('', this.generalService.translateString('SOMETHING_WENT_WRONG'));
       });
   }
 
