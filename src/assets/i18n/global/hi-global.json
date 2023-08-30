@@ -458,5 +458,6 @@
   "LOGGED_IN_SUCCESSFULLY": "वापसी पर स्वागत है! आप सफलतापूर्वक लॉग इन हो गए हैं",
   "AADHAAR_TOKEN": "आधार टोकन",
   "C_KYC": "KYC",
-  "ENTER_MOBILE_NUMBER_AS_USERNAME": "उपयोगकर्ता नाम के रूप में मोबाइल नंबर दर्ज करें"
+  "ENTER_MOBILE_NUMBER_AS_USERNAME": "उपयोगकर्ता नाम के रूप में मोबाइल नंबर दर्ज करें",
+  "CREDENTIAL_TYPE": "क्रेडेंशियल प्रकार"
 }
