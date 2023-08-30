@@ -1219,7 +1219,7 @@ export class FormsComponent implements OnInit {
         if (res?.params?.status == 'SUCCESSFUL' && !this.model['attest']) {
           this.router.navigate([this.redirectTo]);
         }
-        else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
+        else if (res?.params?.errmsg != '' && res?.params?.status == 'UNSUCCESSFUL') {
           this.toastMsg.error('error', res.params.errmsg);
           this.isSubmitForm = false;
         }
@@ -1238,12 +1238,12 @@ export class FormsComponent implements OnInit {
       if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
         this.router.navigate([this.redirectTo])
       }
-      else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
+      else if (res?.params?.errmsg != '' && res?.params?.status == 'UNSUCCESSFUL') {
         this.toastMsg.error('error', res.params.errmsg);
         this.isSubmitForm = false;
       }
     }, (err) => {
-      this.toastMsg.error('error', err.error.params.errmsg);
+      this.toastMsg.error('error', err?.error?.params?.errmsg);
       this.isSubmitForm = false;
 
     });
