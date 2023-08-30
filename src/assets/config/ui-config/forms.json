@@ -1279,7 +1279,7 @@
                                             "templateOptions": {
                                                 "required": true,
                                                 "pattern": "[6-9]{1}[0-9]{9}",
-                                                "placeholder": "MOBILE_NUMBER",
+                                                "placeholder": "ENTER_MOBILE_NUMBER_AS_USERNAME",
                                                 "message": "MOBILE_NO_MUST_10_DIGIT"
                                             }
                                         }

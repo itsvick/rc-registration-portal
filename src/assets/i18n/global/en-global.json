@@ -461,5 +461,6 @@
     "ENTRIES": "entries",
     "LOGGED_IN_SUCCESSFULLY": "Welcome back! Your are Logged in successfully",
     "AADHAAR_TOKEN": "Aadhaar Token",
-    "C_KYC": "KYC"
+    "C_KYC": "KYC",
+    "ENTER_MOBILE_NUMBER_AS_USERNAME": "Enter Mobile Number as Username"
 }
