@@ -30,7 +30,7 @@ import { ZXingScannerModule } from '@zxing/ngx-scanner';
 //Local imports
 import { QuarModule } from '@altack/quar';
 // import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
-import { Bootstrap4FrameworkModule } from 'angular6-json-schema-form';
+// import { Bootstrap4FrameworkModule } from 'angular6-json-schema-form';
 import { SearchComponent } from '../app/discovery/search/search.component';
 import { ModalRouterAddLinkDirective, ModalRouterEditLinkDirective } from '../app/layouts/modal/modal.directive';
 import { AppConfig } from './app.config';
@@ -202,7 +202,7 @@ import { ToastMessageService } from './services/toast-message/toast-message.serv
     BsDatepickerModule.forRoot(),
     DatepickerModule.forRoot(),
     KeycloakAngularModule,
-    Bootstrap4FrameworkModule,
+    // Bootstrap4FrameworkModule,
     AngularMultiSelectModule,
     NgSelectModule,
     VerifyModule.forChild(configData),
