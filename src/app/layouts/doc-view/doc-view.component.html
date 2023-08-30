@@ -10,13 +10,13 @@
         </div>
     </div>
 
-    <div class="text-center img-mb pt-4" *ngIf="extension === 'pdf'">
-        <ngx-extended-pdf-viewer [showToolbar]="false" [showBorders]="false" [src]="docUrl"></ngx-extended-pdf-viewer>
+    <div class="text-center img-mb pt-4 mx-auto" style="max-width: 700px;" *ngIf="extension === 'pdf'">
+        <ngx-extended-pdf-viewer [showToolbar]="false" [showBorders]="false" [src]="docUrl" pageViewMode="single"></ngx-extended-pdf-viewer>
     </div>
 
     <div *ngIf="credentialHTML && extension === 'html'" id="content-to-download" [innerHTML]="credentialHTML"></div>
 
-    <div class="mt-2 mb-5">
+    <div class="mt-2 mb-3">
         <div class="d-flex text-center cursor-pointer justify-content-center" *ngIf="extension">
             <div class="p-2" *ngIf="canShareFile">
                 <img src="assets/images/share.svg" (click)="shareFile()" title="{{ 'SHARE' | translate }}">
