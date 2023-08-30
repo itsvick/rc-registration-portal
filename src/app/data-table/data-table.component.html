@@ -3,14 +3,15 @@
     <thead>
       <tr>
         <th><input type="checkbox" [checked]="isAllCheckBoxChecked()" (change)="checkAllCheckBox($event)"></th>
-        <th *ngFor="let head of tableData[0] | keys" class="fs-12 font-weight-bold text-secondary">{{head | ignorecase}}
-        </th>
+        <th *ngFor="let head of tableData[0] | keys" class="fs-12 font-weight-bold text-secondary">{{head | ignorecase}}</th>
+        <th class="fs-12 font-weight-bold text-secondary">{{'ACTION' | translate}}</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let row of tableData; let i = index">
         <td><input type="checkbox" [(ngModel)]="data[indexCount+i].checked"></td>
         <td *ngFor="let item of row | keys" class="fs-14">{{row[item]}}</td>
+        <td> <button class="btn btn-primary">{{'C_KYC' | translate}}</button> </td>
       </tr>
     </tbody>
   </table>
