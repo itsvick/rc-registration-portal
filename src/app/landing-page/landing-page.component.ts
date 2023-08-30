@@ -27,7 +27,7 @@ export class LandingPageComponent implements OnInit {
       class: 'img1'
     },
     {
-      id: 'did:ulp:7c86b23d-41f6-4ea8-b12a-37881aab67aa',
+      id: 'did:ulp:7fc21e89-0496-473a-8b70-112547979ea4',
       name: '',
       img: 'assets/images/lp-6.png',
       class: 'img1'
