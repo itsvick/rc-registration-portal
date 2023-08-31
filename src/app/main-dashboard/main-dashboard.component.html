@@ -21,7 +21,7 @@
           <div class="col-md-6 flex-center">
             <div routerLink="/dashboard/issued-credential" class="box cursor-pointer">
               <div class="fs-18 font-weight-bold text-center">
-                <div class="fs-24">{{metrics?.credentials_issued || 524}}</div>
+                <div class="fs-24">{{metrics?.students_registered}}</div>
                 <div>{{'ENROLMENT_CREDENTIAL' | translate}}</div>
               </div>
               <!-- <div>
@@ -32,7 +32,7 @@
           <div class="col-md-6 flex-center">
             <div routerLink="/dashboard/claim-approval" [queryParams]="{filter: 'approved'}" class="box cursor-pointer">
               <div class="fs-18 font-weight-bold text-center">
-                <div class="fs-24">{{metrics?.claims_approved || 123}}</div>
+                <div class="fs-24">{{metrics?.claims_approved}}</div>
                 <div>{{'APPROVED_CLAIMS' | translate}}</div>
               </div>
               <!-- <div>
@@ -47,7 +47,7 @@
           <div class="col-md-6 flex-center">
             <div routerLink="/dashboard/claim-approval" class="box cursor-pointer">
               <div class="fs-18 font-weight-bold text-center">
-                <div class="fs-24">{{metrics?.claims_pending || 43}}</div>
+                <div class="fs-24">{{metrics?.claims_pending}}</div>
                 <div>{{'PENDING_CLAIM_APPROVAL' | translate}}</div>
               </div>
               <!-- <div>
@@ -58,7 +58,7 @@
           <div class="col-md-6 flex-center">
             <div routerLink="/dashboard/claim-approval" [queryParams]="{filter: 'rejected'}" class="box cursor-pointer">
               <div class="fs-18 font-weight-bold text-center">
-                <div class="fs-24">{{metrics?.claims_rejected || 12}}</div>
+                <div class="fs-24">{{metrics?.claims_rejected}}</div>
                 <div>{{'REJECTED_CLAIMS' | translate}}</div>
               </div>
               <!-- <div>
