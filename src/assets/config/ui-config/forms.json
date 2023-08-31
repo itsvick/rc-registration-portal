@@ -1246,10 +1246,18 @@
                             {
                                 "name": "recoveryphone",
                                 "required": true,
-                                "validation": {
-                                    "pattern": "[6-9]{1}[0-9]{9}",
-                                    "message": "MOBILE_NO_MUST_10_DIGIT"
+                                "custom": true,
+                                "element": {
+                                    "widget": {
+                                        "formlyConfig": {
+                                            "defaultValue": "9090909090",
+                                            "templateOptions": {
+                                                "hide": true
+                                            }
+                                        }
+                                    }
                                 }
+
                             },
                             {
                                 "name": "issuer_did",
