@@ -1,19 +1,19 @@
 {
     "environment": "development",
     "keycloak": {
-        "url": "https://devulp.uniteframework.io/auth",
+        "url": "https://uatulp.uniteframework.io/auth",
         "clientId": "registry-frontend",
         "realm": "sunbird-rc"
     },
     "configFolder": "/assets/config/ui-config",
     "languageFolder": "/assets/i18n",
     "title": "Universal Learners Passportsss",
-    "domainName": "https://devulp.uniteframework.io",
-    "baseUrl": "https://devulp.uniteframework.io/registry/api/v1",
-    "bffBaseUrl": "https://devulp.uniteframework.io",
-    "bffUrl": "https://devulp.uniteframework.io/ulp-bff",
-    "bulkIssuance": "https://devulp.uniteframework.io/bulk-issuance",
-    "schemaUrl": "https://devulp.uniteframework.io/registry/api/docs/swagger.json",
+    "domainName": "https://uatulp.uniteframework.io",
+    "baseUrl": "https://uatulp.uniteframework.io/registry/api/v1",
+    "bffBaseUrl": "https://uatulp.uniteframework.io",
+    "bffUrl": "https://uatulp.uniteframework.io/ulp-bff",
+    "bulkIssuance": "https://uatulp.uniteframework.io/bulk-issuance",
+    "schemaUrl": "https://uatulp.uniteframework.io/registry/api/docs/swagger.json",
     "footerText": "Universal Learners Passport",
     "languages": [
         "en",
