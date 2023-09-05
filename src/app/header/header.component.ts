@@ -1,10 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { ActivatedRoute } from '@angular/router';
 import { ThemeService } from "../../app/services/theme/theme.service";
 import { AppConfig } from '../app.config';
 import { SchemaService } from '../services/data/schema.service';
 import { GeneralService } from '../services/general/general.service';
+import { TelemetryService } from '../services/telemetry/telemetry.service';
+import { IInteractEventInput } from '../services/telemetry/telemetry.interface';
 
 @Component({
   selector: 'app-header',
@@ -29,12 +30,12 @@ export class HeaderComponent implements OnInit {
   showBanner: boolean = false;
 
   constructor(
-    private readonly router: Router,
     private readonly config: AppConfig,
     private readonly schemaService: SchemaService,
-    private readonly translate: TranslateService,
     private readonly themeService: ThemeService,
-    private readonly generalService: GeneralService
+    private readonly generalService: GeneralService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly telemetryService: TelemetryService
   ) { }
 
   async ngOnInit() {
@@ -94,6 +95,7 @@ export class HeaderComponent implements OnInit {
   }
 
   languageChange(lang) {
+
     if (this.langCode != lang.target.value) {
       lang = lang.target.value;
       localStorage.setItem('setLanguage', lang);
@@ -113,6 +115,22 @@ export class HeaderComponent implements OnInit {
 
   onTabChange(index, pos) {
     localStorage.setItem('activeTab', JSON.stringify({ 'pos': pos, 'i': index }))
+  }
+
+  raiseInteractEvent(id: string, type: string = 'CLICK', subtype?: string) {
+    const telemetryInteract: IInteractEventInput = {
+      context: {
+        env: this.activatedRoute.snapshot?.data?.telemetry?.env,
+        cdata: []
+      },
+      edata: {
+        id,
+        type,
+        subtype,
+        pageid: this.activatedRoute.snapshot?.data?.telemetry?.pageid,
+      }
+    };
+    this.telemetryService.interact(telemetryInteract);
   }
 
 }

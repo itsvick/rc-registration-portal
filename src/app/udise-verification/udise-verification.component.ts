@@ -4,6 +4,9 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { AuthService } from '../services/auth/auth.service';
 import { ToastMessageService } from '../services/toast-message/toast-message.service';
 import { UtilService } from '../services/util/util.service';
+import { IImpressionEventInput, IInteractEventInput } from '../services/telemetry/telemetry.interface';
+import { TelemetryService } from '../services/telemetry/telemetry.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-udise-verification',
@@ -26,7 +29,10 @@ export class UdiseVerificationComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly toastMessage: ToastMessageService,
     private readonly utilService: UtilService,
-    private readonly activeModal: NgbActiveModal
+    private readonly activeModal: NgbActiveModal,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly telemetryService: TelemetryService,
+    private readonly router: Router
   ) { }
 
   ngOnInit(): void {
@@ -44,11 +50,13 @@ export class UdiseVerificationComponent implements OnInit {
   }
 
   closeModal(event) {
+    this.raiseInteractEvent('verify-udise-close-modal')
     event.stopPropagation();
     this.activeModal.dismiss('Cross click');
   }
 
   getOTP() {
+    this.raiseInteractEvent('verify-udise-get-otp-btn');
     this.isLoading = true;
     const payload = {
       password: "123456",
@@ -71,6 +79,7 @@ export class UdiseVerificationComponent implements OnInit {
   }
 
   submitOTP() {
+    this.raiseInteractEvent('verify-udise-submit-otp-btn');
     const payload = {
       school_name: this.udiseDetails.schoolName,
       school_id: this.udiseDetails.udiseCode,
@@ -82,5 +91,37 @@ export class UdiseVerificationComponent implements OnInit {
     }, (error) => {
       this.toastMessage.success('', this.utilService.translateString('UNABLE_TO_VERIFY_YOUR_UDISE'));
     });
+  }
+
+  raiseInteractEvent(id: string, type: string = 'CLICK', subtype?: string) {
+    const telemetryInteract: IInteractEventInput = {
+      context: {
+        env: this.activatedRoute.snapshot?.data?.telemetry?.env,
+        cdata: []
+      },
+      edata: {
+        id,
+        type,
+        subtype,
+        pageid: this.activatedRoute.snapshot?.data?.telemetry?.pageid,
+      }
+    };
+    this.telemetryService.interact(telemetryInteract);
+  }
+
+  raiseImpressionEvent() {
+    const telemetryImpression: IImpressionEventInput = {
+      context: {
+        env: this.activatedRoute.snapshot?.data?.telemetry?.env,
+        cdata: []
+      },
+      edata: {
+        type: this.activatedRoute.snapshot?.data?.telemetry?.type,
+        pageid: this.activatedRoute.snapshot?.data?.telemetry?.pageid,
+        uri: this.router.url,
+        subtype: this.activatedRoute.snapshot?.data?.telemetry?.subtype,
+      }
+    };
+    this.telemetryService.impression(telemetryImpression);
   }
 }

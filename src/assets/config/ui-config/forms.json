@@ -1182,6 +1182,7 @@
                 "isSignupForm": "true",
                 "langKey": "teacherStudent",
                 "isPrefilledDataEditable": "false",
+                "telemetryFormBtn": "register-btn",
                 "fieldsets": [
                     {
                         "definition": "Instructor",

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SchemaService } from '../services/data/schema.service';
-import { IImpressionEventInput, IInteractEventInput } from '../services/telemetry/telemetry.interface';
+import { IInteractEventInput } from '../services/telemetry/telemetry.interface';
 import { TelemetryService } from '../services/telemetry/telemetry.service';
 import { AuthService } from '../services/auth/auth.service';
 import { UtilService } from '../services/util/util.service';
@@ -44,6 +44,7 @@ export class SidebarComponent implements OnInit {
   }
 
   logout() {
+    this.raiseInteractEvent('logout-btn')
     this.router.navigate(['/logout']);
   }
 
@@ -61,21 +62,5 @@ export class SidebarComponent implements OnInit {
       }
     };
     this.telemetryService.interact(telemetryInteract);
-  }
-
-  raiseImpressionEvent() {
-    const telemetryImpression: IImpressionEventInput = {
-      context: {
-        env: this.activatedRoute.snapshot?.data?.telemetry?.env,
-        cdata: []
-      },
-      edata: {
-        type: this.activatedRoute.snapshot?.data?.telemetry?.type,
-        pageid: this.activatedRoute.snapshot?.data?.telemetry?.pageid,
-        uri: this.router.url,
-        subtype: this.activatedRoute.snapshot?.data?.telemetry?.subtype,
-      }
-    };
-    this.telemetryService.impression(telemetryImpression);
   }
 }
