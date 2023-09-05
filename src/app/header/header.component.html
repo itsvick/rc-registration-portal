@@ -2,7 +2,7 @@
     <div class="d-flex mt-4 pb-2 justify-content-center">
         <img src="assets/images/header.svg" height="60" alt="header">
     </div>
-    <h3 class="text-center page-title text-blue text-thin-underline mt-3">ULP Issuance Portal </h3>
+    <h3 class="text-center page-title text-blue text-thin-underline mt-3">{{title}}</h3>
 </div>
 
 <header class="header">
@@ -15,7 +15,7 @@
                 <i class="fa fa-bars toggler"></i>
             </button>
             <div class="nav-item active logo-text d-flex p-2" style="width: auto;">
-                <img class="logo ml-2" src="assets/images/logo.png" routerLink="/" />
+                <img class="logo ml-2" src="assets/images/logo.png" routerLink="/" (click)="raiseInteractEvent('header-logo')" />
                 <h3 *ngIf="title" class="d-flex align-items-center font-weight-bold title pl-2">{{title}}</h3>
             </div>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
@@ -25,10 +25,10 @@
                             <a *ngIf="header?.title" id="{{header?.title}}" (click)="onTabChange(index, 'left')"
                                 class="nav-link  p14 {{header?.className}}  {{header?.activeTab}}"
                                 [routerLink]="[header.redirectTo]">{{header?.title | translate}}</a>
-                            <a *ngIf="header?.image" class="nav-link" [routerLink]="[header.redirectTo]">
+                            <a *ngIf="header?.image" class="nav-link" [routerLink]="[header.redirectTo]" (click)="raiseInteractEvent('header-logo')">
                                 <img style="width: 25px;" src={{header?.image}} />
                             </a>
-                            <a *ngIf="header?.icon" class="nav-link" [routerLink]="[header.redirectTo]">
+                            <a *ngIf="header?.icon" class="nav-link" [routerLink]="[header.redirectTo]" (click)="raiseInteractEvent('header-logo')">
                                 <i style="font-size: 38px;" class="{{header?.icon}}" aria-hidden="true"></i>
                             </a>
                             <ng-template [ngIf]="header?.title && tab === header?.title">

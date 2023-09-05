@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import * as Papa from "papaparse";
@@ -30,7 +30,7 @@ export class Page {
   templateUrl: './bulk-issue-credentials.component.html',
   styleUrls: ['./bulk-issue-credentials.component.scss']
 })
-export class BulkIssueCredentialsComponent implements OnInit {
+export class BulkIssueCredentialsComponent implements OnInit, AfterViewInit {
 
   model: any = {};
   schemas: any[];
@@ -77,6 +77,7 @@ export class BulkIssueCredentialsComponent implements OnInit {
   }
 
   onModelChange() {
+    this.raiseInteractEvent('select-credential-type-btn')
     // get the schema fields based on the selected schema
     this.generateCSV();
   }
@@ -220,6 +221,10 @@ export class BulkIssueCredentialsComponent implements OnInit {
       centered: true,
       size: 'sm'
     });
+  }
+
+  ngAfterViewInit(): void {
+      this.raiseImpressionEvent();
   }
 
   raiseInteractEvent(id: string, type: string = 'CLICK', subtype?: string) {

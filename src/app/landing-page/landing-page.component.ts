@@ -4,6 +4,7 @@ import { AuthService } from '../services/auth/auth.service';
 import { TelemetryService } from '../services/telemetry/telemetry.service';
 import { IImpressionEventInput, IInteractEventInput } from '../services/telemetry/telemetry.interface';
 import { KeycloakService } from 'keycloak-angular';
+import { AuthConfigService } from '../authentication/auth-config.service';
 
 export interface IDepartment {
   id: string;
@@ -64,12 +65,14 @@ export class LandingPageComponent implements OnInit {
     }
   ];
 
+  title: string;
+
   constructor(
-    private readonly authService: AuthService,
     private readonly router: Router,
     private readonly activatedRoute: ActivatedRoute,
     private readonly telemetryService: TelemetryService,
-    private readonly keycloakService: KeycloakService
+    private readonly keycloakService: KeycloakService,
+    private readonly authConfigService: AuthConfigService
   ) { }
 
   async ngOnInit() {
@@ -80,6 +83,8 @@ export class LandingPageComponent implements OnInit {
       localStorage.clear();
       this.keycloakService.clearToken();
     }
+
+    this.title = this.authConfigService.config.title;
   }
 
   ngAfterViewInit(): void {

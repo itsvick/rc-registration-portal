@@ -6,6 +6,7 @@ import { KeycloakService } from 'keycloak-angular';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { ToastrService } from 'ngx-toastr';
 import { UtilService } from '../services/util/util.service';
+import { AuthConfigService } from '../authentication/auth-config.service';
 
 @Component({
   selector: 'app-onboarding',
@@ -15,7 +16,7 @@ import { UtilService } from '../services/util/util.service';
 export class OnboardingComponent implements OnInit {
 
   issuerId: string;
-
+  title: string;
   signInModalRef: NgbModalRef;
   @ViewChild("signInModal") signInModal: ElementRef;
 
@@ -26,10 +27,12 @@ export class OnboardingComponent implements OnInit {
     private readonly keycloakService: KeycloakService,
     private readonly modalService: NgbModal,
     private readonly toastService: ToastrService,
-    private readonly utilService: UtilService
+    private readonly utilService: UtilService,
+    private readonly authConfigService: AuthConfigService
   ) { }
 
   ngOnInit(): void {
+    this.title = this.authConfigService.config.title;
     this.activatedRoute.queryParams.subscribe((queryParams: any) => {
       if (!queryParams.issuerId) {
         this.toastService.error('', this.utilService.translateString('PLEASE_SELECT_DEPARTMENT_FIRST'));

@@ -1,6 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ToastMessageService } from '../services/toast-message/toast-message.service';
 import { UtilService } from '../services/util/util.service';
+import { IImpressionEventInput, IInteractEventInput } from '../services/telemetry/telemetry.interface';
+import { TelemetryService } from '../services/telemetry/telemetry.service';
+import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-data-table',
@@ -19,7 +23,9 @@ export class DataTableComponent implements OnInit {
   endPageCount = 0;
   constructor(
     private readonly toastMsg: ToastMessageService,
-    private readonly utilService: UtilService
+    private readonly utilService: UtilService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly telemetryService: TelemetryService
   ) { }
 
   ngOnInit(): void {
@@ -68,6 +74,7 @@ export class DataTableComponent implements OnInit {
   }
 
   onIssueCredentials() {
+    this.raiseInteractEvent('issue-credential-btn');
     // const rows = [...this.data.map((item, index) => {
     //   return { ...item, rowId: index + 1 }
     // })];
@@ -83,5 +90,21 @@ export class DataTableComponent implements OnInit {
       return;
     }
     this.issueCredentials.emit(selectedRows);
+  }
+
+  raiseInteractEvent(id: string, type: string = 'CLICK', subtype?: string) {
+    const telemetryInteract: IInteractEventInput = {
+      context: {
+        env: this.activatedRoute.snapshot?.data?.telemetry?.env,
+        cdata: []
+      },
+      edata: {
+        id,
+        type,
+        subtype,
+        pageid: this.activatedRoute.snapshot?.data?.telemetry?.pageid,
+      }
+    };
+    this.telemetryService.interact(telemetryInteract);
   }
 }

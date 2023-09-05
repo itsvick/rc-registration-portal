@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { AuthService } from '../services/auth/auth.service';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AadhaarKycComponent } from '../authentication/aadhaar-kyc/aadhaar-kyc.component';
@@ -8,14 +8,16 @@ import { AuthConfigService } from '../authentication/auth-config.service';
 import { HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { UtilService } from '../services/util/util.service';
-import { Router } from '@angular/router';
+import { IImpressionEventInput, IInteractEventInput } from '../services/telemetry/telemetry.interface';
+import { TelemetryService } from '../services/telemetry/telemetry.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-my-account',
   templateUrl: './my-account.component.html',
   styleUrls: ['./my-account.component.scss']
 })
-export class MyAccountComponent implements OnInit {
+export class MyAccountComponent implements OnInit, AfterViewInit {
 
   accountDetails: any;
   isAadhaarKYCCompleted = false;
@@ -31,7 +33,9 @@ export class MyAccountComponent implements OnInit {
     private readonly dataService: DataService,
     private readonly authConfigService: AuthConfigService,
     private readonly util: UtilService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly telemetryService: TelemetryService,
   ) { }
 
   ngOnInit(): void {
@@ -52,10 +56,14 @@ export class MyAccountComponent implements OnInit {
   }
 
   verifyUDISE() {
+    this.raiseInteractEvent('verify-udise-btn');
     const udiseModalRef = this.modalService.open(UdiseVerificationComponent, {
       windowClass: 'box-shadow-bottom',
       centered: true,
       size: 'md'
+    });
+    udiseModalRef.dismissed.subscribe(() => {
+      this.raiseInteractEvent('udise-verification-dismiss-outside-click');
     });
     udiseModalRef.closed.subscribe(() => {
       this.modalMessage = this.util.translateString('UDISE_VERIFICATION_SUCCESS');
@@ -116,5 +124,41 @@ export class MyAccountComponent implements OnInit {
     if (this.accountDetails.kyc_aadhaar_token) {
       this.accountDetails.kyc_aadhaar_token = "**** **** " + this.accountDetails.kyc_aadhaar_token.slice(-4);
     }
+  }
+
+  ngAfterViewInit(): void {
+    this.raiseImpressionEvent();
+  }
+
+  raiseInteractEvent(id: string, type: string = 'CLICK', subtype?: string) {
+    const telemetryInteract: IInteractEventInput = {
+      context: {
+        env: this.activatedRoute.snapshot?.data?.telemetry?.env,
+        cdata: []
+      },
+      edata: {
+        id,
+        type,
+        subtype,
+        pageid: this.activatedRoute.snapshot?.data?.telemetry?.pageid,
+      }
+    };
+    this.telemetryService.interact(telemetryInteract);
+  }
+
+  raiseImpressionEvent() {
+    const telemetryImpression: IImpressionEventInput = {
+      context: {
+        env: this.activatedRoute.snapshot?.data?.telemetry?.env,
+        cdata: []
+      },
+      edata: {
+        type: this.activatedRoute.snapshot?.data?.telemetry?.type,
+        pageid: this.activatedRoute.snapshot?.data?.telemetry?.pageid,
+        uri: this.router.url,
+        subtype: this.activatedRoute.snapshot?.data?.telemetry?.subtype,
+      }
+    };
+    this.telemetryService.impression(telemetryImpression);
   }
 }

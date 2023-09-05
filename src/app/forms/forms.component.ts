@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
@@ -8,6 +8,8 @@ import { JSONSchema7 } from "json-schema";
 import { combineLatest, forkJoin, of } from 'rxjs';
 import { SchemaService } from '../services/data/schema.service';
 import { GeneralService } from '../services/general/general.service';
+import { IImpressionEventInput, IInteractEventInput } from '../services/telemetry/telemetry.interface';
+import { TelemetryService } from '../services/telemetry/telemetry.service';
 import { ToastMessageService } from '../services/toast-message/toast-message.service';
 
 @Component({
@@ -17,7 +19,7 @@ import { ToastMessageService } from '../services/toast-message/toast-message.ser
 })
 
 
-export class FormsComponent implements OnInit {
+export class FormsComponent implements OnInit, AfterViewInit {
   @Input() form;
   @Input() modal;
   @Input() identifier;
@@ -79,7 +81,9 @@ export class FormsComponent implements OnInit {
     private readonly router: Router,
     private readonly schemaService: SchemaService,
     private readonly formlyJsonschema: FormlyJsonschema,
-    private readonly generalService: GeneralService
+    private readonly generalService: GeneralService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly telemetryService: TelemetryService
   ) { }
 
   ngOnInit(): void {
@@ -899,6 +903,7 @@ export class FormsComponent implements OnInit {
   submit() {
     this.isSubmitForm = true;
     this.isLoading = true;
+    this.raiseInteractEvent(this.formSchema.telemetryFormBtn || this.formSchema.api)
     console.log("model", this.model);
 
     if (this.hideFieldFromSubmit.length) {
@@ -1213,6 +1218,7 @@ export class FormsComponent implements OnInit {
       this.generalService.postData(this.apiUrl, this.model, this.isBFF).subscribe((res) => {
         this.isLoading = false;
         this.toastMsg.success('', this.generalService.translateString('FORM_SUBMITTED_SUCCESSFULLY'));
+
         if (res.success) {
           this.router.navigate([this.redirectTo]);
         }
@@ -1278,6 +1284,40 @@ export class FormsComponent implements OnInit {
       this.toastMsg.error('error', err.error.params.errmsg);
     });
   }
+
+  ngAfterViewInit(): void {
+    this.raiseImpressionEvent();
+  }
+
+  raiseInteractEvent(id: string, type: string = 'CLICK', subtype?: string) {
+    const telemetryInteract: IInteractEventInput = {
+      context: {
+        env: this.activatedRoute.snapshot?.data?.telemetry?.env,
+        cdata: []
+      },
+      edata: {
+        id,
+        type,
+        subtype,
+        pageid: this.activatedRoute.snapshot?.data?.telemetry?.pageid,
+      }
+    };
+    this.telemetryService.interact(telemetryInteract);
+  }
+
+  raiseImpressionEvent() {
+    const telemetryImpression: IImpressionEventInput = {
+      context: {
+        env: this.activatedRoute.snapshot?.data?.telemetry?.env,
+        cdata: []
+      },
+      edata: {
+        type: this.activatedRoute.snapshot?.data?.telemetry?.type,
+        pageid: this.activatedRoute.snapshot?.data?.telemetry?.pageid,
+        uri: this.router.url,
+        subtype: this.activatedRoute.snapshot?.data?.telemetry?.subtype,
+      }
+    };
+    this.telemetryService.impression(telemetryImpression);
+  }
 }
-
-
