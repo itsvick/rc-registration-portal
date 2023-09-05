@@ -1200,10 +1200,10 @@ export class FormsComponent implements OnInit {
         if (res.success) {
           this.router.navigate([this.redirectTo]);
         }
-        if (res.params.status == 'SUCCESSFUL' && !this.model['attest']) {
+        if (res?.params?.status == 'SUCCESSFUL' && !this.model['attest']) {
           this.router.navigate([this.redirectTo]);
         }
-        else if (res.params.errmsg != '' && res.params.status == 'UNSUCCESSFUL') {
+        else if (res?.params?.errmsg != '' && res?.params?.status == 'UNSUCCESSFUL') {
           this.toastMsg.error('error', res.params.errmsg);
           this.isSubmitForm = false;
         }
