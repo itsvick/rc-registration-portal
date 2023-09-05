@@ -41,8 +41,7 @@ export class CredentialService {
 
     if (issuerId) {
       payload.data = {
-        issuer: { id: issuerId },
-        subject: {}
+        issuer: { id: issuerId }
       }
     } else {
       payload.data = {
