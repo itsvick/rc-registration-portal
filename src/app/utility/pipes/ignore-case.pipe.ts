@@ -10,7 +10,7 @@ export class ignoreCasePipe implements PipeTransform {
     private readonly utilService: UtilService
   ) { }
 
-  transform(value: unknown, ...args: unknown[]): unknown {
+  transform(value: string, ...args: unknown[]): unknown {
     return this.utilService.variableNameToReadableString(value);
   }
 }

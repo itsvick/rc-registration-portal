@@ -10,6 +10,7 @@ import { TelemetryService } from '../services/telemetry/telemetry.service';
 import { ToastMessageService } from '../services/toast-message/toast-message.service';
 import { UtilService } from '../services/util/util.service';
 import { AuthService } from '../services/auth/auth.service';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 /**
  * An object used to get page information from the server
@@ -36,6 +37,10 @@ export class BulkIssueCredentialsComponent implements OnInit, AfterViewInit {
   schemas: any[];
   schemaDetails: any;
   strictLoader: boolean = false;
+  issueSingleRecord: boolean = false;
+  singleIssueForm: FormGroup;
+  fields = [];
+  showDynamicForm: boolean = false;
 
   csvObject: any;
   tableColumns: any[] = [];
@@ -55,11 +60,10 @@ export class BulkIssueCredentialsComponent implements OnInit, AfterViewInit {
     private readonly utilService: UtilService,
     private readonly modalService: NgbModal,
     private readonly authService: AuthService,
-    private readonly toastMsgService: ToastMessageService
-  ) { }
+    private readonly toastMsgService: ToastMessageService) { }
 
   ngOnInit(): void {
-    if(!this.authService.isKYCCompleted()) {
+    if (!this.authService.isKYCCompleted()) {
       this.toastMsgService.error('', this.utilService.translateString('PLEASE_COMPLETE_YOUR_E_KYC_AND_UDISE'));
       this.router.navigate(['/dashboard/my-account']);
       return
@@ -80,11 +84,17 @@ export class BulkIssueCredentialsComponent implements OnInit, AfterViewInit {
     this.raiseInteractEvent('select-credential-type-btn')
     // get the schema fields based on the selected schema
     this.generateCSV();
+    this.fields = [];
+
+    if (this.singleIssueForm) {
+      this.singleIssueForm = undefined;
+    }
   }
 
   openFileBrowser() {
     if (this.model?.schema) {
       this.fileUpload.nativeElement.click();
+      this.issueSingleRecord = false;
     } else {
       this.toastMsg.warning('', this.generalService.translateString('PLEASE_SELECT_SCHEMA_FIRST'));
     }
@@ -125,7 +135,7 @@ export class BulkIssueCredentialsComponent implements OnInit, AfterViewInit {
       }
 
       this.csvObject = parsedCSV;
-      
+
       this.tableColumns = Object.keys(parsedCSV[0]).map((item) => {
         return { prop: item };
       });
@@ -223,8 +233,49 @@ export class BulkIssueCredentialsComponent implements OnInit, AfterViewInit {
     });
   }
 
+  showSingleCredentialForm() {
+    if (this.model?.schema) {
+      if (this.model?.schema === this.schemaDetails?.id) {
+        let columnFields = [...this.schemaDetails.required, ...this.schemaDetails.optional];
+        columnFields = [...new Set(columnFields.map(item => item.trim()))]; //Remove spaces and duplicates
+        console.log("columnFields", columnFields);
+        this.issueSingleRecord = true;
+        const formGroupFields = this.getFormControlsFields(columnFields);
+        console.log("formGroupFields", formGroupFields);
+        this.singleIssueForm = new FormGroup(formGroupFields);
+      }
+    } else {
+      this.toastMsg.warning('', this.generalService.translateString('PLEASE_SELECT_SCHEMA_FIRST'));
+    }
+  }
+
+  getFormControlsFields(formFields) {
+    const formGroupFields = {};
+    formFields.forEach(element => {
+      const isRequired = this.schemaDetails.required.includes(element);
+      formGroupFields[element] = isRequired ? new FormControl("", Validators.required) : new FormControl("");
+      this.fields.push({
+        key: element,
+        type: 'input',
+        isRequired,
+        label: this.utilService.variableNameToReadableString(element)
+      });
+    });
+    return formGroupFields;
+  }
+
+  submitDynamicForm(event) {
+    console.log(event);
+    console.log("singleIssueForm", this.singleIssueForm.valid);
+
+    if (this.singleIssueForm.valid) {
+      this.issueSingleRecord = false;
+      this.onIssueCredentials([this.singleIssueForm.value]);
+    }
+  }
+
   ngAfterViewInit(): void {
-      this.raiseImpressionEvent();
+    this.raiseImpressionEvent();
   }
 
   raiseInteractEvent(id: string, type: string = 'CLICK', subtype?: string) {
