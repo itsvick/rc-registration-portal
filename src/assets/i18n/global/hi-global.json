@@ -459,5 +459,6 @@
   "AADHAAR_TOKEN": "आधार टोकन",
   "C_KYC": "KYC",
   "ENTER_MOBILE_NUMBER_AS_USERNAME": "उपयोगकर्ता नाम के रूप में मोबाइल नंबर दर्ज करें",
-  "CREDENTIAL_TYPE": "क्रेडेंशियल प्रकार"
+  "CREDENTIAL_TYPE": "क्रेडेंशियल प्रकार",
+  "ISSUE_CREDENTIALS_FOR_SINGLE_STUDENT": "एकल छात्र के लिए क्रेडेंशियल जारी करें"
 }
