@@ -96,6 +96,7 @@ export class LandingPageComponent implements OnInit {
       return;
     }
     localStorage.setItem('issuerId', issuerId);
+    this.raiseInteractEvent('department-select-btn');
     this.router.navigate(['/onboarding'], { queryParams: { issuerId: issuerId } });
   }
 
