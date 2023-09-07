@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { CsTelemetryModule } from '@project-sunbird/client-services/telemetry';
-import { Cdata, Context, IAuditEventInput, IEndEventInput, IImpressionEventInput, IInteractEventInput, ImpressionEData, InteractEData, IShareEventInput, IStartEventInput, ITelemetryContextData, ITelemetryEvent, TelemetryObject } from './telemetry.interface';
-import { v4 as uuidv4 } from 'uuid';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { AuthConfigService } from 'src/app/authentication/auth-config.service';
+import { v4 as uuidv4 } from 'uuid';
+import { Context, IAuditEventInput, IEndEventInput, IImpressionEventInput, IInteractEventInput, IShareEventInput, IStartEventInput, ITelemetryContextData, ITelemetryEvent, TelemetryObject } from './telemetry.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,9 @@ export class TelemetryService {
   telemetryInstance: CsTelemetryModule;
   private context: Context;
 
-  constructor() {
+  constructor(
+    private readonly authConfigService: AuthConfigService
+  ) {
     this.telemetryInstance = CsTelemetryModule.instance;
   }
 
@@ -35,7 +38,7 @@ export class TelemetryService {
       },
       contextRollup: {},
       tags: [],
-      host: 'https://ulp.uniteframework.io/telemetry',
+      host: this.authConfigService.config.telemetryUrl,
       endpoint: '/v1/telemetry',
       // userData?: {
       //     firstName: string;
@@ -53,9 +56,9 @@ export class TelemetryService {
         authtoken: this.context.authToken || '',
         uid: this.context.uid || '',
         sid: this.context.sid,
-        batchsize: 1,// 20
+        batchsize: 20,
         mode: this.context.mode,
-        host: this.context.host || 'https://ulp.uniteframework.io/telemetry',
+        host: this.context.host,
         endpoint: this.context.endpoint || '/v1/telemetry',
         tags: this.context.tags,
         enableValidation: true
