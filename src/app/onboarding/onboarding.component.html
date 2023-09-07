@@ -7,12 +7,12 @@
       <h3 class="text-center page-title text-blue text-thin-underline">{{title}}</h3>
       <div class="pt-3 text-grey1 fs-24 text-center text-underline"> {{'SELECT_USER_TYPE' | translate }} </div>
       <div class="text-center mt-3 pt-3 d-flex jc-content-center">
-        <div class="square mr-5" (click)="openSignInModal()">
+        <div class="square mr-5" (click)="openSignInModal('PRINCIPAL')">
           <img src="assets/images/user.svg" alt="" class="cursor-pointer">
           <div class="pt-2 fs-18 text-light font-inter font-weight-bold"> {{'PRINCIPAL' | translate }}</div>
           <img class="pt-3 cursor-pointer" src="assets/images/next-arrow.svg" height="44" alt="user">
         </div>
-        <div class="square" (click)="setEntity('Instructor')"><img src="assets/images/user.svg" alt=""
+        <div class="square" (click)="openSignInModal('BEO')"><img src="assets/images/user.svg" alt=""
             class="cursor-pointer">
           <div class="pt-2 fs-18 text-light font-inter font-weight-bold">{{'BLOCK_EDUCATIONAL_OFFICER' | translate }}
           </div>

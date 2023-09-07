@@ -72,13 +72,13 @@ export class OnboardingComponent implements OnInit {
     });
   }
 
-  openSignInModal() {
+  openSignInModal(user:string) {
     // this.signInModalRef = this.modalService.open(this.signInModal, {
     //   animation: true,
     //   centered: true,
     //   windowClass: 'box-shadow-bottom'
     // });
-
+    this.raiseInteractEvent(`${user}-select-btn`);
     this.router.navigate(['/login']);
   }
   

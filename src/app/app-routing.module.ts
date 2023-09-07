@@ -48,7 +48,16 @@ import { RegisterComponent } from './register/register.component';
 const routes: Routes = [
   // Home
   // { path: '', component: HomeComponent },
-  { path: '', component: LandingPageComponent },
+  { 
+    path: '', 
+    component: LandingPageComponent,
+    data: {
+      showToolbar: false,
+      telemetry: {
+        env: 'landing-page', pageid: 'landing-page', type: 'list', subtype: 'scroll'
+      },
+    }
+  },
   // {
   //   path: 'udise-link', component: UdiseLinkComponent,
   //   canActivate: [AuthGuard],
