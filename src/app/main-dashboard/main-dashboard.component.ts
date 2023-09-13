@@ -57,14 +57,13 @@ export class MainDashboardComponent implements OnInit {
     this.currentUser = this.authService.currentUser;
     // this.getMetrics();
   }
-
   toggleSidebarMenu() {
     this.sidebarToggle = !this.sidebarToggle;
   }
 
   getMetrics() {
     const payload = {
-      url: `${this.authConfigService.config.bulkIssuance}/bulk/v1/portal/count`,
+      url: `${this.authConfigService.config.bffUrl}/v1/portal/count`,
       data: {
         "countFields": [
           "students_registered",

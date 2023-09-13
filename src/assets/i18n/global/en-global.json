@@ -464,5 +464,6 @@
     "C_KYC": "KYC",
     "ENTER_MOBILE_NUMBER_AS_USERNAME": "Enter Mobile Number as Username",
     "CREDENTIAL_TYPE": "Credential Type",
-    "ISSUE_CREDENTIALS_FOR_SINGLE_STUDENT": "Issue credentials for single student"
+    "ISSUE_CREDENTIALS_FOR_SINGLE_STUDENT": "Issue credentials for single student",
+    "DEDUPLICATION": "Deduplication"
 }

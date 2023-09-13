@@ -42,6 +42,7 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { UdiseVerificationComponent } from './udise-verification/udise-verification.component';
 import { MyAccountComponent } from './my-account/my-account.component';
 import { RegisterComponent } from './register/register.component';
+import { DeduplicationComponent } from './deduplication/deduplication.component';
 
 // import { CreateCertificateComponent } from './create-certificate/create-certificate.component';
 // import { FaqComponent } from './custom-components/faq/faq.component';
@@ -194,6 +195,16 @@ const routes: Routes = [
           }
         }
       },
+      {
+        path: 'deduplication',
+        component: DeduplicationComponent,
+        data: {
+          showToolbar: false,
+          telemetry: {
+            env: 'deduplication', pageid: 'deduplication', type: 'view', subtype: 'scroll'
+          }
+        }
+      }
     ]
   },
   // {

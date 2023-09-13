@@ -124,6 +124,7 @@ import { AuthService } from './services/auth/auth.service';
 import { Router } from '@angular/router';
 import { UtilService } from './services/util/util.service';
 import { ToastMessageService } from './services/toast-message/toast-message.service';
+import { DeduplicationComponent } from './deduplication/deduplication.component';
 
 @NgModule({
   declarations: [
@@ -187,7 +188,8 @@ import { ToastMessageService } from './services/toast-message/toast-message.serv
     UdiseVerificationComponent,
     MyAccountComponent,
     RegisterComponent,
-    DataTableComponent
+    DataTableComponent,
+    DeduplicationComponent
   ],
   imports: [
     BrowserModule,

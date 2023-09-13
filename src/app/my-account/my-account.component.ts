@@ -87,9 +87,9 @@ export class MyAccountComponent implements OnInit, AfterViewInit {
 
     let apiUrl;
     if (localStorage.getItem('isDigilockerUser') === 'true') {
-      apiUrl = `${this.authConfigService.config.bulkIssuance}/bulk/v1/instructor/digi/getdetail`;
+      apiUrl = `${this.authConfigService.config.bffUrl}/v1/instructor/digi/getdetail`;
     } else {
-      apiUrl = `${this.authConfigService.config.bulkIssuance}/bulk/v1/instructor/getdetail`;
+      apiUrl = `${this.authConfigService.config.bffUrl}/v1/instructor/getdetail`;
     }
 
     this.dataService.get({ url: apiUrl, header: headerOptions }).pipe(map((res: any) => {
