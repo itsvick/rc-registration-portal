@@ -141,7 +141,7 @@ export class DocViewComponent implements OnInit, OnDestroy {
     }
 
     getTemplate(id: string): Observable<any> {
-        return this.generalService.getData(`${this.baseUrl}/v1/sso/student/credentials/rendertemplateschema/${id}`, true).pipe(
+        return this.generalService.getData(`${this.baseUrl}/v1/credentials/rendertemplateschema/${id}`, true).pipe(
             map((res: any) => {
                 if (res.result.length > 1) {
                     const selectedLangKey = localStorage.getItem('setLanguage');
@@ -171,7 +171,7 @@ export class DocViewComponent implements OnInit, OnDestroy {
     }
 
     getCredentialHTML(request: any) {
-        this.http.post(`${this.baseUrl}/v1/sso/student/credentials/renderhtml`, request).pipe(takeUntil(this.unsubscribe$))
+        this.http.post(`${this.baseUrl}/v1/credentials/renderhtml`, request).pipe(takeUntil(this.unsubscribe$))
             .subscribe((response: any) => {
                 this.credentialHTML = this.sanitizer.bypassSecurityTrustHtml(response.result);
                 console.log("response", response);
@@ -185,7 +185,7 @@ export class DocViewComponent implements OnInit, OnDestroy {
             'Accept': 'application/pdf'
         });
         let requestOptions = { headers: headerOptions, responseType: 'blob' as 'json' };
-        this.http.post(`${this.baseUrl}/v1/sso/student/credentials/render`, request, requestOptions).pipe(map((data: any) => {
+        this.http.post(`${this.baseUrl}/v1/credentials/render`, request, requestOptions).pipe(map((data: any) => {
             this.blob = new Blob([data], {
                 type: 'application/pdf' // must match the Accept type
             });

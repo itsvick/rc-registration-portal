@@ -29,13 +29,13 @@ export class CredentialService {
   }
 
   getCredentialSchemaId(credentialId: string): Observable<any> {
-    const payload = { url: `${this.baseUrl}/v1/sso/student/credentials/schema/${credentialId}` };
+    const payload = { url: `${this.baseUrl}/v1/credentials/schema/${credentialId}` };
     return this.dataService.get(payload).pipe(map((res: any) => res.result));
   }
 
   getCredentials(issuerId?: string): Observable<any> {
     const payload: any = {
-      url: `${this.baseUrl}/v1/sso/student/credentials/search/all`,
+      url: `${this.baseUrl}/v1/credentials/search/all`,
       data: {}
     };
 
@@ -58,7 +58,7 @@ export class CredentialService {
       return of(schema);
     }
 
-    const payload = { url: `${this.baseUrl}/v1/sso/student/credentials/schema/json/${schemaId}` };
+    const payload = { url: `${this.baseUrl}/v1/credentials/schema/json/${schemaId}` };
     return this.dataService.get(payload).pipe(map((res: any) => {
       this.schemas.push(res.result);
       return res.result;
@@ -139,7 +139,7 @@ export class CredentialService {
     const nextYearDate = new Date();
     nextYearDate.setFullYear(nextYearDate.getFullYear() + 1);
     const payload = {
-      url: `${this.baseUrl}/v1/sso/student/credentials/issue`, //TODO: Need to change this to /teacher
+      url: `${this.baseUrl}/v1/credentials/issue`, //TODO: Need to change this to /teacher
       data: {
         "credential": {
           "@context": [

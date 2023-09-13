@@ -26,7 +26,7 @@ export class BulkIssuanceService {
    */
   getSchemaList(): Observable<any> {
     const payload = {
-      url: `${this.authConfigService.config.bulkIssuance}/bulk/v1/credential/schema/list`,
+      url: `${this.authConfigService.config.bffUrl}/v1/credential/schema/list`,
       data: {
         taglist: "issuer" //TODO: need to remove this hard coded tag //ulpq2 tag1
       }
@@ -43,7 +43,7 @@ export class BulkIssuanceService {
    */
   getSchemaFields(schemaId: string): Observable<any> {
     const payload = {
-      url: `${this.authConfigService.config.bulkIssuance}/bulk/v1/credential/schema/fields`,
+      url: `${this.authConfigService.config.bffUrl}/v1/credential/schema/fields`,
       data: {
         schema_id: schemaId
       }

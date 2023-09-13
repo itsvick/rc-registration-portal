@@ -55,7 +55,7 @@ export class MainDashboardComponent implements OnInit {
 
   getMetrics() {
     const payload = {
-      url: `${this.authConfigService.config.bulkIssuance}/bulk/v1/portal/count`,
+      url: `${this.authConfigService.config.bffUrl}/v1/portal/count`,
       data: {
         "countFields": [
           // "students_registered",

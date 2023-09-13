@@ -1170,7 +1170,7 @@
         },
         {
             "instructor-signup": {
-                "api": "/bulk-issuance/bulk/v1/instructor/q1/register",
+                "api": "/ulp-bff/v1/instructor/q1/register",
                 "isBFF": true,
                 "thirdParty": true,
                 "type": "entity",
@@ -1321,7 +1321,7 @@
                                             ],
                                             "templateOptions": {
                                                 "placeholder": "SELECT_ISSUER",
-                                                "optionsApi": "https://uatulp.uniteframework.io/bulk-issuance/bulk/v1/issuerlist",
+                                                "optionsApi": "https://uatulp.uniteframework.io/ulp-bff/v1/issuerlist",
                                                 "responsePath": "result",
                                                 "required": true,
                                                 "options": [],
