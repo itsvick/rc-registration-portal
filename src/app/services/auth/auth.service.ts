@@ -180,7 +180,7 @@ export class AuthService {
   }
 
   linkUDISE(payload: any) {
-    const api = `${this.authConfigService.config.bulkIssuance}/bulk/v1/instructor/udise`;
+    const api = `${this.authConfigService.config.bffUrl}/v1/instructor/udise`;
     return this.http.post(api, payload);
   }
 
@@ -190,7 +190,7 @@ export class AuthService {
   }
 
   aadhaarKYC(payload: any) {
-    const api = `${this.authConfigService.config.bulkIssuance}/bulk/v1/instructor/aadhaar`;
+    const api = `${this.authConfigService.config.bffUrl}/v1/instructor/aadhaar`;
     return this.http.post(api, payload);
   }
 
