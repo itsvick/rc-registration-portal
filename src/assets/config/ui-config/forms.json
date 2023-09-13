@@ -1170,7 +1170,7 @@
         },
         {
             "instructor-signup": {
-                "api": "/bulk-issuance/bulk/v1/instructor/register",
+                "api": "/ulp-bff/v1/instructor/register",
                 "isBFF": true,
                 "thirdParty": true,
                 "type": "entity",
