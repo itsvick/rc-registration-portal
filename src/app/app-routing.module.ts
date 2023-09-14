@@ -38,6 +38,7 @@ import { MainDashboardComponent } from './main-dashboard/main-dashboard.componen
 import { IssuedCredentialsComponent } from './issued-credentials/issued-credentials.component';
 import { BulkIssueCredentialsComponent } from './bulk-issue-credentials/bulk-issue-credentials.component';
 import { AadhaarKycComponent } from './authentication/aadhaar-kyc/aadhaar-kyc.component';
+import { ApproveClaimsComponent } from './approve-claims/approve-claims.component';
 
 // import { CreateCertificateComponent } from './create-certificate/create-certificate.component';
 // import { FaqComponent } from './custom-components/faq/faq.component';
@@ -152,6 +153,16 @@ const routes: Routes = [
           showToolbar: false,
           telemetry: {
             env: 'view-document', pageid: 'doc-view', type: 'view', subtype: 'scroll'
+          }
+        }
+      },
+      {
+        path: 'approve-claims',
+        component: ApproveClaimsComponent,
+        data: {
+          showToolbar: false,
+          telemetry: {
+            env: 'approve-claims', pageid: 'approve-claims', type: 'view', subtype: 'scroll'
           }
         }
       },
