@@ -114,7 +114,6 @@ import { configurationFactory } from './configuration.factory';
 import { TemplateTypeComponent } from './forms/types/template.type';
 import { VerifyUdiseComponent } from './forms/types/verify-udise/verify-udise.type';
 import { VerifyAadhaarComponent } from './forms/types/verify-aadhaar/verify-aadhaar.type';
-import { ApproveClaimsComponent } from './approve-claims/approve-claims.component';
 
 @NgModule({
   declarations: [
@@ -172,8 +171,7 @@ import { ApproveClaimsComponent } from './approve-claims/approve-claims.componen
     SelectWrapper,
     TemplateTypeComponent,
     VerifyUdiseComponent,
-    VerifyAadhaarComponent,
-    ApproveClaimsComponent
+    VerifyAadhaarComponent
   ],
   imports: [
     BrowserModule,
