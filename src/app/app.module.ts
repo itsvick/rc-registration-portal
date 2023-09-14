@@ -125,6 +125,7 @@ import { Router } from '@angular/router';
 import { UtilService } from './services/util/util.service';
 import { ToastMessageService } from './services/toast-message/toast-message.service';
 import { DeduplicationComponent } from './deduplication/deduplication.component';
+import { ApproveClaimsComponent } from './approve-claims/approve-claims.component';
 
 @NgModule({
   declarations: [
@@ -189,7 +190,8 @@ import { DeduplicationComponent } from './deduplication/deduplication.component'
     MyAccountComponent,
     RegisterComponent,
     DataTableComponent,
-    DeduplicationComponent
+    DeduplicationComponent,
+    ApproveClaimsComponent
   ],
   imports: [
     BrowserModule,

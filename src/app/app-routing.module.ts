@@ -43,6 +43,7 @@ import { UdiseVerificationComponent } from './udise-verification/udise-verificat
 import { MyAccountComponent } from './my-account/my-account.component';
 import { RegisterComponent } from './register/register.component';
 import { DeduplicationComponent } from './deduplication/deduplication.component';
+import { ApproveClaimsComponent } from './approve-claims/approve-claims.component';
 
 // import { CreateCertificateComponent } from './create-certificate/create-certificate.component';
 // import { FaqComponent } from './custom-components/faq/faq.component';
@@ -202,6 +203,16 @@ const routes: Routes = [
           showToolbar: false,
           telemetry: {
             env: 'deduplication', pageid: 'deduplication', type: 'view', subtype: 'scroll'
+          }
+        }
+      },
+      {
+        path: 'approve-claims',
+        component: ApproveClaimsComponent,
+        data: {
+          showToolbar: false,
+          telemetry: {
+            env: 'approve-claims', pageid: 'approve-claims', type: 'view', subtype: 'scroll'
           }
         }
       }
