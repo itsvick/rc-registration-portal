@@ -6,10 +6,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./approve-claims.component.scss']
 })
 export class ApproveClaimsComponent implements OnInit {
+  sidebarToggle: boolean = true;
+  headerName: string = 'plain';
+
+
 
   constructor() { }
 
   ngOnInit(): void {
+
+  }
+  toggleSidebarMenu() {
+    this.sidebarToggle = !this.sidebarToggle;
   }
 
 }
