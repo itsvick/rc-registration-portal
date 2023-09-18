@@ -63,11 +63,11 @@ export class BulkIssueCredentialsComponent implements OnInit, AfterViewInit {
     private readonly toastMsgService: ToastMessageService) { }
 
   ngOnInit(): void {
-    if (!this.authService.isKYCCompleted()) {
-      this.toastMsgService.error('', this.utilService.translateString('PLEASE_COMPLETE_YOUR_E_KYC_AND_UDISE'));
-      this.router.navigate(['/dashboard/my-account']);
-      return
-    }
+    // if (!this.authService.isKYCCompleted()) {
+    //   this.toastMsgService.error('', this.utilService.translateString('PLEASE_COMPLETE_YOUR_E_KYC_AND_UDISE'));
+    //   this.router.navigate(['/dashboard/my-account']);
+    //   return
+    // }
     this.getSchemaList();
   }
 

@@ -149,13 +149,16 @@ select {
 }
 
 .language {
-    background-color: var(--primaryColor);
     padding: 2px;
     border-radius: 5px;
 
     i {
         color: #fff !important;
     }
+   
+}
+.nav-link-color{
+    background-color: var(--primaryColor);
 }
 
 .title {
