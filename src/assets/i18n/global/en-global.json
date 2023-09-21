@@ -228,7 +228,7 @@
     "STUD_REGISTRATION_CLAIM": "Approve  student registration",
     "SELECT_TYPE_ISSUE_CRED": "Select type of Issue Credentials :",
     "NEW_STUD_REGISTRATION_CLAIM": "New student registration claim",
-    "TRACK_ALL_MAJOR": "AVSAR Metrics Summary",
+    "TRACK_ALL_MAJOR": "Track all major ULP metrics for your school here!",
     "UPLOAD_EXCELL_SHEET": "Upload excel sheet",
     "UPLOAD_EXCELL_SHEET1": "with student details",
     "REGISTER_STUDENT": "Register new Students",
@@ -465,5 +465,7 @@
     "ENTER_MOBILE_NUMBER_AS_USERNAME": "Enter Mobile Number as Username",
     "CREDENTIAL_TYPE": "Credential Type",
     "ISSUE_CREDENTIALS_FOR_SINGLE_STUDENT": "Issue credentials for single student",
-    "DEDUPLICATION": "Deduplication"
+    "DEDUPLICATION": "Deduplication",
+    "UDISE_VERIFICATION": "UDISE Verification",
+    "LOCATION": "Location"
 }

@@ -44,6 +44,7 @@ import { MyAccountComponent } from './my-account/my-account.component';
 import { RegisterComponent } from './register/register.component';
 import { DeduplicationComponent } from './deduplication/deduplication.component';
 import { ApproveClaimsComponent } from './approve-claims/approve-claims.component';
+import { RevokeCredentialsComponent } from './revoke-credentials/revoke-credentials.component';
 
 // import { CreateCertificateComponent } from './create-certificate/create-certificate.component';
 // import { FaqComponent } from './custom-components/faq/faq.component';
@@ -173,6 +174,16 @@ const routes: Routes = [
           showToolbar: false,
           telemetry: {
             env: 'credential', pageid: 'bulk-issue-credential', type: 'list', subtype: 'paginate'
+          }
+        }
+      },
+      {
+        path: 'revoke-credentials',
+        component: RevokeCredentialsComponent,
+        data: {
+          showToolbar: false,
+          telemetry: {
+            env: 'revoke-credential', pageid: 'revoke-credentials', type: 'list', subtype: 'paginate'
           }
         }
       },

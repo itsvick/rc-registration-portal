@@ -157,6 +157,20 @@ export class DataService {
 
   }
 
+  delete(requestParam): Observable<any>{
+    const httpOptions: HttpOptions = {
+      headers: requestParam.header ? this.getHeader(requestParam.header) : this.getHeader(),
+      params: requestParam.param
+    };
+    return this.http.delete(requestParam.url, httpOptions).pipe(
+      mergeMap((data: any) => {
+        if (data.responseCode !== 'OK') {
+          return observableThrowError(data);
+        }
+        return observableOf(data);
+      }));
+  }
+
 }
 
 
