@@ -126,6 +126,7 @@ import { UtilService } from './services/util/util.service';
 import { ToastMessageService } from './services/toast-message/toast-message.service';
 import { DeduplicationComponent } from './deduplication/deduplication.component';
 import { ApproveClaimsComponent } from './approve-claims/approve-claims.component';
+import { RevokeCredentialsComponent } from './revoke-credentials/revoke-credentials.component';
 
 @NgModule({
   declarations: [
@@ -191,7 +192,8 @@ import { ApproveClaimsComponent } from './approve-claims/approve-claims.componen
     RegisterComponent,
     DataTableComponent,
     DeduplicationComponent,
-    ApproveClaimsComponent
+    ApproveClaimsComponent,
+    RevokeCredentialsComponent
   ],
   imports: [
     BrowserModule,

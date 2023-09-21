@@ -198,4 +198,11 @@ export class CredentialService {
     }
     return this.dataService.post(payload).pipe(retry(2));
   }
+
+  revokeCredentials(credentialId: string) {
+    const payload = {
+      url: `${this.baseUrl}/v1/credentials/revoke/${credentialId}`
+    }
+    return this.dataService.delete(payload).pipe((res: any) => res.result);
+  }
 }

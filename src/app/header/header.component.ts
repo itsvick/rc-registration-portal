@@ -6,6 +6,7 @@ import { SchemaService } from '../services/data/schema.service';
 import { GeneralService } from '../services/general/general.service';
 import { TelemetryService } from '../services/telemetry/telemetry.service';
 import { IInteractEventInput } from '../services/telemetry/telemetry.interface';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -16,6 +17,7 @@ import { IInteractEventInput } from '../services/telemetry/telemetry.interface';
 export class HeaderComponent implements OnInit {
   @Input() headerFor: string = 'default';
   @Input() tab: string;
+  @Input() showTitle: boolean = true;
   logo;
   languages: any;
   headerSchema;
@@ -28,6 +30,7 @@ export class HeaderComponent implements OnInit {
   apiUrl: any;
   title: string;
   showBanner: boolean = false;
+  currentUser: any;
 
   constructor(
     private readonly config: AppConfig,
@@ -35,11 +38,12 @@ export class HeaderComponent implements OnInit {
     private readonly themeService: ThemeService,
     private readonly generalService: GeneralService,
     private readonly activatedRoute: ActivatedRoute,
-    private readonly telemetryService: TelemetryService
+    private readonly telemetryService: TelemetryService,
+    private readonly authService: AuthService
   ) { }
 
   async ngOnInit() {
-
+    this.currentUser = this.authService.currentUser;
     this.languages = JSON.parse(localStorage.getItem('languages'));
     this.langCode = localStorage.getItem('setLanguage');
     this.ELOCKER_THEME = localStorage.getItem('ELOCKER_THEME');

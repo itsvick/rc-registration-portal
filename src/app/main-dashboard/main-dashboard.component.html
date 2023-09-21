@@ -1,11 +1,10 @@
-<app-header [headerFor]='headerName'></app-header>
-<div style="position: relative;">
+<app-header [headerFor]='headerName' [showTitle]="showTitle"></app-header>
+<div class="position-relative">
   <i class="fa sidebar-icon cursor-pointer" [ngClass]="sidebarToggle ? 'fa-angle-left' : 'fa-angle-right'"
     (click)="toggleSidebarMenu()" data-toggle="collapse" data-target="#collapseWidthExample" aria-expanded="false"
     aria-controls="collapseWidthExample"></i>
 </div>
 <section>
-
   <div class="text-float">
     <aside class="collapse width show sidebar-collapse" id="collapseWidthExample">
       <app-sidebar></app-sidebar>
@@ -14,61 +13,72 @@
 
   <main class="p-0 pl-2 bg-sch-img" [ngClass]="{'col-sm-9':sidebarToggle,'col-sm-11':!sidebarToggle}">
     <p *ngIf="isFirstTimeLogin && currentUser?.name">{{'WELCOME_NOTE' | translate: {name: currentUser?.name} }}</p>
-    <div *ngIf="!isChildRoute">
-      <div class="text-center fs-24 text-bl mb-4 mt-6"> {{'TRACK_ALL_MAJOR' | translate}}</div>
-      <div class="px-5 pb-5">
-        <div class="row pb-55 pt-3">
-          <div class="col-md-6 flex-center">
-            <div routerLink="/dashboard/issued-credential" class="box cursor-pointer">
-              <div class="fs-18 font-weight-bold text-center">
-                <div class="fs-24">{{metrics?.students_registered}}</div>
-                <div>{{'ENROLMENT_CREDENTIAL' | translate}}</div>
-              </div>
-              <!-- <div>
+    <div *ngIf="!isChildRoute" class="mt-6">
+      <div class="d-flex justify-content-end">
+        <div class="m-3 p-3 border rounded border-primary float-right school-box">
+          <p><span class="text-underline">{{'SCHOOL_NAME' | translate}}:</span>&nbsp;<b>{{currentUser?.school_name}}</b>
+          </p>
+          <p class="m-0"><span class="text-underline">{{'LOCATION' | translate}}:</span>&nbsp;<b>Noida</b></p>
+        </div>
+      </div>
+      <div class="mt-4 metrics">
+        <h3 class="text-center fs-38 text-bl mb-4 font-weight-bold text-blue">{{title}}</h3>
+        <p class="text-center fs-24">{{'TRACK_ALL_MAJOR' | translate}}</p>
+        <div class="px-5 pb-3">
+          <div class="row pb-55 pt-3">
+            <div class="col-md-4 offset-md-2">
+              <div routerLink="/dashboard/issued-credential" class="box cursor-pointer">
+                <div class="fs-18 font-weight-bold text-center">
+                  <div class="fs-24">{{metrics?.students_registered}}</div>
+                  <div>{{'ENROLMENT_CREDENTIAL' | translate}}</div>
+                </div>
+                <!-- <div>
                 <i class="fa fa-arrow-alt-circle-right icon-siz"></i>
               </div> -->
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div routerLink="/dashboard/claim-approval" [queryParams]="{filter: 'approved'}"
+                class="box cursor-pointer">
+                <div class="fs-18 font-weight-bold text-center">
+                  <div class="fs-24">{{metrics?.claims_approved}}</div>
+                  <div>{{'APPROVED_CLAIMS' | translate}}</div>
+                </div>
+                <!-- <div>
+                <i class="fa fa-arrow-alt-circle-right icon-siz"></i>
+              </div> -->
+              </div>
             </div>
           </div>
-          <div class="col-md-6 flex-center">
-            <div routerLink="/dashboard/claim-approval" [queryParams]="{filter: 'approved'}" class="box cursor-pointer">
-              <div class="fs-18 font-weight-bold text-center">
-                <div class="fs-24">{{metrics?.claims_approved}}</div>
-                <div>{{'APPROVED_CLAIMS' | translate}}</div>
-              </div>
-              <!-- <div>
+        </div>
+        <div class="px-5 mb-5">
+          <div class="row pb-55 pt-3">
+            <div class="col-md-4 offset-md-2">
+              <div routerLink="/dashboard/claim-approval" class="box cursor-pointer">
+                <div class="fs-18 font-weight-bold text-center">
+                  <div class="fs-24">{{metrics?.claims_pending}}</div>
+                  <div>{{'PENDING_CLAIM_APPROVAL' | translate}}</div>
+                </div>
+                <!-- <div>
                 <i class="fa fa-arrow-alt-circle-right icon-siz"></i>
               </div> -->
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div routerLink="/dashboard/claim-approval" [queryParams]="{filter: 'rejected'}"
+                class="box cursor-pointer">
+                <div class="fs-18 font-weight-bold text-center">
+                  <div class="fs-24">{{metrics?.claims_rejected}}</div>
+                  <div>{{'REJECTED_CLAIMS' | translate}}</div>
+                </div>
+                <!-- <div>
+                <i class="fa fa-arrow-alt-circle-right icon-siz"></i>
+              </div> -->
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="px-5">
-        <div class="row pb-55 pt-3">
-          <div class="col-md-6 flex-center">
-            <div routerLink="/dashboard/claim-approval" class="box cursor-pointer">
-              <div class="fs-18 font-weight-bold text-center">
-                <div class="fs-24">{{metrics?.claims_pending}}</div>
-                <div>{{'PENDING_CLAIM_APPROVAL' | translate}}</div>
-              </div>
-              <!-- <div>
-                <i class="fa fa-arrow-alt-circle-right icon-siz"></i>
-              </div> -->
-            </div>
-          </div>
-          <div class="col-md-6 flex-center">
-            <div routerLink="/dashboard/claim-approval" [queryParams]="{filter: 'rejected'}" class="box cursor-pointer">
-              <div class="fs-18 font-weight-bold text-center">
-                <div class="fs-24">{{metrics?.claims_rejected}}</div>
-                <div>{{'REJECTED_CLAIMS' | translate}}</div>
-              </div>
-              <!-- <div>
-                <i class="fa fa-arrow-alt-circle-right icon-siz"></i>
-              </div> -->
-            </div>
-          </div>
-        </div>
-      </div>
-
 
       <!-- <div class="fs-24 font-600 text-bl py-3 side-line text-center">{{'QUICK_LINKS' | translate}}</div>
       <div class="d-flex mt-5 mb-5 justify-content-around">

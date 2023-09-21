@@ -38,7 +38,7 @@ main {
 }
 
 .box {
-  width: 380px;
+  width: auto;
   height: 110px;
   background: var(--primaryColor);
   box-shadow: 0px 8.24562px 11.5439px rgba(0, 0, 0, 0.16);
@@ -70,4 +70,12 @@ main {
 }
 .ml-5px {
   margin-left: 5px;
+}
+.metrics {
+  display: grid;
+  text-align: center;
+  vertical-align: middle;
+}
+.school-box {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
 }

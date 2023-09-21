@@ -44,6 +44,11 @@ export class BulkIssueCredentialsComponent implements OnInit, AfterViewInit {
 
   csvObject: any;
   tableColumns: any[] = [];
+  issueBulkIssuance: boolean = false;
+  isModeSelected: boolean = false;
+  showModes: boolean = false;
+  issueCredentialStudentType: string;
+  issuanceMode: string;
 
   downloadModalRef: NgbModalRef;
   @ViewChild("downloadModal") downloadModal: ElementRef;
@@ -91,6 +96,10 @@ export class BulkIssueCredentialsComponent implements OnInit, AfterViewInit {
     }
   }
 
+  showIssuanceForm() {
+    this.isModeSelected = true;
+  }
+
   openFileBrowser() {
     if (this.model?.schema) {
       this.fileUpload.nativeElement.click();
@@ -104,6 +113,10 @@ export class BulkIssueCredentialsComponent implements OnInit, AfterViewInit {
     this.bulkIssuanceService.getSchemaFields(this.model.schema).subscribe((schemaDetails: any) => {
       console.log(schemaDetails);
       this.schemaDetails = schemaDetails;
+
+      if (this.issuanceMode === 'single') {
+        this.showSingleCredentialForm();
+      }
     });
   }
 
