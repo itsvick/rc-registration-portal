@@ -2,7 +2,7 @@
   <div class="close-btn" (click)="closeModal($event)" data-dismiss="modal" aria-label="Close">
     <span aria-hidden="true" class="close cursor-pointer">&times;</span>
   </div>
-  <h4 class="text-primary font-weight-bold">UDISE Verification</h4>
+  <h4 class="text-primary font-weight-bold">{{'UDISE_VERIFICATION' | translate}}</h4>
   <p class="text-secondary mb-0 fs-12">{{'UDISE_WELCOME_NOTE' | translate}}</p>
   <form (ngSubmit)="getOTP()">
     <div class="pt-3 d-flex justify-content-center">

@@ -28,7 +28,7 @@ export class BulkIssuanceService {
     const payload = {
       url: `${this.authConfigService.config.bffUrl}/v1/credential/schema/list`,
       data: {
-        taglist: "ulpq2" //TODO: need to remove this hard coded tag //ulpq2 tag1
+        taglist: "q2ulp" //TODO: need to remove this hard coded tag //ulpq2 tag1 q2ulp
       }
     }
     return this.dataService.post(payload).pipe(retry(2), map((res: any) => res.result));

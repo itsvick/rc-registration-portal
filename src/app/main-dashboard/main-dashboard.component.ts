@@ -9,6 +9,7 @@ import { Subject } from 'rxjs';
 import { ToastMessageService } from '../services/toast-message/toast-message.service';
 import { GeneralService } from '../services/general/general.service';
 import { AuthService } from '../services/auth/auth.service';
+import { AppConfig } from '../app.config';
 
 
 @Component({
@@ -23,6 +24,8 @@ export class MainDashboardComponent implements OnInit {
   headerName: string = 'plain';
   metrics: any;
   sidebarToggle: boolean = true
+  showTitle: boolean = true;
+  title = this.config.getConfig('title');
 
   private unsubscribe$ = new Subject<void>();
 
@@ -35,7 +38,7 @@ export class MainDashboardComponent implements OnInit {
     private readonly toastMessageService: ToastMessageService,
     private readonly generalService: GeneralService,
     private readonly authService: AuthService,
-
+    private readonly config: AppConfig
 
   ) {
     this.router.events.pipe(
@@ -45,7 +48,10 @@ export class MainDashboardComponent implements OnInit {
         this.isChildRoute = !!this.activatedRoute.children.length;
 
         if (!this.isChildRoute) {
+          this.showTitle = false;
           this.getMetrics();
+        } else {
+          this.showTitle = true;
         }
       });
 

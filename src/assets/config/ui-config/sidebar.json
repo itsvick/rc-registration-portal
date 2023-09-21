@@ -25,8 +25,8 @@
         {
           "id": "revoke-credentials",
           "title": "REVOKE_CREDENTIALS",
-          "redirectTo": "/dashboard/revoke-credential",
-          "className": "fa fa-user-plus disable"
+          "redirectTo": "/dashboard/revoke-credentials",
+          "className": "fa fa-user-plus"
         },
         {
           "id": "issued-credential",
