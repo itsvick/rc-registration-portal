@@ -130,7 +130,7 @@ export class BulkIssueCredentialsComponent implements OnInit, AfterViewInit {
     console.log("id", this.schemaDetails.id);
 
     if (this.model?.schema === this.schemaDetails?.id) {
-      let columnFields = [...this.schemaDetails.required, ...this.schemaDetails.optional];
+      let columnFields = [...this.schemaDetails.register_required, ...this.schemaDetails.required, ...this.schemaDetails.optional];
       columnFields = [...new Set(columnFields.map(item => item.trim()))]; //Remove spaces and duplicates
       const csvContent = this.csvService.generateCSV(columnFields, []);
       this.csvService.downloadCSVTemplate(csvContent, `${this.schemaDetails.schemaid}-template.csv`);
@@ -249,7 +249,7 @@ export class BulkIssueCredentialsComponent implements OnInit, AfterViewInit {
   showSingleCredentialForm() {
     if (this.model?.schema) {
       if (this.model?.schema === this.schemaDetails?.id) {
-        let columnFields = [...this.schemaDetails.required, ...this.schemaDetails.optional];
+        let columnFields = [...this.schemaDetails.register_required, ...this.schemaDetails.required, ...this.schemaDetails.optional];
         columnFields = [...new Set(columnFields.map(item => item.trim()))]; //Remove spaces and duplicates
         console.log("columnFields", columnFields);
         this.issueSingleRecord = true;
@@ -265,7 +265,7 @@ export class BulkIssueCredentialsComponent implements OnInit, AfterViewInit {
   getFormControlsFields(formFields) {
     const formGroupFields = {};
     formFields.forEach(element => {
-      const isRequired = this.schemaDetails.required.includes(element);
+      const isRequired = this.schemaDetails.required.includes(element) || this.schemaDetails.register_required.includes(element);
       formGroupFields[element] = isRequired ? new FormControl("", Validators.required) : new FormControl("");
       this.fields.push({
         key: element,

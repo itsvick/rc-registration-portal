@@ -38,7 +38,7 @@
           "id": "claim-approval",
           "title": "APPROVE_CLAIMS",
           "redirectTo": "/dashboard/approve-claims",  
-          "className": "fa fa-user-check disable"
+          "className": "fa fa-user-check"
         }
       ]
     },
