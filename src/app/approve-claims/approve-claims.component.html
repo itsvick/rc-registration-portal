@@ -1,153 +1,86 @@
 <main class="p-0 pl-2 bg-sch-img col-sm-9" style="margin-top: 90px;">
 </main>
 
- <div class="d-flex  flex-justify-between">
-    <div class="brown-Shade-0 fs-18 pb-3 pt-3">Approve Claims</div>
-    <div>
-        <div class="d-flex pt-3">
-            <input type="search"   class="mr-3 form-control w-70" placeholder="Search Student Name">
-            <a href="#" class="brown-shade-3"><img src="assets/images/sort.png" class="mr-4" alt="sort"><br>Sort</a>
-            <div class="navbar navbar-expand-lg pt-0 px-0">
+<div class="">
+    <h3 class="brown-Shade-0 fs-18 pb-0 pt-3">Approve Claims</h3>
+    <p class="text-secondary">Approve/ Reject Claims for credential issuance, raised by holders.</p>
+    <hr class="my-3">
+    <div class="d-flex justify-content-end pt-3" *ngIf="claimList.length">
+        <input type="search" class="mr-3 form-control w-30" placeholder="Search Student Name">
+        <a href="#" class="brown-shade-3" *ngIf="false"><img src="assets/images/sort.png" class="mr-4" alt="sort"><br>Sort</a>
+        <div class="navbar navbar-expand-lg pt-0 px-0" *ngIf="false">
             <li class="nav-item dropdown ">
-                <img src="assets/images/filter.png" alt="sort"><br>
-                <a class="nav-link dropdown-toggle brown-shade-3 px-0 pt-0" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <img src="assets/images/filter.png" alt="sort">
+                <br>
+                <a class="nav-link dropdown-toggle brown-shade-3 px-0 pt-0" href="#" id="navbarDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Filter
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">Filter 1</a>
-                  <a class="dropdown-item" href="#">Filter 2</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Filter 3</a>
+                    <a class="dropdown-item" href="#">Filter 1</a>
+                    <a class="dropdown-item" href="#">Filter 2</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Filter 3</a>
                 </div>
-              </li>
+            </li>
+        </div>
+    </div>
+</div>
+<div class="d-flex pt-3" *ngIf="claimList.length">
+    <div class="card" *ngFor="let claim of claimList">
+        <div class="d-flex flex-justify-between">
+            <input type="checkbox">
+            <div class="fs-20 font-600">{{claim?.credentialSubject?.name | titlecase}}</div>
+            <i class="fa fa-eye brown-shade-2"></i>
+        </div>
+        <div class="text-center fs-14 row">
+            <span class="brown-shade-1 font-600 col-6 text-right p-0">School UDISE:</span>
+            <span class="col-6 text-left">{{claim?.attest_school_id}}</span>
+        </div>
+        <div class="text-center fs-14">
+            <span class="brown-shade-1 font-600 col-6 text-right p-0">School Name:</span>
+            <span class="col-6 text-left">{{claim?.attest_school_name}}</span>
+        </div>
+        <div class="text-center fs-14" [hidden]="!claim?.credentialSubject?.dob">
+            <span class="brown-shade-1 font-600 col-6 text-right p-0">Date of Birth: </span>
+            <span class="col-6 text-left"> {{claim?.credentialSubject?.dob}}</span>
+        </div>
+        <div class="text-center fs-14" [hidden]="!claim?.credentialSubject?.mobileno">
+            <span class="brown-shade-1 font-600 col-6 text-right p-0">Phone No:</span>
+            <span class="col-6 text-left">{{claim?.credentialSubject?.mobileno}}</span>
+        </div>
+        <div class="d-flex flex-justify-between">
+            <button type="button" class="btn btn-outline-danger" (click)="attestClaim('rejected',claim)">Reject
+                Claim</button>
+            <button type="button" class="btn btn-outline-success" (click)="attestClaim('approved', claim)">Approve
+                Claim</button>
+        </div>
+    </div>
+</div>
+<div class="d-flex d-flex-jc-end py-3 px-3" *ngIf="claimList.length">
+    <button type="button" class="btn btn-outline-danger mr-3" data-toggle="modal" data-target="#selectedClaim"
+        (click)="rejectMultipleClaims()">Reject
+        Selected Claim</button>
+    <button type="button" class="btn btn-outline-success" (click)="approveMultipleClaims()">Approve Selected
+        Claim</button>
+</div>
+
+<div class="d-flex justify-content-center py-3 px-3" *ngIf="!claimList.length">
+    <p>No claim Found!</p>
+</div>
+
+
+<div class="modal fade" id="selectedClaim" tabindex="-1" role="dialog" aria-labelledby="selectedClaim"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body text-center">
+                <i class="fa fa-check-circle fs-100 success-text"></i>
+                <div class="success-text fs-20 font-600 pt-3">12 Claims Approved SUCCESSFULLY</div>
+                <div class="danger-text fs-20 font-600 py-3"> 10 Claims Remaining!</div>
+                <button type="button" class="btn btn-success success-bg text-white" data-dismiss="modal">Ok</button>
             </div>
         </div>
     </div>
 </div>
-<hr class="my-3">
-<div class="d-flex pt-3">
-    <div class="card">
-        <div class="d-flex flex-justify-between">
-            <input type="checkbox">
-            <div class="fs-20 font-600">Amit Singh</div>
-            <i class="fa fa-eye brown-shade-2"></i>
-        </div>
-        <div class="text-center fs-14 "><span class="brown-shade-1 font-600">School UDISE: </span>29120510208</div>
-        <div class="text-center fs-14 "><span class="brown-shade-1 font-600">School Name: </span>Dav Public School</div>
-        <div class="text-center fs-14 "><span class="brown-shade-1 font-600">Date of Birth: </span>15/02/2002</div>
-        <div class="text-center fs-14 "><span class="brown-shade-1 font-600">Phone No: </span>Dav 8956525887</div>
-        <div class="d-flex flex-justify-between">
-            <button type="button" class="btn danger-outline-btn">Reject Claim</button>
-            <button type="button" class="btn success-outline-btn">Approve Claim</button>
-        </div>
-    </div>
-    <div class="card">
-        <div class="d-flex flex-justify-between">
-            <input type="checkbox">
-            <div class="fs-20 font-600">Amit Singh</div>
-            <i class="fa fa-eye brown-shade-2"></i>
-        </div>
-        <div class="text-center fs-14 "><span class="brown-shade-1 font-600">School UDISE: </span>29120510208</div>
-        <div class="text-center fs-14 "><span class="brown-shade-1 font-600">School Name: </span>Dav Public School</div>
-        <div class="text-center fs-14 "><span class="brown-shade-1 font-600">Date of Birth: </span>15/02/2002</div>
-        <div class="text-center fs-14 "><span class="brown-shade-1 font-600">Phone No: </span>Dav 8956525887</div>
-        <div class="d-flex flex-justify-between py-3">
-            <button type="button" class="btn danger-outline-btn">Reject Claim</button>
-            <button type="button" class="btn success-outline-btn">Approve Claim</button>
-        </div>
-    </div>
-    <div class="card">
-        <div class="d-flex flex-justify-between">
-            <input type="checkbox">
-            <div class="fs-20 font-600">Amit Singh</div>
-            <i class="fa fa-eye brown-shade-2"></i>
-        </div>
-        <div class="text-center fs-14 "><span class="brown-shade-1 font-600">School UDISE: </span>29120510208</div>
-        <div class="text-center fs-14 "><span class="brown-shade-1 font-600">School Name: </span>Dav Public School</div>
-        <div class="text-center fs-14 "><span class="brown-shade-1 font-600">Date of Birth: </span>15/02/2002</div>
-        <div class="text-center fs-14 "><span class="brown-shade-1 font-600">Phone No: </span>Dav 8956525887</div>
-        <div class="d-flex flex-justify-between py-3">
-            <button type="button" class="btn danger-outline-btn">Reject Claim</button>
-            <button type="button" class="btn success-outline-btn">Approve Claim</button>
-        </div>
-    </div>
-    <div class="card">
-        <div class="d-flex flex-justify-between">
-            <input type="checkbox">
-            <div class="fs-20 font-600">Amit Singh</div>
-            <i class="fa fa-eye brown-shade-2"></i>
-        </div>
-        <div class="text-center fs-14 "><span class="brown-shade-1 font-600">School UDISE: </span>29120510208</div>
-        <div class="text-center fs-14 "><span class="brown-shade-1 font-600">School Name: </span>Dav Public School</div>
-        <div class="text-center fs-14 "><span class="brown-shade-1 font-600">Date of Birth: </span>15/02/2002</div>
-        <div class="text-center fs-14 "><span class="brown-shade-1 font-600">Phone No: </span>Dav 8956525887</div>
-        <div class="d-flex flex-justify-between py-3">
-            <button type="button" class="btn danger-outline-btn">Reject Claim</button>
-            <button type="button" class="btn success-outline-btn">Approve Claim</button>
-        </div>
-    </div>
-    <div class="card">
-        <div class="d-flex flex-justify-between">
-            <input type="checkbox">
-            <div class="fs-20 font-600">Amit Singh</div>
-            <i class="fa fa-eye brown-shade-2"></i>
-        </div>
-        <div class="text-center fs-14 "><span class="brown-shade-1 font-600">School UDISE: </span>29120510208</div>
-        <div class="text-center fs-14 "><span class="brown-shade-1 font-600">School Name: </span>Dav Public School</div>
-        <div class="text-center fs-14 "><span class="brown-shade-1 font-600">Date of Birth: </span>15/02/2002</div>
-        <div class="text-center fs-14 "><span class="brown-shade-1 font-600">Phone No: </span>Dav 8956525887</div>
-        <div class="d-flex flex-justify-between py-3">
-            <button type="button" class="btn danger-outline-btn">Reject Claim</button>
-            <button type="button" class="btn success-outline-btn">Approve Claim</button>
-        </div>
-    </div>
-    <div class="card">
-        <div class="d-flex flex-justify-between">
-            <input type="checkbox">
-            <div class="fs-20 font-600">Amit Singh</div>
-            <i class="fa fa-eye brown-shade-2"></i>
-        </div>
-        <div class="text-center fs-14 "><span class="brown-shade-1 font-600">School UDISE: </span>29120510208</div>
-        <div class="text-center fs-14 "><span class="brown-shade-1 font-600">School Name: </span>Dav Public School</div>
-        <div class="text-center fs-14 "><span class="brown-shade-1 font-600">Date of Birth: </span>15/02/2002</div>
-        <div class="text-center fs-14 "><span class="brown-shade-1 font-600">Phone No: </span>Dav 8956525887</div>
-        <div class="d-flex flex-justify-between py-3">
-            <button type="button" class="btn danger-outline-btn">Reject Claim</button>
-            <button type="button" class="btn success-outline-btn">Approve Claim</button>
-        </div>
-    </div>
-    <div class="card">
-        <div class="d-flex flex-justify-between">
-            <input type="checkbox">
-            <div class="fs-20 font-600">Amit Singh</div>
-            <i class="fa fa-eye brown-shade-2"></i>
-        </div>
-        <div class="text-center fs-14 "><span class="brown-shade-1 font-600">School UDISE: </span>29120510208</div>
-        <div class="text-center fs-14 "><span class="brown-shade-1 font-600">School Name: </span>Dav Public School</div>
-        <div class="text-center fs-14 "><span class="brown-shade-1 font-600">Date of Birth: </span>15/02/2002</div>
-        <div class="text-center fs-14 "><span class="brown-shade-1 font-600">Phone No: </span>Dav 8956525887</div>
-        <div class="d-flex flex-justify-between py-3">
-            <button type="button" class="btn danger-outline-btn">Reject Claim</button>
-            <button type="button" class="btn success-outline-btn">Approve Claim</button>
-        </div>
-    </div>
-</div>
-<div class="d-flex d-flex-jc-end py-3">
-    <button type="button" class="btn danger-outline-btn mr-3"  data-toggle="modal" data-target="#selectedClaim">Reject Selected Claim</button>
-    <button type="button" class="btn success-outline-btn" >Approve Selected Claim</button>
-</div>
-<div class="modal fade" id="selectedClaim" tabindex="-1" role="dialog" aria-labelledby="selectedClaim" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        
-        <div class="modal-body text-center">
-            <i class="fa fa-check-circle fs-100 success-text"></i>
-          <div class="success-text fs-20 font-600 pt-3">12 Claims Approved SUCCESSFULLY</div>
-           <div class="danger-text fs-20 font-600 py-3"> 10 Claims Remaining!</div>
-           <button type="button" class="btn btn-success success-bg text-white" data-dismiss="modal">Ok</button>
-        </div>
-      </div>
-    </div>
-  </div> 
-
-  

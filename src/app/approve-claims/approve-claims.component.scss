@@ -1,49 +1,49 @@
-.card{
+.card {
     box-shadow: 0px 4px 15px 0px #00000040;
-    border: solid 1px #5C5C77 !important;
+    border: solid 1px var(--primaryColor) !important;
     width: 326px;
-    padding: 12px 10px;
+    padding: 20px 10px;
     gap: 14px;
     margin-right: 34px;
     margin-bottom: 34px;
 }
 
-.d-flex{
+.d-flex {
     flex-wrap: wrap;
 }
 
-.fs-20{
+.fs-20 {
     font-size: 20px;
 }
 
-.fs-14{
+.fs-14 {
     font-size: 14px;
 }
 
-.brown-shade-1{
-    color: #8E909A;
+.brown-shade-1 {
+    color: #8e909a;
 }
 
-.font-600{
+.font-600 {
     font-weight: 600;
 }
 
-.btn{
+.btn {
     padding: 8px 15px;
     border-radius: 4px;
     font-size: 14px;
 }
 
-hr{
-    border: solid 1px #ACACAC;
+hr {
+    border: solid 1px #acacac;
 }
 
-.fs-100{
+.fs-100 {
     font-size: 100px;
 }
 
-.success-bg{
-    background: #39B367 !important;
+.success-bg {
+    background: #39b367 !important;
 }
 
 .has-search .form-control-feedback {
@@ -58,16 +58,18 @@ hr{
     color: #aaa;
 }
 
-li{
+li {
     list-style-type: none;
 }
 
-
-.dropdown-toggle::after{
+.dropdown-toggle::after {
     display: none;
 }
 
-.dropdown-menu{
+.dropdown-menu {
     left: -118px;
 }
 
+input[type="checkbox"] {
+    width: 20px;
+}
