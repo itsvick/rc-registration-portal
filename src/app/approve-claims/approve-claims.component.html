@@ -2,12 +2,13 @@
 </main>
 
 <div class="">
-    <h3 class="brown-Shade-0 fs-18 pb-0 pt-3">Approve Claims</h3>
-    <p class="text-secondary">Approve/ Reject Claims for credential issuance, raised by holders.</p>
+    <h3 class="brown-Shade-0 fs-18 pb-0 pt-3">{{'APPROVE_CLAIMS' | translate}}</h3>
+    <p class="text-secondary">{{'APPROVE_REJECT_CLAIMS_NOT' | translate}}</p>
     <hr class="my-3">
     <div class="d-flex justify-content-end pt-3" *ngIf="claimList.length">
         <input type="search" class="mr-3 form-control w-30" placeholder="Search Student Name">
-        <a href="#" class="brown-shade-3" *ngIf="false"><img src="assets/images/sort.png" class="mr-4" alt="sort"><br>Sort</a>
+        <a href="#" class="brown-shade-3" *ngIf="false"><img src="assets/images/sort.png" class="mr-4"
+                alt="sort"><br>{{'SORT' | translate}}</a>
         <div class="navbar navbar-expand-lg pt-0 px-0" *ngIf="false">
             <li class="nav-item dropdown ">
                 <img src="assets/images/filter.png" alt="sort">
@@ -50,10 +51,10 @@
             <span class="col-6 text-left">{{claim?.credentialSubject?.mobileno}}</span>
         </div>
         <div class="d-flex flex-justify-between">
-            <button type="button" class="btn btn-outline-danger" (click)="attestClaim('rejected',claim)">Reject
-                Claim</button>
-            <button type="button" class="btn btn-outline-success" (click)="attestClaim('approved', claim)">Approve
-                Claim</button>
+            <button type="button" class="btn btn-outline-danger"
+                (click)="attestClaim('rejected',claim)">{{'REJECT_CLAIM' | translate}}</button>
+            <button type="button" class="btn btn-outline-success"
+                (click)="attestClaim('approved', claim)">{{'APPROVE_CLAIM' | translate}}</button>
         </div>
     </div>
 </div>
@@ -66,7 +67,7 @@
 </div>
 
 <div class="d-flex justify-content-center py-3 px-3" *ngIf="!claimList.length">
-    <p>No claim Found!</p>
+    <p>{{'NO_CLAIM_FOUND' | translate}}</p>
 </div>
 
 
@@ -77,9 +78,9 @@
 
             <div class="modal-body text-center">
                 <i class="fa fa-check-circle fs-100 success-text"></i>
-                <div class="success-text fs-20 font-600 pt-3">12 Claims Approved SUCCESSFULLY</div>
-                <div class="danger-text fs-20 font-600 py-3"> 10 Claims Remaining!</div>
-                <button type="button" class="btn btn-success success-bg text-white" data-dismiss="modal">Ok</button>
+                <div class="success-text fs-20 font-600 pt-3">12 {{'CLAIMS_APPROVED_SUCCESSFULLY' | translate}}</div>
+                <div class="danger-text fs-20 font-600 py-3"> 10 {{'CLAIMS_REMAINING' | translate}}</div>
+                <button type="button" class="btn btn-success success-bg text-white" data-dismiss="modal">{{'OK' | translate}}</button>
             </div>
         </div>
     </div>

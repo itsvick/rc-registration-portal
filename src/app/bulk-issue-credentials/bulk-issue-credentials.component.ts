@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, Optional, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import * as Papa from "papaparse";
 import { BulkIssuanceService } from '../services/bulk-issuance/bulk-issuance.service';
 import { CsvService } from '../services/csv/csv.service';
@@ -52,6 +52,9 @@ export class BulkIssueCredentialsComponent implements OnInit, AfterViewInit {
 
   downloadModalRef: NgbModalRef;
   @ViewChild("downloadModal") downloadModal: ElementRef;
+  @ViewChild('singleCredIssueModal') singleCredIssueModal: TemplateRef<any>;
+  @ViewChild('issueCredFailedModal') issueCredFailedModal: TemplateRef<any>;
+  @ViewChild('reportModal') reportModal: TemplateRef<any>;
   @ViewChild('fileUpload') fileUpload: ElementRef<HTMLElement>;
 
   constructor(
@@ -64,6 +67,7 @@ export class BulkIssueCredentialsComponent implements OnInit, AfterViewInit {
     private readonly csvService: CsvService,
     private readonly utilService: UtilService,
     private readonly modalService: NgbModal,
+    @Optional() private readonly activeModal: NgbActiveModal,
     private readonly authService: AuthService,
     private readonly toastMsgService: ToastMessageService) { }
 
@@ -206,13 +210,19 @@ export class BulkIssueCredentialsComponent implements OnInit, AfterViewInit {
     this.bulkIssuanceService.issueBulkCredentials(this.schemaDetails.id, parsedCSV).subscribe((response: any) => {
       this.strictLoader = false;
       console.log("response", response);
-      this.generateBulkRegisterResponse(response);
-      this.toastMsg.success("", this.generalService.translateString("CREDENTIAL_ISSUED_SUCCESSFULLY"))
+
+      if (this.issuanceMode === 'single') {
+        this.modalService.open(this.singleCredIssueModal);
+      } else {
+        this.generateBulkRegisterResponse(response);
+        this.toastMsg.success("", this.generalService.translateString("CREDENTIAL_ISSUED_SUCCESSFULLY"));
+      }
     }, (error) => {
       this.strictLoader = false;
       console.error("Error", error);
-      const errorMessage = error?.message ? error.message : this.generalService.translateString('ERROR_WHILE_ISSUING_CREDENTIALS');
-      this.toastMsg.error("", errorMessage);
+      // const errorMessage = error?.message ? error.message : this.generalService.translateString('ERROR_WHILE_ISSUING_CREDENTIALS');
+      // this.toastMsg.error("", errorMessage);
+      this.modalService.open(this.issueCredFailedModal);
     });
   }
 
@@ -235,7 +245,9 @@ export class BulkIssueCredentialsComponent implements OnInit, AfterViewInit {
 
     const csvData = Papa.unparse(csv, { quotes: true });
     this.utilService.downloadFile('report.csv', 'text/csv;charset=utf-8;', csvData);
-    this.showDownloadModal();
+    this.modalService.open(this.reportModal);
+
+    // this.showDownloadModal();
   }
 
   showDownloadModal() {
@@ -321,5 +333,11 @@ export class BulkIssueCredentialsComponent implements OnInit, AfterViewInit {
       }
     };
     this.telemetryService.impression(telemetryImpression);
+  }
+
+  closeModal() {
+    if(this.activeModal) {
+      this.activeModal.close();
+    }
   }
 }

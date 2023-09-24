@@ -3,7 +3,7 @@ import { APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA, InjectionToken, NgModule } fro
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgbAccordionModule, NgbPaginationModule, NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionModule, NgbPaginationModule, NgbPopoverModule, NgbProgressbarModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { AngularMultiSelectModule } from 'angular2-multiselect-dropdown';
 import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
@@ -127,6 +127,8 @@ import { ToastMessageService } from './services/toast-message/toast-message.serv
 import { DeduplicationComponent } from './deduplication/deduplication.component';
 import { ApproveClaimsComponent } from './approve-claims/approve-claims.component';
 import { RevokeCredentialsComponent } from './revoke-credentials/revoke-credentials.component';
+import { AlertModalComponent } from './alert-modal/alert-modal.component';
+import { ReissueCredentialsComponent } from './reissue-credentials/reissue-credentials.component';
 
 @NgModule({
   declarations: [
@@ -193,7 +195,9 @@ import { RevokeCredentialsComponent } from './revoke-credentials/revoke-credenti
     DataTableComponent,
     DeduplicationComponent,
     ApproveClaimsComponent,
-    RevokeCredentialsComponent
+    RevokeCredentialsComponent,
+    AlertModalComponent,
+    ReissueCredentialsComponent
   ],
   imports: [
     BrowserModule,
@@ -229,7 +233,8 @@ import { RevokeCredentialsComponent } from './revoke-credentials/revoke-credenti
     NgJsonEditorModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     NgxTextEditorModule,
-    FormlyBootstrapModule
+    FormlyBootstrapModule,
+    NgbPopoverModule
   ],
   exports: [TranslateModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

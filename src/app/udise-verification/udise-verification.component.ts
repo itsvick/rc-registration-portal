@@ -75,7 +75,15 @@ export class UdiseVerificationComponent implements OnInit {
     }, error => {
       this.isLoading = false;
       console.error(error);
-    })
+    });
+
+    // const payload1 = {
+    //   udiseCode: this.udiseFormControl.value,
+    //   mobile: this.mobileFormControl.value
+    // }
+    // this.authService.verifyUDISEMobile(payload1).subscribe((response) => {
+    //   console.log("response", response);
+    // });
   }
 
   submitOTP() {

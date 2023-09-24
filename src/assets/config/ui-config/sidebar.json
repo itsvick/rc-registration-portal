@@ -20,7 +20,7 @@
           "id": "reissue-credentials",
           "title": "REISSUE_CREDENTIALS",
           "redirectTo": "/dashboard/reissue-credential",
-          "className": "fa fa-user-plus disable"
+          "className": "fa fa-user-plus"
         },
         {
           "id": "revoke-credentials",

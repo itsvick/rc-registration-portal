@@ -33,4 +33,18 @@ export class ClaimService {
     }
     return this.dataService.put(payload).pipe(map((res: any) => res.result));
   }
+
+  getCorrectionRequests(): Observable<any> {
+    const payload = {
+      url: `${this.bffUrl}/v1/claim/correction`,
+    }
+    return this.dataService.post(payload).pipe((res: any) => res.result);
+  }
+
+  reIssueCredential(credentialId: string) {
+    const payload = {
+      url: `${this.bffUrl}/v1/credentials/reissue/${credentialId}`
+    }
+    return this.dataService.put(payload).pipe((res: any) => res.result);
+  }
 }
