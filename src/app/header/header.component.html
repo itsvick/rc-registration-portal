@@ -14,9 +14,9 @@
                 aria-label="Toggle navigation">
                 <i class="fa fa-bars toggler"></i>
             </button>
-            <div class="nav-item active logo-text d-flex p-2" style="width: auto;">
-                <img class="logo ml-2" src="assets/images/logo.png" routerLink="/" (click)="raiseInteractEvent('header-logo')" />
-                <h3 *ngIf="title && showTitle" class="d-flex align-items-center font-weight-bold title pl-2">{{title}}</h3>
+            <div class="nav-item active logo-text d-flex py-2 pr-2 pl-0" style="width: auto;">
+                <img class="logo ml-0" src="assets/images/logo.png" routerLink="/" (click)="raiseInteractEvent('header-logo')" />
+                <h3 *ngIf="title && showTitle" class="d-flex align-items-center font-weight-bold title pl-120">{{title}}</h3>
             </div>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <ng-template [ngIf]="headerSchema?.left">
