@@ -14,31 +14,31 @@
           "id": "register-student",
           "title": "ISSUE_NEW_CREDENTIALS",
           "redirectTo": "/dashboard/bulk-issue-credential",
-          "className": "fa fa-user-plus"
+          "className": "fa fa-pencil-square"
         },
         {
           "id": "reissue-credentials",
           "title": "REISSUE_CREDENTIALS",
           "redirectTo": "/dashboard/reissue-credential",
-          "className": "fa fa-user-plus"
+          "className": "fa fa-image"
         },
         {
           "id": "revoke-credentials",
           "title": "REVOKE_CREDENTIALS",
           "redirectTo": "/dashboard/revoke-credentials",
-          "className": "fa fa-user-plus"
+          "className": "fa fa-file-text"
         },
         {
           "id": "issued-credential",
           "title": "VIEW_ISSUED_CREDENTIALS",
           "redirectTo": "/dashboard/issued-credential",
-          "className": "fa fa-key"
+          "className": "fa fa-th-large"
         },
         {
           "id": "claim-approval",
           "title": "APPROVE_CLAIMS",
           "redirectTo": "/dashboard/approve-claims",  
-          "className": "fa fa-user-check"
+          "className": "fa fa-th-large"
         }
       ]
     },
