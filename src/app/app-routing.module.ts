@@ -45,14 +45,15 @@ import { RegisterComponent } from './register/register.component';
 import { DeduplicationComponent } from './deduplication/deduplication.component';
 import { ApproveClaimsComponent } from './approve-claims/approve-claims.component';
 import { RevokeCredentialsComponent } from './revoke-credentials/revoke-credentials.component';
+import { ReissueCredentialsComponent } from './reissue-credentials/reissue-credentials.component';
 
 // import { CreateCertificateComponent } from './create-certificate/create-certificate.component';
 // import { FaqComponent } from './custom-components/faq/faq.component';
 const routes: Routes = [
   // Home
   // { path: '', component: HomeComponent },
-  { 
-    path: '', 
+  {
+    path: '',
     component: LandingPageComponent,
     data: {
       showToolbar: false,
@@ -174,6 +175,16 @@ const routes: Routes = [
           showToolbar: false,
           telemetry: {
             env: 'credential', pageid: 'bulk-issue-credential', type: 'list', subtype: 'paginate'
+          }
+        }
+      },
+      {
+        path: 'reissue-credential',
+        component: ReissueCredentialsComponent,
+        data: {
+          showToolbar: false,
+          telemetry: {
+            env: 'reissue-credential', pageid: 'reissue-credentials', type: 'list', subtype: 'paginate'
           }
         }
       },
