@@ -3,7 +3,7 @@
 
 <div class="">
     <h3 class="brown-Shade-0 fs-18 pb-0 pt-3">{{'APPROVE_CLAIMS' | translate}}</h3>
-    <p class="text-secondary">{{'APPROVE_REJECT_CLAIMS_NOT' | translate}}</p>
+    <p class="text-secondary">{{'APPROVE_REJECT_CLAIMS_NOTE' | translate}}</p>
     <hr class="my-3">
     <div class="d-flex justify-content-end pt-3" *ngIf="claimList.length">
         <input type="search" class="mr-3 form-control w-30" placeholder="Search Student Name">
@@ -24,6 +24,13 @@
                     <a class="dropdown-item" href="#">Filter 3</a>
                 </div>
             </li>
+        </div>
+    </div>
+</div>
+
+<div class="text-center" *ngIf="isLoading">
+    <div class="center-loading">
+        <div class="spinner-border">
         </div>
     </div>
 </div>
@@ -71,17 +78,16 @@
 </div>
 
 
-<div class="modal fade" id="selectedClaim" tabindex="-1" role="dialog" aria-labelledby="selectedClaim"
-    aria-hidden="true">
+<ng-template #approvalSuccessModal tabindex="-1" role="dialog" aria-labelledby="approved-success" aria-hidden="true">
     <div class="modal-dialog" role="document">
-        <div class="modal-content">
-
+        <div class="modal-content no-border">
             <div class="modal-body text-center">
                 <i class="fa fa-check-circle fs-100 success-text"></i>
                 <div class="success-text fs-20 font-600 pt-3">12 {{'CLAIMS_APPROVED_SUCCESSFULLY' | translate}}</div>
                 <div class="danger-text fs-20 font-600 py-3"> 10 {{'CLAIMS_REMAINING' | translate}}</div>
-                <button type="button" class="btn btn-success success-bg text-white" data-dismiss="modal">{{'OK' | translate}}</button>
+                <button type="button" class="btn btn-success success-bg text-white mt-3" data-dismiss="modal">{{'OK' |
+                    translate}}</button>
             </div>
         </div>
     </div>
-</div>
+</ng-template>

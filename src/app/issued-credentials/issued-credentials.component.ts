@@ -3,8 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import * as dayjs from 'dayjs';
 import * as customParseFormat from 'dayjs/plugin/customParseFormat';
-import { forkJoin, of } from 'rxjs';
-import { concatMap, switchMap } from 'rxjs/operators';
 import { AuthService } from '../services/auth/auth.service';
 import { BulkIssuanceService } from '../services/bulk-issuance/bulk-issuance.service';
 import { CredentialService } from '../services/credential/credential.service';
@@ -12,7 +10,6 @@ import { GeneralService } from '../services/general/general.service';
 import { IImpressionEventInput, IInteractEventInput } from '../services/telemetry/telemetry.interface';
 import { TelemetryService } from '../services/telemetry/telemetry.service';
 import { ToastMessageService } from '../services/toast-message/toast-message.service';
-import { UtilService } from '../services/util/util.service';
 
 
 dayjs.extend(customParseFormat);
@@ -53,7 +50,7 @@ export class IssuedCredentialsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if(!this.authService.isKYCCompleted()) {
+    if (!this.authService.isKYCCompleted()) {
       this.toastMsgService.error('', this.generalService.translateString('PLEASE_COMPLETE_YOUR_E_KYC_AND_UDISE'));
       this.router.navigate(['/dashboard/my-account']);
       return;
@@ -75,8 +72,7 @@ export class IssuedCredentialsComponent implements OnInit {
     if (this.allIssuedCredentials?.length) {
       console.log("issuedCredentials", this.issuedCredentials);
 
-      this.issuedCredentials = this.allIssuedCredentials.filter((item: any) => item.schemaId === this.model?.schema);
-      // this.tableColumns = Object.keys(this.issuedCredentials?.[0]?.credentialSubject) || [];
+      this.issuedCredentials = this.allIssuedCredentials.filter((item: any) => item.credentialSchemaId === this.model?.schema);
       this.pageChange();
     } else {
       this.getCredentials();
@@ -106,22 +102,24 @@ export class IssuedCredentialsComponent implements OnInit {
     this.page = 1;
 
     this.credentialService.getCredentials(this.authService.currentUser.issuer_did) // replace issuer_did with did for issuer login
-      .pipe(switchMap((credentials: any) => {
-        if (credentials.length) {
-          return forkJoin(
-            credentials.map((cred: any) => {
-              return this.credentialService.getCredentialSchemaId(cred.id).pipe(
-                concatMap((res: any) => {
-                  console.log("res", res);
-                  cred.schemaId = res.credential_schema;
-                  return of(cred);
-                })
-              );
-            })
-          );
-        }
-        return of([]);
-      }))
+      // .pipe(
+      //   switchMap((credentials: any) => {
+      //   if (credentials.length) {
+      //     return forkJoin(
+      //       credentials.map((cred: any) => {
+      //         return this.credentialService.getCredentialSchemaId(cred.id).pipe(
+      //           concatMap((res: any) => {
+      //             console.log("res", res);
+      //             cred.schemaId = res.credential_schema;
+      //             return of(cred);
+      //           })
+      //         );
+      //       })
+      //     );
+      //   }
+      //   return of([]);
+      // })
+      // )
       .subscribe((res: any) => {
         // this.isLoading = false;
         this.isBackdropLoader = false;
@@ -138,8 +136,8 @@ export class IssuedCredentialsComponent implements OnInit {
   }
 
   viewCredential(credential: any) {
-    this.credentialService.getSchema(credential.schemaId).subscribe((schema: any) => {
-      credential.credential_schema = schema;
+    this.credentialService.getSchema(credential.credentialSchemaId).subscribe((schema: any) => {
+      credential.credential_schema = Array.isArray(schema) && schema.length ? schema[0] : schema;
       const navigationExtra: NavigationExtras = {
         state: credential
       }

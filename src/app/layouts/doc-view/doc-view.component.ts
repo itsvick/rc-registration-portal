@@ -109,13 +109,13 @@ export class DocViewComponent implements OnInit, OnDestroy {
 
     loadCredential() {
         if (this.credential?.credential_schema) {
-            this.schemaId = this.credential.schemaId;
+            this.schemaId = this.credential.credentialSchemaId;
             this.getTemplate(this.schemaId).pipe(takeUntil(this.unsubscribe$))
                 .subscribe((res) => {
                     this.templateId = res?.id;
                     const credential_schema = this.credential.credential_schema;
                     delete this.credential.credential_schema;
-                    delete this.credential.schemaId;
+                    // delete this.credential.schemaId;
                     const request = {
                         credential: this.credential,
                         schema: credential_schema,
@@ -141,7 +141,7 @@ export class DocViewComponent implements OnInit, OnDestroy {
     }
 
     getTemplate(id: string): Observable<any> {
-        return this.generalService.getData(`${this.baseUrl}/v1/credentials/rendertemplateschema/${id}`, true).pipe(
+        return this.generalService.postData(`${this.baseUrl}/v1/credential/schema/template/list`, { schema_id: id }, true).pipe(
             map((res: any) => {
                 if (res.result.length > 1) {
                     const selectedLangKey = localStorage.getItem('setLanguage');
