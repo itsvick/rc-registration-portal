@@ -21,9 +21,12 @@ export class ClaimService {
 
   searchClaims(): Observable<any> {
     const payload = {
-      url: `${this.bffUrl}/v1/claim/search`
+      url: `${this.bffUrl}/v1/claim/search`,
+      data: {
+        type: "teacher"
+      }
     }
-    return this.dataService.get(payload).pipe(map((res: any) => res.result));
+    return this.dataService.post(payload).pipe(map((res: any) => res.result));
   }
 
   attestClaim(data): Observable<any> {
@@ -31,7 +34,7 @@ export class ClaimService {
       url: `${this.bffUrl}/v1/claim/attest`,
       data
     }
-    return this.dataService.put(payload).pipe(map((res: any) => res.result));
+    return this.dataService.put(payload);
   }
 
   getCorrectionRequests(): Observable<any> {

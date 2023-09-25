@@ -492,11 +492,14 @@
     "REVOKE": "Revoke",
     "CREDENTIAL_UPDATED_SUCCESSFULLY": "Credentials Updated successfully!",
     "FAILED_TO_UPDATE_CREDENTIAL": "Failed to Update Credential!",
-    "APPROVE_REJECT_CLAIMS_NOT": "Approve/ Reject Claims for credential issuance, raised by holders.",
+    "APPROVE_REJECT_CLAIMS_NOTE": "Approve/ Reject Claims for credential issuance, raised by holders.",
     "SORT": "Sort",
     "REJECT_CLAIM": "Reject Claim",
     "APPROVE_CLAIM": "Approve Claim",
     "NO_CLAIM_FOUND": "No claim Found!",
     "CLAIMS_APPROVED_SUCCESSFULLY": "Claims Approved Successfully",
-    "CLAIMS_REMAINING": "Claims Remaining!"
+    "CLAIM_APPROVED_SUCCESSFULLY": "Claim Approved Successfully",
+    "CLAIMS_REJECTED_SUCCESSFULLY": "Claim Rejected Successfully",
+    "CLAIMS_REMAINING": "Claims Remaining!",
+    "UNABLE_TO_PROCESS_REQUEST": "Unable to process request"
 }

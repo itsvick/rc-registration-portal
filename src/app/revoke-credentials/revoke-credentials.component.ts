@@ -77,8 +77,7 @@ export class RevokeCredentialsComponent implements OnInit {
     if (this.allIssuedCredentials?.length) {
       console.log("issuedCredentials", this.issuedCredentials);
 
-      this.issuedCredentials = [...this.allIssuedCredentials];
-      // .filter((item: any) => item.schemaId === this.model?.schema);
+      this.issuedCredentials = [...this.allIssuedCredentials].filter((item: any) => item.credentialSchemaId === this.model?.schema);
       this.issuedCredentials.forEach(item => item.checked = false);
       this.pageChange();
     } else {
@@ -117,22 +116,22 @@ export class RevokeCredentialsComponent implements OnInit {
     this.page = 1;
 
     this.credentialService.getCredentials(this.authService.currentUser.issuer_did) // replace issuer_did with did for issuer login
-      .pipe(switchMap((credentials: any) => {
-        if (credentials.length) {
-          return forkJoin(
-            credentials.map((cred: any) => {
-              return this.credentialService.getCredentialSchemaId(cred.id).pipe(
-                concatMap((res: any) => {
-                  console.log("res", res);
-                  cred.schemaId = res.credential_schema;
-                  return of(cred);
-                })
-              );
-            })
-          );
-        }
-        return of([]);
-      }))
+      // .pipe(switchMap((credentials: any) => {
+      //   if (credentials.length) {
+      //     return forkJoin(
+      //       credentials.map((cred: any) => {
+      //         return this.credentialService.getCredentialSchemaId(cred.id).pipe(
+      //           concatMap((res: any) => {
+      //             console.log("res", res);
+      //             cred.schemaId = res.credential_schema;
+      //             return of(cred);
+      //           })
+      //         );
+      //       })
+      //     );
+      //   }
+      //   return of([]);
+      // }))
       .subscribe((res: any) => {
         // this.isLoading = false;
         this.isBackdropLoader = false;
@@ -149,7 +148,7 @@ export class RevokeCredentialsComponent implements OnInit {
   }
 
   viewCredential(credential: any) {
-    this.credentialService.getSchema(credential.schemaId).subscribe((schema: any) => {
+    this.credentialService.getSchema(credential.credentialSchemaId).subscribe((schema: any) => {
       credential.credential_schema = schema;
       const navigationExtra: NavigationExtras = {
         state: credential
