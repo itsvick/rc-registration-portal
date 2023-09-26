@@ -39,9 +39,12 @@ export class ClaimService {
 
   getCorrectionRequests(): Observable<any> {
     const payload = {
-      url: `${this.bffUrl}/v1/claim/correction`,
+      url: `${this.bffUrl}/v1/grievance/search`,
+      data: {
+        type: 'teacher'
+      }
     }
-    return this.dataService.post(payload).pipe((res: any) => res.result);
+    return this.dataService.post(payload);
   }
 
   reIssueCredential(credentialId: string) {

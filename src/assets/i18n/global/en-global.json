@@ -501,5 +501,6 @@
     "CLAIM_APPROVED_SUCCESSFULLY": "Claim Approved Successfully",
     "CLAIMS_REJECTED_SUCCESSFULLY": "Claim Rejected Successfully",
     "CLAIMS_REMAINING": "Claims Remaining!",
-    "UNABLE_TO_PROCESS_REQUEST": "Unable to process request"
+    "UNABLE_TO_PROCESS_REQUEST": "Unable to process request",
+    "STUDENT_DETAILS": "Student Details"
 }

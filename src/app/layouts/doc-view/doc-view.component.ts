@@ -112,15 +112,15 @@ export class DocViewComponent implements OnInit, OnDestroy {
             this.schemaId = this.credential.credentialSchemaId;
             this.getTemplate(this.schemaId).pipe(takeUntil(this.unsubscribe$))
                 .subscribe((res) => {
-                    this.templateId = res?.id;
+                    this.templateId = res?.templateId;
                     const credential_schema = this.credential.credential_schema;
-                    delete this.credential.credential_schema;
+                    // delete this.credential.credential_schema;
                     // delete this.credential.schemaId;
                     const request = {
-                        credential: this.credential,
-                        schema: credential_schema,
-                        template: res?.template,
-                        output: "HTML"
+                        credentialid: this.credential.id,
+                        // schema: credential_schema,
+                        templateid: this.templateId,
+                        // output: "HTML"
                     }
 
                     if (RENDER_CREDENTIAL_FORMAT === 'HTML') {
