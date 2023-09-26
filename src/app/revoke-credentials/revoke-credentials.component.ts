@@ -12,6 +12,7 @@ import { TelemetryService } from '../services/telemetry/telemetry.service';
 import { ToastMessageService } from '../services/toast-message/toast-message.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { AlertModalComponent } from '../alert-modal/alert-modal.component';
+import { UtilService } from '../services/util/util.service';
 
 dayjs.extend(customParseFormat);
 
@@ -50,7 +51,8 @@ export class RevokeCredentialsComponent implements OnInit {
     private readonly telemetryService: TelemetryService,
     private readonly bulkIssuanceService: BulkIssuanceService,
     private readonly toastMsgService: ToastMessageService,
-    private readonly modalService: NgbModal
+    private readonly modalService: NgbModal,
+    public readonly utilService: UtilService
   ) { }
 
   ngOnInit(): void {
@@ -95,8 +97,8 @@ export class RevokeCredentialsComponent implements OnInit {
   }
 
   getCredentials(schemaName: string) {
-    // this.isLoading = true;
-    this.isBackdropLoader = true;
+    this.isLoading = true;
+    // this.isBackdropLoader = true;
     this.issuedCredentials = [];
     this.tableRows = [];
     this.page = 1;
@@ -119,14 +121,14 @@ export class RevokeCredentialsComponent implements OnInit {
       //   return of([]);
       // }))
       .subscribe((res: any) => {
-        // this.isLoading = false;
-        this.isBackdropLoader = false;
+        this.isLoading = false;
+        // this.isBackdropLoader = false;
         // this.allIssuedCredentials = res;
         this.issuedCredentials = res.filter((item: any) => item.status !== 'REVOKED');
         this.pageChange();
       }, (error: any) => {
-        // this.isLoading = false;
-        this.isBackdropLoader = false;
+        this.isLoading = false;
+        // this.isBackdropLoader = false;
         // this.allIssuedCredentials = [];
         this.issuedCredentials = [];
         if (error.status !== 400 || error?.error?.result?.error?.status !== 404) {

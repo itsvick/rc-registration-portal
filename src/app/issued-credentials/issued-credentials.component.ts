@@ -12,7 +12,6 @@ import { TelemetryService } from '../services/telemetry/telemetry.service';
 import { ToastMessageService } from '../services/toast-message/toast-message.service';
 import { UtilService } from '../services/util/util.service';
 
-
 dayjs.extend(customParseFormat);
 
 @Component({
@@ -24,7 +23,6 @@ export class IssuedCredentialsComponent implements OnInit {
 
   credentials: any[] = [];
   issuedCredentials = [];
-  allIssuedCredentials = [];
   isLoading = false;
   isBackdropLoader = false;
   page = 1;
@@ -58,33 +56,13 @@ export class IssuedCredentialsComponent implements OnInit {
       return;
     }
 
-    this.getCredentials();
+    // this.getCredentials();
     this.getSchemaList();
   }
 
-  reset() {
-    if (Object.keys(this.model).length) {
-      this.model = {};
-      this.getCredentials();
-    }
-  }
-
   onModelChange() {
-    // this.getCredentials();
-    if (this.allIssuedCredentials?.length) {
-      console.log("issuedCredentials", this.issuedCredentials);
-
-      this.issuedCredentials = this.allIssuedCredentials.filter((item: any) => item.credentialSchemaId === this.model?.schema);
-      this.pageChange();
-    } else {
-      this.getCredentials();
-    }
-  }
-
-  onChange(event) {
-    // console.log("event", this.selectedType);
-    // this.getCredentials();
-    // console.log(this.model);
+    const selectedSchema = this.schemas.find(item => item.schema_id === this.model?.schema);
+    this.getCredentials(selectedSchema?.schema_name);
   }
 
   getSchemaList() {
@@ -96,41 +74,20 @@ export class IssuedCredentialsComponent implements OnInit {
     });
   }
 
-  getCredentials() {
-    // this.isLoading = true;
-    this.isBackdropLoader = true;
+  getCredentials(schemaName: string) {
+    this.isLoading = true;
     this.issuedCredentials = [];
     this.tableRows = [];
     this.page = 1;
 
-    this.credentialService.getCredentials(this.authService.currentUser.issuer_did) // replace issuer_did with did for issuer login
-      // .pipe(
-      //   switchMap((credentials: any) => {
-      //   if (credentials.length) {
-      //     return forkJoin(
-      //       credentials.map((cred: any) => {
-      //         return this.credentialService.getCredentialSchemaId(cred.id).pipe(
-      //           concatMap((res: any) => {
-      //             console.log("res", res);
-      //             cred.schemaId = res.credential_schema;
-      //             return of(cred);
-      //           })
-      //         );
-      //       })
-      //     );
-      //   }
-      //   return of([]);
-      // })
-      // )
+    this.credentialService.getCredentials(this.authService.currentUser.issuer_did, schemaName) // replace issuer_did with did for issuer login
       .subscribe((res: any) => {
-        // this.isLoading = false;
-        this.isBackdropLoader = false;
-        this.allIssuedCredentials = res;
-        // this.pageChange();
+        this.isLoading = false;
+        this.issuedCredentials = res;
+        this.pageChange();
       }, (error: any) => {
-        // this.isLoading = false;
-        this.isBackdropLoader = false;
-        this.allIssuedCredentials = [];
+        this.isLoading = false;
+        this.issuedCredentials = [];
         if (error.status !== 400 || error?.error?.result?.error?.status !== 404) {
           this.toastMessage.error("", this.generalService.translateString('ERROR_WHILE_FETCHING_ISSUED_CREDENTIALS'));
         }

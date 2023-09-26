@@ -8,6 +8,9 @@ import { CredentialService } from '../services/credential/credential.service';
 import { forkJoin } from 'rxjs';
 import { AuthService } from '../services/auth/auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NavigationExtras, Router } from '@angular/router';
+import { ToastMessageService } from '../services/toast-message/toast-message.service';
+import { GeneralService } from '../services/general/general.service';
 
 @Component({
   selector: 'app-reissue-credentials',
@@ -45,7 +48,10 @@ export class ReissueCredentialsComponent implements OnInit {
     private readonly bulkIssuanceService: BulkIssuanceService,
     public readonly utilService: UtilService,
     private readonly credentialService: CredentialService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly toastMessage: ToastMessageService,
+    private readonly generalService: GeneralService,
+    private readonly router: Router
   ) { }
 
   ngOnInit(): void {
@@ -117,6 +123,19 @@ export class ReissueCredentialsComponent implements OnInit {
       });
   }
 
+  viewCredential(credential: any) {
+    this.credentialService.getSchema(credential.credentialSchemaId).subscribe((schema: any) => {
+      credential.credential_schema = schema;
+      const navigationExtra: NavigationExtras = {
+        state: credential
+      }
+      this.router.navigate(['/dashboard/doc-view'], navigationExtra);
+    }, (error: any) => {
+      console.error(error);
+      this.toastMessage.error("", this.generalService.translateString('ERROR_WHILE_FETCHING_ISSUED_CREDENTIALS'));
+    });
+  }
+
   getCredentialDetails(grievanceList) {
 
     // forkJoin(grievanceList.map((item: any) => this.credentialService.getCredentialByCredentialId(item.credential_schema_id)))
@@ -132,7 +151,6 @@ export class ReissueCredentialsComponent implements OnInit {
   }
 
   getCredentialDetailsRequest(credentialId: string) {
-
   }
 
   showGrievanceDetails(credentialId: string) {
@@ -181,7 +199,7 @@ export class ReissueCredentialsComponent implements OnInit {
     this.reissueForm = new FormGroup(formGroupFields);
 
     this.reissueForm.setValue(this.getKeyValue());
-    this.credentialDetailsModalRef = this.modalService.open(this.credentialDetailsModal, { centered: true });
+    this.credentialDetailsModalRef = this.modalService.open(this.credentialDetailsModal, { centered: true, size: 'lg' });
   }
 
 
