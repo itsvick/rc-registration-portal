@@ -219,9 +219,9 @@ export class CredentialService {
     return this.dataService.delete(payload);
   }
 
-  reissueCredential(credentialSubject: any) {
+  reissueCredential(credentialSubject: any, credentialId: string) {
     const payload = {
-      url: `${this.baseUrl}/v1/credentials/reissue/${credentialSubject.id}`,
+      url: `${this.baseUrl}/v1/credentials/reissue/${credentialId}`,
       data: {
         credentialSubject
       }
