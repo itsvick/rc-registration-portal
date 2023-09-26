@@ -10,6 +10,7 @@ import { GeneralService } from '../services/general/general.service';
 import { IImpressionEventInput, IInteractEventInput } from '../services/telemetry/telemetry.interface';
 import { TelemetryService } from '../services/telemetry/telemetry.service';
 import { ToastMessageService } from '../services/toast-message/toast-message.service';
+import { UtilService } from '../services/util/util.service';
 
 
 dayjs.extend(customParseFormat);
@@ -46,7 +47,8 @@ export class IssuedCredentialsComponent implements OnInit {
     private readonly activatedRoute: ActivatedRoute,
     private readonly telemetryService: TelemetryService,
     private readonly bulkIssuanceService: BulkIssuanceService,
-    private readonly toastMsgService: ToastMessageService
+    private readonly toastMsgService: ToastMessageService,
+    public readonly utilService: UtilService
   ) { }
 
   ngOnInit(): void {

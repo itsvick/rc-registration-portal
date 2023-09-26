@@ -33,9 +33,14 @@ export class CredentialService {
     return this.dataService.get(payload).pipe(map((res: any) => res.result));
   }
 
+  getCredentialByCredentialId(credentialId: string): Observable<any> {
+    const payload = { url: `${this.baseUrl}/v1/credentials/json/${credentialId}` };
+    return this.dataService.get(payload).pipe(map((res: any) => res.result));
+  }
+
   getCredentials(issuerId?: string): Observable<any> {
     const payload: any = {
-      url: `${this.baseUrl}/v1/credentials/search/all`,
+      url: `${this.baseUrl}/v1/credentials/search`,
       data: {}
     };
 

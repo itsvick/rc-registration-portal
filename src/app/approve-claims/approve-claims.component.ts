@@ -1,10 +1,10 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Optional, TemplateRef, ViewChild } from '@angular/core';
 import { ClaimService } from '../services/claim.service';
 import * as dayjs from 'dayjs';
 import { forkJoin } from 'rxjs';
 import { ToastMessageService } from '../services/toast-message/toast-message.service';
 import { UtilService } from '../services/util/util.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AlertModalComponent } from '../alert-modal/alert-modal.component';
 
 @Component({
@@ -18,12 +18,15 @@ export class ApproveClaimsComponent implements OnInit {
   claimList: any[] = [];
   selectedClaims: any[] = [];
   isLoading = false;
+  selectedClaimDetails: any;
 
-  @ViewChild('approvalSuccessModal') approvalSuccessModal: TemplateRef<any>;;
+  detailsModalRef: NgbModalRef;
+  @ViewChild('approvalSuccessModal') approvalSuccessModal: TemplateRef<any>;
+  @ViewChild('detailsModal') detailsModal: TemplateRef<any>;
   constructor(
     private readonly claimService: ClaimService,
     private readonly toastService: ToastMessageService,
-    private readonly utilService: UtilService,
+    public readonly utilService: UtilService,
     private readonly modalService: NgbModal
   ) { }
 
@@ -116,6 +119,20 @@ export class ApproveClaimsComponent implements OnInit {
       console.log("res1", res);
       this.searchClaims();
     })
+  }
+
+  showDetails(claimDetails: any) {
+    console.log("claimDetails", claimDetails);
+    this.selectedClaimDetails = claimDetails.credentialSubject;
+
+    this.detailsModalRef = this.modalService.open(this.detailsModal, { centered: true });
+  }
+
+
+  closeModal(type) {
+    if (type === 'details' && this.detailsModalRef) {
+      this.detailsModalRef.close();
+    }
   }
 
 }
