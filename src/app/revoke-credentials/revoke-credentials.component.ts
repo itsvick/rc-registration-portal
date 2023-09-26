@@ -3,8 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import * as dayjs from 'dayjs';
 import * as customParseFormat from 'dayjs/plugin/customParseFormat';
-import { forkJoin, of } from 'rxjs';
-import { concatMap, switchMap } from 'rxjs/operators';
 import { AuthService } from '../services/auth/auth.service';
 import { BulkIssuanceService } from '../services/bulk-issuance/bulk-issuance.service';
 import { CredentialService } from '../services/credential/credential.service';
@@ -12,8 +10,8 @@ import { GeneralService } from '../services/general/general.service';
 import { IImpressionEventInput, IInteractEventInput } from '../services/telemetry/telemetry.interface';
 import { TelemetryService } from '../services/telemetry/telemetry.service';
 import { ToastMessageService } from '../services/toast-message/toast-message.service';
-import { UtilService } from '../services/util/util.service';
-
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AlertModalComponent } from '../alert-modal/alert-modal.component';
 
 dayjs.extend(customParseFormat);
 
@@ -51,7 +49,8 @@ export class RevokeCredentialsComponent implements OnInit {
     private readonly activatedRoute: ActivatedRoute,
     private readonly telemetryService: TelemetryService,
     private readonly bulkIssuanceService: BulkIssuanceService,
-    private readonly toastMsgService: ToastMessageService
+    private readonly toastMsgService: ToastMessageService,
+    private readonly modalService: NgbModal
   ) { }
 
   ngOnInit(): void {
@@ -61,34 +60,20 @@ export class RevokeCredentialsComponent implements OnInit {
       return;
     }
 
-    this.getCredentials();
+    // this.getCredentials();
     this.getSchemaList();
   }
 
-  reset() {
-    if (Object.keys(this.model).length) {
-      this.model = {};
-      this.getCredentials();
-    }
-  }
-
   onModelChange() {
-    // this.getCredentials();
-    if (this.allIssuedCredentials?.length) {
-      console.log("issuedCredentials", this.issuedCredentials);
-
-      this.issuedCredentials = [...this.allIssuedCredentials].filter((item: any) => item.credentialSchemaId === this.model?.schema);
-      this.issuedCredentials.forEach(item => item.checked = false);
-      this.pageChange();
-    } else {
-      this.getCredentials();
-    }
-  }
-
-  onChange(event) {
-    // console.log("event", this.selectedType);
-    // this.getCredentials();
-    // console.log(this.model);
+    // if (this.allIssuedCredentials?.length) {
+    //   console.log("issuedCredentials", this.issuedCredentials);
+    //   this.issuedCredentials = [...this.allIssuedCredentials].filter((item: any) => item.credentialSchemaId === this.model?.schema_id);
+    //   this.issuedCredentials.forEach(item => item.checked = false);
+    //   this.pageChange();
+    // } else {
+    //   this.getCredentials();
+    // }
+    this.getCredentials(this.model?.schema?.schema_name);
   }
 
   getSchemaList() {
@@ -108,14 +93,14 @@ export class RevokeCredentialsComponent implements OnInit {
     this.issuedCredentials.forEach(x => x.checked = ev.target.checked)
   }
 
-  getCredentials() {
+  getCredentials(schemaName: string) {
     // this.isLoading = true;
     this.isBackdropLoader = true;
     this.issuedCredentials = [];
     this.tableRows = [];
     this.page = 1;
 
-    this.credentialService.getCredentials(this.authService.currentUser.issuer_did) // replace issuer_did with did for issuer login
+    this.credentialService.getCredentials(this.authService.currentUser.issuer_did, schemaName) // replace issuer_did with did for issuer login
       // .pipe(switchMap((credentials: any) => {
       //   if (credentials.length) {
       //     return forkJoin(
@@ -135,12 +120,14 @@ export class RevokeCredentialsComponent implements OnInit {
       .subscribe((res: any) => {
         // this.isLoading = false;
         this.isBackdropLoader = false;
-        this.allIssuedCredentials = res;
-        // this.pageChange();
+        // this.allIssuedCredentials = res;
+        this.issuedCredentials = res.filter((item: any) => item.status !== 'REVOKED');
+        this.pageChange();
       }, (error: any) => {
         // this.isLoading = false;
         this.isBackdropLoader = false;
-        this.allIssuedCredentials = [];
+        // this.allIssuedCredentials = [];
+        this.issuedCredentials = [];
         if (error.status !== 400 || error?.error?.result?.error?.status !== 404) {
           this.toastMessage.error("", this.generalService.translateString('ERROR_WHILE_FETCHING_ISSUED_CREDENTIALS'));
         }
@@ -173,6 +160,17 @@ export class RevokeCredentialsComponent implements OnInit {
     }
 
     this.endPageCount = this.issuedCredentials?.length > (this.pageSize * this.page) ? this.pageSize * this.page : this.issuedCredentials.length;
+  }
+
+
+  revokeCredential(credentialId: string) {
+    this.credentialService.revokeCredentials(credentialId).subscribe((res: any) => {
+      console.log("res", res);
+      this.issuedCredentials = this.issuedCredentials.filter(item => item.id !== credentialId);
+      const ref = this.modalService.open(AlertModalComponent);
+      ref.componentInstance.modalMessage = 'Credential revoked successfully!';
+      ref.componentInstance.isSuccess = true;
+    });
   }
 
   ngAfterViewInit(): void {
