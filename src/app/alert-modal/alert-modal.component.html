@@ -1,14 +1,12 @@
 <div tabindex="-1" role="dialog" aria-labelledby="issue-credential-failed" aria-hidden="true">
-  <div class="animate-bottom">
-    <div class="modal-body padding-half">
-      <p class="text-center mb-0 p-2 fs-16 font-weight-bold" *ngIf="isSuccess">
-        <i class="fa far fa-check-circle text-success"></i>
+    <div class="modal-body py-4">
+      <p class="text-center mb-0 fs-20 font-weight-bold grey" *ngIf="isSuccess">
+        <i class="fa far fa-check-circle fs-24 check-mark"></i>
         &nbsp;&nbsp;&nbsp;{{modalMessage}}
       </p>
-      <p class="text-center mb-0 p-2 fs-16 font-weight-bold" *ngIf="!isSuccess">
-        <i class="fa fas fa-exclamation-triangle text-danger"></i>
+      <p class="text-center mb-0 fs-20 font-weight-bold grey" *ngIf="!isSuccess">
+        <i class="fa fas fa-exclamation-triangle fs-24 text-danger"></i>
         &nbsp;&nbsp;&nbsp;{{modalMessage}}
       </p>
     </div>
-  </div>
 </div>
