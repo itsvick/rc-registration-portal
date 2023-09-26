@@ -72,7 +72,7 @@
                             <a *ngIf="header?.image" class="nav-link" [routerLink]="[header.redirectTo]">
                                 <img style="width: 25px;" src={{header?.image}} />
                             </a>
-                            <a *ngIf="header?.icon" class="text-primary d-flex d-flex-" [routerLink]="[header.redirectTo]">
+                            <a *ngIf="header?.icon" class="text-primary d-flex justify-content-center" [routerLink]="[header.redirectTo]">
                                 <i style="font-size: 25px;" class="{{header?.icon}}" aria-hidden="true"></i>
                             </a>
                             <p *ngIf="header.redirectTo === '/dashboard/my-account'" class="m-0 text-capitalize">{{currentUser?.name}}</p>

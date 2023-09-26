@@ -12,11 +12,11 @@
   </div>
 
   <main class="p-0 pl-2 bg-sch-img" [ngClass]="{'col-sm-9':sidebarToggle,'col-sm-11':!sidebarToggle}">
-    <p *ngIf="isFirstTimeLogin && currentUser?.name">{{'WELCOME_NOTE' | translate: {name: currentUser?.name} }}</p>
+    <p *ngIf="isFirstTimeLogin && authService?.currentUser?.name">{{'WELCOME_NOTE' | translate: {name: authService?.currentUser?.name} }}</p>
     <div *ngIf="!isChildRoute" class="mt-6">
       <div class="d-flex justify-content-end">
         <div class="m-3 p-3 border rounded border-primary float-right school-box">
-          <p><span class="text-underline">{{'SCHOOL_NAME' | translate}}:</span>&nbsp;<b>{{currentUser?.school_name}}</b>
+          <p><span class="text-underline">{{'SCHOOL_NAME' | translate}}:</span>&nbsp;<b>{{authService?.currentUser?.school_name}}</b>
           </p>
           <p class="m-0"><span class="text-underline">{{'LOCATION' | translate}}:</span>&nbsp;<b>Noida</b></p>
         </div>

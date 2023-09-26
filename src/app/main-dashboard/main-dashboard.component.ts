@@ -20,7 +20,6 @@ import { AppConfig } from '../app.config';
 export class MainDashboardComponent implements OnInit {
   isChildRoute = false;
   isFirstTimeLogin = false;
-  currentUser: any;
   headerName: string = 'plain';
   metrics: any;
   sidebarToggle: boolean = true
@@ -37,7 +36,7 @@ export class MainDashboardComponent implements OnInit {
     private readonly authConfigService: AuthConfigService,
     private readonly toastMessageService: ToastMessageService,
     private readonly generalService: GeneralService,
-    private readonly authService: AuthService,
+    public readonly authService: AuthService,
     private readonly config: AppConfig
 
   ) {
@@ -60,7 +59,6 @@ export class MainDashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.currentUser = this.authService.currentUser;
     // this.getMetrics();
   }
   toggleSidebarMenu() {
