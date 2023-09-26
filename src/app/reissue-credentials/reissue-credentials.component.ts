@@ -101,7 +101,12 @@ export class ReissueCredentialsComponent implements OnInit {
     this.credentialService.getCredentials(this.authService.currentUser.issuer_did, schemaName) // replace issuer_did with did for issuer login
       .subscribe((res: any) => {
         this.isLoading = false;
-        this.issuedCredentials = res.filter(item => item.credentialSchemaId === this.model?.schema);
+        this.issuedCredentials = res.filter(item => {
+          if (item.credentialSchemaId === this.model?.schema && item.status !== 'REVOKED') {
+            return item
+          }
+        })
+        this.issuedCredentials = res.filter((item: any) => item.status !== 'REVOKED');
         this.pageChange();
       }, (error: any) => {
         this.isLoading = false;
@@ -161,7 +166,7 @@ export class ReissueCredentialsComponent implements OnInit {
     if (this.reissueForm.valid) {
       console.log("this.reissueForm.value", this.reissueForm.value);
       // this.onIssueCredentials([this.reissueForm.value]);
-      this.credentialService.reissueCredential(this.reissueForm.value).subscribe(res => {
+      this.credentialService.reissueCredential(this.reissueForm.value, this.selectedCredential.id).subscribe(res => {
         this.issuedCredentials = this.issuedCredentials.filter((item: any) => item.id !== this.selectedCredential.id);
         const ref = this.modalService.open(AlertModalComponent, { centered: true });
         ref.componentInstance.modalMessage = this.utilService.translateString('CREDENTIAL_UPDATED_SUCCESSFULLY');
