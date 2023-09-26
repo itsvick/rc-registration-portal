@@ -73,7 +73,8 @@ export class RevokeCredentialsComponent implements OnInit {
     // } else {
     //   this.getCredentials();
     // }
-    this.getCredentials(this.model?.schema?.schema_name);
+    const selectedSchema = this.schemas.find(item => item.schema_id === this.model?.schema);
+    this.getCredentials(selectedSchema?.schema_name);
   }
 
   getSchemaList() {

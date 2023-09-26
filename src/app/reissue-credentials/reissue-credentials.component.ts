@@ -68,7 +68,8 @@ export class ReissueCredentialsComponent implements OnInit {
   }
 
   onModelChange() {
-    this.getCredentials(this.model?.schema?.schema_name);
+    const selectedSchema = this.schemas.find(item => item.schema_id === this.model?.schema);
+    this.getCredentials(selectedSchema.schema_name);
     // if (this.allCorrectionRequests?.length) {
     //   console.log("correctionRequests", this.correctionRequests);
 
@@ -100,7 +101,7 @@ export class ReissueCredentialsComponent implements OnInit {
     this.credentialService.getCredentials(this.authService.currentUser.issuer_did, schemaName) // replace issuer_did with did for issuer login
       .subscribe((res: any) => {
         this.isLoading = false;
-        this.issuedCredentials = res;
+        this.issuedCredentials = res.filter(item => item.credentialSchemaId === this.model?.schema);
         this.pageChange();
       }, (error: any) => {
         this.isLoading = false;
