@@ -34,6 +34,11 @@ export class UtilService {
     this.download(url, fileName);
   }
 
+  getDownloadLink(fileType: string, content: string) {
+    const blob = new Blob([content], { type: fileType });
+    return window.URL.createObjectURL(blob);
+  }
+
   downloadFileWithBlob(fileName: string, content: Blob | MediaSource) {
     const url = window.URL.createObjectURL(content);
     this.download(url, fileName);

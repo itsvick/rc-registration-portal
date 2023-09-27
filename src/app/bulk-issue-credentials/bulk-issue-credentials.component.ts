@@ -11,6 +11,7 @@ import { ToastMessageService } from '../services/toast-message/toast-message.ser
 import { UtilService } from '../services/util/util.service';
 import { AuthService } from '../services/auth/auth.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 
 /**
  * An object used to get page information from the server
@@ -50,6 +51,8 @@ export class BulkIssueCredentialsComponent implements OnInit, AfterViewInit {
   issueCredentialStudentType: string;
   issuanceMode: string;
 
+  reportDetails: any;
+
   downloadModalRef: NgbModalRef;
   @ViewChild("downloadModal") downloadModal: ElementRef;
   @ViewChild('singleCredIssueModal') singleCredIssueModal: TemplateRef<any>;
@@ -67,6 +70,7 @@ export class BulkIssueCredentialsComponent implements OnInit, AfterViewInit {
     private readonly csvService: CsvService,
     private readonly utilService: UtilService,
     private readonly modalService: NgbModal,
+    private readonly sanitizer: DomSanitizer,
     @Optional() private readonly activeModal: NgbActiveModal,
     private readonly authService: AuthService,
     private readonly toastMsgService: ToastMessageService) { }
@@ -151,6 +155,7 @@ export class BulkIssueCredentialsComponent implements OnInit, AfterViewInit {
         throw new Error(this.generalService.translateString('IT_SEEMS_UPLOADED_EMPTY_CSV_FILE_PLEASE_UPLOAD_VALID_CSV'));
       }
 
+      this.csvObject = [];
       this.csvObject = parsedCSV;
 
       this.tableColumns = Object.keys(parsedCSV[0]).map((item) => {
@@ -215,7 +220,7 @@ export class BulkIssueCredentialsComponent implements OnInit, AfterViewInit {
         this.modalService.open(this.singleCredIssueModal);
       } else {
         this.generateBulkRegisterResponse(response);
-        this.toastMsg.success("", this.generalService.translateString("CREDENTIAL_ISSUED_SUCCESSFULLY"));
+        // this.toastMsg.success("", this.generalService.translateString("CREDENTIAL_ISSUED_SUCCESSFULLY"));
       }
     }, (error) => {
       this.strictLoader = false;
@@ -235,6 +240,16 @@ export class BulkIssueCredentialsComponent implements OnInit, AfterViewInit {
 
 
   generateBulkRegisterResponse(response: any) {
+
+    this.reportDetails = response.reduce((result, obj) => {
+      if (obj.status === true) {
+        result.successCount = (result.successCount || 0) + 1;
+      } else {
+        result.failCount = (result.failCount || 0) + 1;
+      }
+      return result;
+    }, { successCount: 0, failCount: 0 });
+
     const csv = response.map((item: any) => {
       return {
         ...item.studentDetails,
@@ -244,10 +259,9 @@ export class BulkIssueCredentialsComponent implements OnInit, AfterViewInit {
     });
 
     const csvData = Papa.unparse(csv, { quotes: true });
-    this.utilService.downloadFile('report.csv', 'text/csv;charset=utf-8;', csvData);
+    // this.utilService.downloadFile('report.csv', 'text/csv;charset=utf-8;', csvData);
+    this.reportDetails.downloadLink = this.sanitizer.bypassSecurityTrustUrl(this.utilService.getDownloadLink('text/csv;charset=utf-8;', csvData));
     this.modalService.open(this.reportModal);
-
-    // this.showDownloadModal();
   }
 
   showDownloadModal() {
@@ -336,8 +350,6 @@ export class BulkIssueCredentialsComponent implements OnInit, AfterViewInit {
   }
 
   closeModal() {
-    if(this.activeModal) {
-      this.activeModal.close();
-    }
+    this.modalService.dismissAll();
   }
 }
