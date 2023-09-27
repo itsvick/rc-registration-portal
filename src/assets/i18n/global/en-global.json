@@ -512,5 +512,8 @@
     "REVOKE_CREDENTIALS_ALREADY_ISSUED_TO_HOLDER": "Revoke credentials already issued to holder",
     "VIEW_ALL_CREDENTIALS_ISSUED_BY_YOU_HERE": "View all credentials issued by you here",
     "REISSUE": "Reissue",
-    "EDIT_STUDENT_DETAILS": "Edit Student Details"
+    "EDIT_STUDENT_DETAILS": "Edit Student Details",
+    "ISSUE_CREDENTIAL_TO_NEW_STUDENTS": "Issue Credential to New Students",
+    "SINGLE_ISSUANCE": "Single Issuance",
+    "ALL_CREDENTIAL_ISSUED_SUCCESSFULLY": "All Credential Issued Successfully!"
 }
