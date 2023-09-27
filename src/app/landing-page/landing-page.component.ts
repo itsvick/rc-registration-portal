@@ -29,7 +29,7 @@ export class LandingPageComponent implements OnInit {
     },
     {
       id: 'did:rcw:a13a28e8-b71d-45a1-8bcc-9277eb6ed0f0',
-      name: 'Department 2',
+      name: 'Department of Basic Education',
       img: 'assets/images/logo.svg',
       class: 'img1'
     },

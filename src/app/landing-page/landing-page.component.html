@@ -3,7 +3,7 @@
     <h1 class="text-center page-title">
       <span class="text-blue text-thin-underline">{{title}}</span>
     </h1>
-    <p class="text-center">{{'PORTAL_WELCOME_NOTE' | translate}}</p>
+    <p class="text-center gray-shade-0">{{'PORTAL_WELCOME_NOTE' | translate}}</p>
     <div class="pb-5 pt-3 text-center text-underline">{{'SELECT_YOUR_DEPARTMENT' | translate }} </div>
     <div class="card-cover">
       <div class="card-bx" [ngClass]="{'cursor-pointer': department?.id}" *ngFor="let department of departments"
