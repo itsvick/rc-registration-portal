@@ -42,19 +42,19 @@
                 </div>
                 <i class="fa fa-eye brown-shade-2 cursor-pointer" (click)="showDetails(claim)"></i>
             </div>
-            <div class="text-center fs-14 row">
+            <div class="fs-14 row">
                 <span class="brown-shade-1 font-600 col-6 text-right p-0">{{'School UDISE' | translate}}:</span>
                 <span class="col-6 text-left font-weight-bold">{{claim?.attest_school_id}}</span>
             </div>
-            <div class="text-center fs-14">
+            <div class="fs-14 row">
                 <span class="brown-shade-1 font-600 col-6 text-right p-0">{{'SCHOOL_NAME' | translate}}:</span>
                 <span class="col-6 text-left font-weight-bold">{{claim?.attest_school_name}}</span>
             </div>
-            <div class="text-center fs-14" [hidden]="!claim?.credentialSubject?.dob">
+            <div class="fs-14 row" [hidden]="!claim?.credentialSubject?.dob">
                 <span class="brown-shade-1 font-600 col-6 text-right p-0">{{'DATE_OF_BIRTH' | translate}}: </span>
                 <span class="col-6 text-left font-weight-bold"> {{claim?.credentialSubject?.dob}}</span>
             </div>
-            <div class="text-center fs-14" [hidden]="!claim?.credentialSubject?.mobileno">
+            <div class="fs-14" [hidden]="!claim?.credentialSubject?.mobileno">
                 <span class="brown-shade-1 font-600 col-6 text-right p-0">{{'PHONE_NUMBER' | translate}}:</span>
                 <span class="col-6 text-left font-weight-bold">{{claim?.credentialSubject?.mobileno}}</span>
             </div>
@@ -106,9 +106,9 @@
     <div class="modal-body">
         <h5 class="text-underline font-weight-bold">{{'STUDENT_DETAILS' | translate}}:</h5>
         <div class="row">
-            <div *ngFor="let field of selectedClaimDetails | keyvalue" class="col-md-4 col-6 pt-3">
-                <label [for]="field.key">{{utilService.variableNameToReadableString(field.key)}}</label>
-                <input type="text" class="form-control" [name]="field.key" [value]="field.value" disabled />
+            <div *ngFor="let field of selectedClaimDetails | keyvalue" class="col-md-4 col-6 pt-3 did-floating-label-content">
+                <label [for]="field.key" class="did-floating-label">{{utilService.variableNameToReadableString(field.key)}}</label>
+                <input type="text" class="did-floating-input" [name]="field.key" [value]="field.value" disabled />
             </div>
         </div>
         <button type="button" class="btn btn-primary mt-3 float-right" data-dismiss="modal"

@@ -506,5 +506,8 @@
   "REVOKE_CREDENTIALS_ALREADY_ISSUED_TO_HOLDER": "पहले से ही जारी किए गए प्रमाणपत्रों को वापस लें",
   "VIEW_ALL_CREDENTIALS_ISSUED_BY_YOU_HERE": "यहां आपके द्वारा जारी किए गए सभी प्रमाणपत्र देखें",
   "REISSUE": "पुनः जारी करें",
-  "EDIT_STUDENT_DETAILS": "छात्र विवरण संपादित करें"
+  "EDIT_STUDENT_DETAILS": "छात्र विवरण संपादित करें",
+  "ISSUE_CREDENTIAL_TO_NEW_STUDENTS":"नए विद्यार्थियों को परिचय पत्र जारी करें",
+  "UPDATE":"अद्यतन",
+  "SINGLE_ISSUANCE":"एकल निर्गमन"
 }
