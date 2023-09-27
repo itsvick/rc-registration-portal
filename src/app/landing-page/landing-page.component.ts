@@ -23,44 +23,44 @@ export class LandingPageComponent implements OnInit {
   departments: IDepartment[] = [
     {
       id: '',
-      name: '',
-      img: 'assets/images/lp-7.png',
+      name: 'Department 1',
+      img: 'assets/images/logo.svg',
       class: 'img1'
     },
     {
       id: 'did:rcw:a13a28e8-b71d-45a1-8bcc-9277eb6ed0f0',
-      name: '',
-      img: 'assets/images/lp-6.png',
+      name: 'Department of Basic Education',
+      img: 'assets/images/logo.svg',
       class: 'img1'
     },
     {
       id: '',
-      name: '',
-      img: 'assets/images/lp-5.png',
-      class: 'img2'
-    },
-    {
-      id: '',
-      name: '',
-      img: 'assets/images/lp-4.png',
+      name: 'Department 3',
+      img: 'assets/images/logo.svg',
       class: 'img1'
     },
     {
       id: '',
-      name: '',
-      img: 'assets/images/lp-3.png',
+      name: 'Department 4',
+      img: 'assets/images/logo.svg',
       class: 'img1'
     },
     {
       id: '',
-      name: '',
-      img: 'assets/images/lp-2.png',
-      class: 'img3'
+      name: 'Department 5',
+      img: 'assets/images/logo.svg',
+      class: 'img1'
     },
     {
       id: '',
-      name: '',
-      img: 'assets/images/lp-1.png',
+      name: 'Department 6',
+      img: 'assets/images/logo.svg',
+      class: 'img1'
+    },
+    {
+      id: '',
+      name: 'Department 7',
+      img: 'assets/images/logo.svg',
       class: 'img1'
     }
   ];

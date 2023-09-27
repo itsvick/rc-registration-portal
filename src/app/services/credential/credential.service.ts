@@ -38,7 +38,7 @@ export class CredentialService {
     return this.dataService.get(payload).pipe(map((res: any) => res.result));
   }
 
-  getCredentials(issuerId?: string): Observable<any> {
+  getCredentials(issuerId?: string, schemaName?: string): Observable<any> {
     const payload: any = {
       url: `${this.baseUrl}/v1/credentials/search`,
       data: {}
@@ -53,6 +53,14 @@ export class CredentialService {
       payload.data = {
         subject: { id: this.authService.currentUser?.did }
       }
+    }
+
+    if (schemaName === 'Enrollment Credentials') {
+      payload.data.subject.orgId = this.authService.currentUser.school_id;
+    } else if (schemaName === 'Assessment Credentials') {
+      payload.data.subject.school_udise = this.authService.currentUser.school_id;
+    } else if (schemaName === 'Benefits Credentials') {
+      payload.data.subject.schemeId = this.authService.currentUser.school_id;
     }
 
     return this.dataService.post(payload).pipe(map((res: any) => res.result));
@@ -208,6 +216,16 @@ export class CredentialService {
     const payload = {
       url: `${this.baseUrl}/v1/credentials/revoke/${credentialId}`
     }
-    return this.dataService.delete(payload).pipe((res: any) => res.result);
+    return this.dataService.delete(payload);
+  }
+
+  reissueCredential(credentialSubject: any, credentialId: string) {
+    const payload = {
+      url: `${this.baseUrl}/v1/credentials/reissue/${credentialId}`,
+      data: {
+        credentialSubject
+      }
+    }
+    return this.dataService.post(payload);
   }
 }

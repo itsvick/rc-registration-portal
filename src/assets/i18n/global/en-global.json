@@ -502,5 +502,15 @@
     "CLAIMS_REJECTED_SUCCESSFULLY": "Claim Rejected Successfully",
     "CLAIMS_REMAINING": "Claims Remaining!",
     "UNABLE_TO_PROCESS_REQUEST": "Unable to process request",
-    "STUDENT_DETAILS": "Student Details"
+    "STUDENT_DETAILS": "Student Details",
+    "SCHOOL_UDISE": "School UDISE",
+    "REJECT_SELECTED_CLAIM": "Reject Selected Claim",
+    "APPROVE_SELECTED_CLAIM": "Approve Selected Claim",
+    "CLOSE": "Close",
+    "PORTAL_WELCOME_NOTE": "Welcome to the Issuance Portal. You can Issue proof of enrollment, benefit, assessment etc to your students through this portal",
+    "UPDATE_CREDENTIALS_ALREADY_ISSUED_TO_STUDENTS": "Update credentials already issued to students",
+    "REVOKE_CREDENTIALS_ALREADY_ISSUED_TO_HOLDER": "Revoke credentials already issued to holder",
+    "VIEW_ALL_CREDENTIALS_ISSUED_BY_YOU_HERE": "View all credentials issued by you here",
+    "REISSUE": "Reissue",
+    "EDIT_STUDENT_DETAILS": "Edit Student Details"
 }

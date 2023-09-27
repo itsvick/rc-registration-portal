@@ -91,6 +91,7 @@ export class UdiseVerificationComponent implements OnInit {
     const payload = {
       school_name: this.udiseDetails.schoolName,
       school_id: this.udiseDetails.udiseCode,
+      school_mobile: this.udiseDetails?.mobile || "-",
     }
 
     this.authService.linkUDISE(payload).subscribe((res: any) => {

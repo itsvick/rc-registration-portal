@@ -6,6 +6,11 @@ import { BulkIssuanceService } from '../services/bulk-issuance/bulk-issuance.ser
 import { UtilService } from '../services/util/util.service';
 import { CredentialService } from '../services/credential/credential.service';
 import { forkJoin } from 'rxjs';
+import { AuthService } from '../services/auth/auth.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NavigationExtras, Router } from '@angular/router';
+import { ToastMessageService } from '../services/toast-message/toast-message.service';
+import { GeneralService } from '../services/general/general.service';
 
 @Component({
   selector: 'app-reissue-credentials',
@@ -28,20 +33,30 @@ export class ReissueCredentialsComponent implements OnInit {
   schemas: any[];
   grievanceList = [];
   selectedGrievance: any;
+  selectedCredential: any;
+  issuedCredentials = [];
+  reissueForm: FormGroup;
+  fields = [];
 
   grievanceDetailsModalRef: NgbModalRef;
+  credentialDetailsModalRef: NgbModalRef;
   @ViewChild('grievanceDetailsModal') grievanceDetailsModal: TemplateRef<any>;
+  @ViewChild('credentialDetailsModal') credentialDetailsModal: TemplateRef<any>;
   constructor(
     private readonly modalService: NgbModal,
     private readonly claimService: ClaimService,
     private readonly bulkIssuanceService: BulkIssuanceService,
-    private readonly utilService: UtilService,
-    private readonly credentialService: CredentialService
+    public readonly utilService: UtilService,
+    private readonly credentialService: CredentialService,
+    private readonly authService: AuthService,
+    private readonly toastMessage: ToastMessageService,
+    private readonly generalService: GeneralService,
+    private readonly router: Router
   ) { }
 
   ngOnInit(): void {
     this.getSchemaList();
-    this.getCorrectionRequests();
+    // this.getCorrectionRequests();
     // setTimeout(() => {
     //   const ref = this.modalService.open(AlertModalComponent, { centered: true });
     //   ref.componentInstance.modalMessage = "Credentials Issued successfully";
@@ -59,14 +74,15 @@ export class ReissueCredentialsComponent implements OnInit {
   }
 
   onModelChange() {
-    // this.getCredentials();
-    if (this.allCorrectionRequests?.length) {
-      console.log("correctionRequests", this.correctionRequests);
+    const selectedSchema = this.schemas.find(item => item.schema_id === this.model?.schema);
+    this.getCredentials(selectedSchema.schema_name);
+    // if (this.allCorrectionRequests?.length) {
+    //   console.log("correctionRequests", this.correctionRequests);
 
-      this.correctionRequests = this.allCorrectionRequests;
-      // .filter((item: any) => item.schemaId === this.model?.schema);
-      this.pageChange();
-    }
+    //   this.correctionRequests = this.allCorrectionRequests;
+    //   // .filter((item: any) => item.schemaId === this.model?.schema);
+    //   this.pageChange();
+    // }
   }
 
   getCorrectionRequests() {
@@ -78,6 +94,45 @@ export class ReissueCredentialsComponent implements OnInit {
       const ref = this.modalService.open(AlertModalComponent, { centered: true });
       ref.componentInstance.modalMessage = "Unable to get correction requests";
       ref.componentInstance.isSuccess = false;
+    });
+  }
+
+
+  getCredentials(schemaName: string) {
+    this.isLoading = true;
+    this.issuedCredentials = [];
+    this.tableRows = [];
+    this.page = 1;
+
+    this.credentialService.getCredentials(this.authService.currentUser.issuer_did, schemaName) // replace issuer_did with did for issuer login
+      .subscribe((res: any) => {
+        this.isLoading = false;
+        this.issuedCredentials = res.filter(item => {
+          if (item.credentialSchemaId === this.model?.schema && item.status !== 'REVOKED') {
+            return item
+          }
+        })
+        this.issuedCredentials = res.filter((item: any) => item.status !== 'REVOKED');
+        this.pageChange();
+      }, (error: any) => {
+        this.isLoading = false;
+        this.issuedCredentials = [];
+        if (error.status !== 400 || error?.error?.result?.error?.status !== 404) {
+          // this.toastMessage.error("", this.generalService.translateString('ERROR_WHILE_FETCHING_ISSUED_CREDENTIALS'));
+        }
+      });
+  }
+
+  viewCredential(credential: any) {
+    this.credentialService.getSchema(credential.credentialSchemaId).subscribe((schema: any) => {
+      credential.credential_schema = schema;
+      const navigationExtra: NavigationExtras = {
+        state: credential
+      }
+      this.router.navigate(['/dashboard/doc-view'], navigationExtra);
+    }, (error: any) => {
+      console.error(error);
+      this.toastMessage.error("", this.generalService.translateString('ERROR_WHILE_FETCHING_ISSUED_CREDENTIALS'));
     });
   }
 
@@ -96,7 +151,6 @@ export class ReissueCredentialsComponent implements OnInit {
   }
 
   getCredentialDetailsRequest(credentialId: string) {
-
   }
 
   showGrievanceDetails(credentialId: string) {
@@ -106,7 +160,7 @@ export class ReissueCredentialsComponent implements OnInit {
   }
 
   pageChange() {
-    this.tableData = this.correctionRequests.slice(
+    this.tableData = this.issuedCredentials.slice(
       (this.page - 1) * this.pageSize,
       (this.page - 1) * this.pageSize + this.pageSize,
     );
@@ -125,9 +179,62 @@ export class ReissueCredentialsComponent implements OnInit {
     });
   }
 
+
+  submitReissueForm(event) {
+    if (this.reissueForm.valid) {
+      console.log("this.reissueForm.value", this.reissueForm.value);
+      // this.onIssueCredentials([this.reissueForm.value]);
+      this.credentialService.reissueCredential(this.reissueForm.value, this.selectedCredential.id).subscribe(res => {
+        this.issuedCredentials = this.issuedCredentials.filter((item: any) => item.id !== this.selectedCredential.id);
+        const ref = this.modalService.open(AlertModalComponent, { centered: true });
+        ref.componentInstance.modalMessage = this.utilService.translateString('CREDENTIAL_UPDATED_SUCCESSFULLY');
+        ref.componentInstance.isSuccess = true;
+      });
+    }
+  }
+
+  showCredentialDetails(credential: any) {
+    this.selectedCredential = credential;
+    const formGroupFields = this.getFormControlsFields(credential.credentialSubject);
+    this.reissueForm = new FormGroup(formGroupFields);
+
+    this.reissueForm.setValue(this.getKeyValue());
+    this.credentialDetailsModalRef = this.modalService.open(this.credentialDetailsModal, { centered: true, size: 'lg' });
+  }
+
+
+  getKeyValue() {
+    const fieldVal = {};
+    this.fields.forEach(item => {
+      fieldVal[item.key] = item.value;
+    });
+
+    console.log("fieldVal", fieldVal);
+    return fieldVal;
+  }
+
+
+  getFormControlsFields(formFields) {
+    const formGroupFields = {};
+
+    for (let item in formFields) {
+      formGroupFields[item] = new FormControl("", Validators.required);
+      this.fields.push({
+        key: item,
+        type: 'text',
+        isRequired: true,
+        label: this.utilService.variableNameToReadableString(item),
+        value: formFields[item]
+      });
+    }
+    console.log("fields", this.fields);
+    return formGroupFields;
+  }
+
+
   closeModal(type) {
-    if (type === 'details' && this.grievanceDetailsModalRef) {
-      this.grievanceDetailsModalRef.close();
+    if (type === 'details' && this.credentialDetailsModalRef) {
+      this.credentialDetailsModalRef.close();
     }
   }
 

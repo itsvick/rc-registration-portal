@@ -18,6 +18,7 @@ export class ApproveClaimsComponent implements OnInit {
   claimList: any[] = [];
   selectedClaims: any[] = [];
   isLoading = false;
+  isBackdropLoader = false;
   selectedClaimDetails: any;
 
   detailsModalRef: NgbModalRef;
@@ -66,8 +67,8 @@ export class ApproveClaimsComponent implements OnInit {
   }
 
   attestClaim(status: string, claimDetails: any) {
+    this.isBackdropLoader = true;
     let currentDate = dayjs();
-
     const data = {
       claim_status: status,
       claim_os_id: claimDetails.osid,
@@ -75,12 +76,14 @@ export class ApproveClaimsComponent implements OnInit {
       expirationDate: status === 'approved' ? currentDate.add(1, 'year').toISOString() : '-',
     }
     this.claimService.attestClaim(data).subscribe(res => {
+      this.isBackdropLoader = false;
       const ref = this.modalService.open(AlertModalComponent, { centered: true });
       const key = status === 'approved' ? 'CLAIMS_APPROVED_SUCCESSFULLY' : 'CLAIMS_REJECTED_SUCCESSFULLY';
       ref.componentInstance.modalMessage = this.utilService.translateString(key);
       ref.componentInstance.isSuccess = true;
       this.searchClaims();
     }, error => {
+      this.isBackdropLoader = false;
       const ref = this.modalService.open(AlertModalComponent, { centered: true });
       ref.componentInstance.modalMessage = this.utilService.translateString('UNABLE_TO_PROCESS_REQUEST');
       ref.componentInstance.isSuccess = false;
@@ -125,9 +128,8 @@ export class ApproveClaimsComponent implements OnInit {
     console.log("claimDetails", claimDetails);
     this.selectedClaimDetails = claimDetails.credentialSubject;
 
-    this.detailsModalRef = this.modalService.open(this.detailsModal, { centered: true });
+    this.detailsModalRef = this.modalService.open(this.detailsModal, { centered: true, size: 'lg' });
   }
-
 
   closeModal(type) {
     if (type === 'details' && this.detailsModalRef) {
