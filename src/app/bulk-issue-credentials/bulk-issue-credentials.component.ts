@@ -103,7 +103,6 @@ export class BulkIssueCredentialsComponent implements OnInit, AfterViewInit {
       this.singleIssueForm = undefined;
     }
   }
-
   showIssuanceForm() {
     this.isModeSelected = true;
   }
@@ -144,7 +143,6 @@ export class BulkIssueCredentialsComponent implements OnInit, AfterViewInit {
       this.csvService.downloadCSVTemplate(csvContent, `${this.schemaDetails.schemaid}-template.csv`);
     }
   }
-
 
   public async importDataFromCSV(event: any) {
     // this.strictLoader = true;
@@ -217,7 +215,12 @@ export class BulkIssueCredentialsComponent implements OnInit, AfterViewInit {
       console.log("response", response);
 
       if (this.issuanceMode === 'single') {
-        this.modalService.open(this.singleCredIssueModal);
+        this.fields = [];
+        if (response[0].status) {
+          this.modalService.open(this.singleCredIssueModal);
+        } else {
+          this.modalService.open(this.issueCredFailedModal);
+        }
       } else {
         this.generateBulkRegisterResponse(response);
         // this.toastMsg.success("", this.generalService.translateString("CREDENTIAL_ISSUED_SUCCESSFULLY"));
