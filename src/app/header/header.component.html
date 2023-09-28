@@ -75,7 +75,7 @@
                             <a *ngIf="header?.icon" class="text-primary d-flex justify-content-center" [routerLink]="[header.redirectTo]">
                                 <i style="font-size: 25px;" class="{{header?.icon}}" aria-hidden="true"></i>
                             </a>
-                            <p *ngIf="header.redirectTo === '/dashboard/my-account'" class="m-0 text-capitalize">{{currentUser?.name}}</p>
+                            <p *ngIf="header.redirectTo === '/dashboard/my-account'" class="m-0 text-capitalize">{{authService?.currentUser?.name}}</p>
                             <ng-template [ngIf]="header?.title && tab === header?.title">
                                 <hr>
                             </ng-template>

@@ -52,10 +52,17 @@ export class ReissueCredentialsComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly toastMessage: ToastMessageService,
     private readonly generalService: GeneralService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly toastMsgService: ToastMessageService
   ) { }
 
   ngOnInit(): void {
+    if (!this.authService.isKYCCompleted()) {
+      this.toastMsgService.error('', this.generalService.translateString('PLEASE_COMPLETE_YOUR_E_KYC_AND_UDISE'));
+      this.router.navigate(['/dashboard/my-account']);
+      return;
+    }
+
     this.getSchemaList();
     // this.getCorrectionRequests();
     // setTimeout(() => {
