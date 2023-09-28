@@ -19,7 +19,7 @@
         <div class="col-3 title d-flex align-items-center">{{'MOBILE_NUMBER' | translate}}</div>
         <div class="col-5 value text-grey-color">{{accountDetails?.username}}</div>
       </div>
-      <div class="row">
+      <div class="row align-items-center">
         <div class="col-3 title d-flex align-items-center" [ngClass]="{'text-danger': !accountDetails?.kyc_aadhaar_token}">
           <span *ngIf="isAadhaarKYCCompleted">{{'AADHAAR_TOKEN' | translate}}</span>
           <span *ngIf="!isAadhaarKYCCompleted">{{'AADHAAR_ID' | translate}}</span>
@@ -27,13 +27,15 @@
         <div class="col-5 value text-grey-color">
           <span *ngIf="isAadhaarKYCCompleted">{{accountDetails?.kyc_aadhaar_token || '---'}}</span>
         </div>
+        <i class="fa far fa-check-circle check-mark fs-24 pl-3" *ngIf="isAadhaarKYCCompleted"></i>
         <button *ngIf="!isAadhaarKYCCompleted" class="btn btn-primary ml-2" (click)="completeKYC()">{{'COMPLETE_KYC' | translate}}</button>
       </div>
-      <div class="row">
+      <div class="row align-items-center">
         <div class="col-3 title d-flex align-items-center" [ngClass]="{'text-danger': !accountDetails?.school_id}">{{'SCHOOL_ID' | translate}}</div>
         <div class="col-5 value text-grey-color">
           <span *ngIf="isUDISEVerified">{{accountDetails?.school_id || '---'}}</span>
         </div>
+        <i class="fa far fa-check-circle check-mark fs-24 pl-3" *ngIf="isUDISEVerified"></i>
         <button *ngIf="!isUDISEVerified" class="btn btn-primary ml-2" (click)="verifyUDISE()">{{'VERIFY_UDISE' | translate}}</button>
       </div>
       <div class="row">
