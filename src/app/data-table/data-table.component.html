@@ -1,29 +1,32 @@
-<div class="table table-responsive table-hover overflow-scroll" *ngIf="data?.length">
-  <table class="table mb-4" cellpadding="0" cellspacing="0">
-    <thead>
-      <tr>
-        <th><input type="checkbox" [checked]="isAllCheckBoxChecked()" (change)="checkAllCheckBox($event)"></th>
-        <th *ngFor="let head of tableData[0] | keys" class="fs-12 font-weight-bold text-secondary">{{head | ignorecase}}</th>
-        <th class="fs-12 font-weight-bold text-secondary">{{'ACTION' | translate}}</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let row of tableData; let i = index">
-        <td><input type="checkbox" [(ngModel)]="data[indexCount+i].checked"></td>
-        <td *ngFor="let item of row | keys" class="fs-14">{{row[item]}}</td>
-        <td> <button class="btn btn-primary">{{'C_KYC' | translate}}</button> </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<div class="d-flex justify-content-between align-items-start p-2 table-footer" *ngIf="data?.length > pageSize">
-  <div class="fs-14 pt-2">{{'SHOWING' | translate}} {{indexCount + 1}} - {{endPageCount}} {{'FROM' | translate}}
-    {{data?.length}} {{'ENTRIES' | translate}}</div>
-  <ngb-pagination class="ml-2" [collectionSize]="data?.length" [(page)]="page" [pageSize]="pageSize" [maxSize]="5"
-    [rotate]="true" (pageChange)="pageChange()">
-  </ngb-pagination>
-</div>
+<ng-container *ngIf="data?.length">
+  <div class="table table-responsive table-hover overflow-scroll">
+    <table class="table mb-4" cellpadding="0" cellspacing="0">
+      <thead>
+        <tr>
+          <th><input type="checkbox" [checked]="isAllCheckBoxChecked()" (change)="checkAllCheckBox($event)"></th>
+          <th *ngFor="let head of tableData[0] | keys" class="fs-12 font-weight-bold text-secondary">{{head |
+            ignorecase}}</th>
+          <th class="fs-12 font-weight-bold text-secondary">{{'ACTION' | translate}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of tableData; let i = index">
+          <td><input type="checkbox" [(ngModel)]="data[indexCount+i].checked"></td>
+          <td *ngFor="let item of row | keys" class="fs-14">{{row[item]}}</td>
+          <td> <button class="btn btn-primary">{{'C_KYC' | translate}}</button> </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="d-flex justify-content-between align-items-start p-2 table-footer" *ngIf="data?.length > pageSize">
+    <div class="fs-14 pt-2">{{'SHOWING' | translate}} {{indexCount + 1}} - {{endPageCount}} {{'FROM' | translate}}
+      {{data?.length}} {{'ENTRIES' | translate}}</div>
+    <ngb-pagination class="ml-2" [collectionSize]="data?.length" [(page)]="page" [pageSize]="pageSize" [maxSize]="5"
+      [rotate]="true" (pageChange)="pageChange()">
+    </ngb-pagination>
+  </div>
 
-<div class="d-flex ml-auto">
-  <button class="btn btn-primary ml-auto" (click)="onIssueCredentials()">{{'ISSUE_CREDENTIALS' | translate}}</button>
-</div>
+  <div class="d-flex ml-auto">
+    <button class="btn btn-primary ml-auto" (click)="onIssueCredentials()">{{'ISSUE_CREDENTIALS' | translate}}</button>
+  </div>
+</ng-container>
