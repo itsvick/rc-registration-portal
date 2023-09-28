@@ -143,10 +143,10 @@ input[type="checkbox"] {
         display: none;
       }
   
-      // input:not(:placeholder-shown) ~ .did-floating-label {
-      //   top:25px;
-      //   font-size:13px;
-      // }
+      input:not(:placeholder-shown) ~ .did-floating-label {
+        top:25px;
+        font-size:13px;
+      }
       .did-floating-select:not([value=""]):valid ~ .did-floating-label {
         top:-8px;
         font-size:13px;
