@@ -38,7 +38,7 @@
           "id": "claim-approval",
           "title": "APPROVE_CLAIMS",
           "redirectTo": "/dashboard/approve-claims",  
-          "className": "far fa-check-square"
+          "className": "fa far fa-check-square"
         }
       ]
     },

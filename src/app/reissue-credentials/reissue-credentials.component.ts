@@ -43,6 +43,7 @@ export class ReissueCredentialsComponent implements OnInit {
   credentialDetailsModalRef: NgbModalRef;
   @ViewChild('grievanceDetailsModal') grievanceDetailsModal: TemplateRef<any>;
   @ViewChild('credentialDetailsModal') credentialDetailsModal: TemplateRef<any>;
+  @ViewChild('confirmModal') confirmModal: TemplateRef<any>;
   constructor(
     private readonly modalService: NgbModal,
     private readonly claimService: ClaimService,
@@ -84,6 +85,8 @@ export class ReissueCredentialsComponent implements OnInit {
   onModelChange() {
     const selectedSchema = this.schemas.find(item => item.schema_id === this.model?.schema);
     this.getCredentials(selectedSchema.schema_name);
+    this.reissueForm = undefined;
+    this.fields = [];
     // if (this.allCorrectionRequests?.length) {
     //   console.log("correctionRequests", this.correctionRequests);
 
@@ -196,15 +199,25 @@ export class ReissueCredentialsComponent implements OnInit {
 
   submitReissueForm(event) {
     if (this.reissueForm.valid) {
-      console.log("this.reissueForm.value", this.reissueForm.value);
-      // this.onIssueCredentials([this.reissueForm.value]);
-      this.credentialService.reissueCredential(this.reissueForm.value, this.selectedCredential.id).subscribe(res => {
-        this.issuedCredentials = this.issuedCredentials.filter((item: any) => item.id !== this.selectedCredential.id);
-        const ref = this.modalService.open(AlertModalComponent, { centered: true });
-        ref.componentInstance.modalMessage = this.utilService.translateString('CREDENTIAL_UPDATED_SUCCESSFULLY');
-        ref.componentInstance.isSuccess = true;
-      });
+      this.modalService.open(this.confirmModal, { centered: true, animation: true });
     }
+  }
+
+  reissueCredential() {
+    this.closeModal();
+    this.isBackdropLoader = true;
+    this.credentialService.reissueCredential(this.reissueForm.value, this.selectedCredential.id).subscribe(res => {
+      this.issuedCredentials = this.issuedCredentials.filter((item: any) => item.id !== this.selectedCredential.id);
+      const ref = this.modalService.open(AlertModalComponent, { centered: true, animation: true });
+      ref.componentInstance.modalMessage = this.utilService.translateString('CREDENTIAL_UPDATED_SUCCESSFULLY');
+      ref.componentInstance.isSuccess = true;
+      this.isBackdropLoader = false;
+    }, error => {
+      const ref = this.modalService.open(AlertModalComponent, { centered: true, animation: true });
+      ref.componentInstance.modalMessage = this.utilService.translateString('FAILED_TO_UPDATE_CREDENTIAL');
+      ref.componentInstance.isSuccess = false;
+      this.isBackdropLoader = false;
+    });
   }
 
   showCredentialDetails(credential: any) {
@@ -246,10 +259,8 @@ export class ReissueCredentialsComponent implements OnInit {
   }
 
 
-  closeModal(type) {
-    if (type === 'details' && this.credentialDetailsModalRef) {
-      this.credentialDetailsModalRef.close();
-    }
+  closeModal() {
+    this.modalService.dismissAll()
   }
 
 }

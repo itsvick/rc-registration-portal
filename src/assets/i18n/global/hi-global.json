@@ -507,7 +507,10 @@
   "VIEW_ALL_CREDENTIALS_ISSUED_BY_YOU_HERE": "यहां आपके द्वारा जारी किए गए सभी प्रमाणपत्र देखें",
   "REISSUE": "पुनः जारी करें",
   "EDIT_STUDENT_DETAILS": "छात्र विवरण संपादित करें",
-  "ISSUE_CREDENTIAL_TO_NEW_STUDENTS":"नए विद्यार्थियों को परिचय पत्र जारी करें",
-  "UPDATE":"अद्यतन",
-  "SINGLE_ISSUANCE":"एकल निर्गमन"
+  "ISSUE_CREDENTIAL_TO_NEW_STUDENTS": "नए विद्यार्थियों को परिचय पत्र जारी करें",
+  "UPDATE": "अद्यतन",
+  "SINGLE_ISSUANCE": "एकल निर्गमन",
+  "CREDENTIAL_REVOKED_SUCCESSFULLY": "प्रमाणपत्र सफलतापूर्वक वापस लिया गया",
+  "ARE_YOU_SURE_YOU_WANT_TO_REVOKE_THE_ISSUED_CREDENTIALS": "क्या आप निश्चित हैं कि आप जारी किए गए प्रमाणपत्र वापस लेना चाहते हैं?",
+  "UPDATE_THE_DETAILS_ARE_YOU_SURE": "{{value1}} के विवरण को अपडेट करें। क्या आप निश्चित हैं?"
 }
