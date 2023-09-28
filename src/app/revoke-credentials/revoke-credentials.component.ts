@@ -37,6 +37,7 @@ export class RevokeCredentialsComponent implements OnInit {
   tableData: any[] = [];
   model: any = {};
   schemas: any[];
+  tableKeys: any[] = [];
   onCompare(_left: KeyValue<any, any>, _right: KeyValue<any, any>): number {
     return -1;
   }
@@ -125,6 +126,12 @@ export class RevokeCredentialsComponent implements OnInit {
         // this.isBackdropLoader = false;
         // this.allIssuedCredentials = res;
         this.issuedCredentials = res.filter((item: any) => item.status !== 'REVOKED');
+        const biggest = this.issuedCredentials.reduce((biggest, obj) => {
+          if (Object.keys(biggest.credentialSubject).length > Object.keys(obj.credentialSubject).length) return biggest
+          return obj;
+        });
+
+        this.tableKeys = Object.keys(biggest.credentialSubject);
         this.pageChange();
       }, (error: any) => {
         this.isLoading = false;

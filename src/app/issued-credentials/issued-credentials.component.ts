@@ -32,6 +32,8 @@ export class IssuedCredentialsComponent implements OnInit {
   tableData: any[] = [];
   model: any = {};
   schemas: any[];
+
+  tableKeys: any[] = [];
   onCompare(_left: KeyValue<any, any>, _right: KeyValue<any, any>): number {
     return -1;
   }
@@ -84,6 +86,12 @@ export class IssuedCredentialsComponent implements OnInit {
       .subscribe((res: any) => {
         this.isLoading = false;
         this.issuedCredentials = res;
+        const biggest = this.issuedCredentials.reduce((biggest, obj) => {
+          if (Object.keys(biggest.credentialSubject).length > Object.keys(obj.credentialSubject).length) return biggest
+          return obj;
+        });
+
+        this.tableKeys = Object.keys(biggest.credentialSubject);
         this.pageChange();
       }, (error: any) => {
         this.isLoading = false;

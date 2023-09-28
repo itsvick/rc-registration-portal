@@ -47,10 +47,9 @@ export class ApproveClaimsComponent implements OnInit {
       });
       this.claimList = [];
       this.claimList = [...res];
-      console.log("claimList", this.claimList);
     }, error => {
       this.isLoading = false;
-      console.log("error", error);
+      console.error("error", error);
     })
   }
 
@@ -87,7 +86,7 @@ export class ApproveClaimsComponent implements OnInit {
       const ref = this.modalService.open(AlertModalComponent, { centered: true });
       ref.componentInstance.modalMessage = this.utilService.translateString('UNABLE_TO_PROCESS_REQUEST');
       ref.componentInstance.isSuccess = false;
-      console.log("error", error);
+      console.error("error", error);
     });
   }
 
@@ -102,7 +101,6 @@ export class ApproveClaimsComponent implements OnInit {
     });
 
     forkJoin(...rejectionRequests).subscribe(res => {
-      console.log("res", res);
       this.searchClaims();
     })
   }
@@ -119,13 +117,11 @@ export class ApproveClaimsComponent implements OnInit {
     });
 
     forkJoin(...approvalRequests).subscribe(res => {
-      console.log("res1", res);
       this.searchClaims();
     })
   }
 
   showDetails(claimDetails: any) {
-    console.log("claimDetails", claimDetails);
     this.selectedClaimDetails = claimDetails.credentialSubject;
 
     this.detailsModalRef = this.modalService.open(this.detailsModal, { centered: true, size: 'lg' });
