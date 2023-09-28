@@ -259,7 +259,6 @@ export class BulkIssueCredentialsComponent implements OnInit, AfterViewInit {
     });
 
     const csvData = Papa.unparse(csv, { quotes: true });
-    // this.utilService.downloadFile('report.csv', 'text/csv;charset=utf-8;', csvData);
     this.reportDetails.downloadLink = this.sanitizer.bypassSecurityTrustUrl(this.utilService.getDownloadLink('text/csv;charset=utf-8;', csvData));
     this.modalService.open(this.reportModal);
   }

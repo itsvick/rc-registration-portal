@@ -37,6 +37,7 @@ export class ReissueCredentialsComponent implements OnInit {
   issuedCredentials = [];
   reissueForm: FormGroup;
   fields = [];
+  tableKeys: any[] = [];
 
   grievanceDetailsModalRef: NgbModalRef;
   credentialDetailsModalRef: NgbModalRef;
@@ -111,8 +112,14 @@ export class ReissueCredentialsComponent implements OnInit {
           if (item.credentialSchemaId === this.model?.schema && item.status !== 'REVOKED') {
             return item
           }
-        })
-        this.issuedCredentials = res.filter((item: any) => item.status !== 'REVOKED');
+        });
+
+        const biggest = this.issuedCredentials.reduce((biggest, obj) => {
+          if (Object.keys(biggest.credentialSubject).length > Object.keys(obj.credentialSubject).length) return biggest
+          return obj;
+        });
+
+        this.tableKeys = Object.keys(biggest.credentialSubject);
         this.pageChange();
       }, (error: any) => {
         this.isLoading = false;
