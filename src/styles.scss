@@ -1279,7 +1279,7 @@ textarea.jsoneditor-text {
     text-underline-offset: 4px;
 }
 .sidebar-collapse.collapse {
-    width: 76px;
+    width: 72px;
     overflow: hidden;
     display: block !important;
 }
@@ -1397,4 +1397,8 @@ textarea.jsoneditor-text {
 
 .line {
     margin: 0.25rem 0;
+}
+
+.overflow-scroll {
+    -webkit-overflow-scrolling: auto;
 }
