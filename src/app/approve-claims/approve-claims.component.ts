@@ -6,6 +6,9 @@ import { ToastMessageService } from '../services/toast-message/toast-message.ser
 import { UtilService } from '../services/util/util.service';
 import { NgbActiveModal, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { AlertModalComponent } from '../alert-modal/alert-modal.component';
+import { AuthService } from '../services/auth/auth.service';
+import { GeneralService } from '../services/general/general.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-approve-claims',
@@ -28,10 +31,20 @@ export class ApproveClaimsComponent implements OnInit {
     private readonly claimService: ClaimService,
     private readonly toastService: ToastMessageService,
     public readonly utilService: UtilService,
-    private readonly modalService: NgbModal
+    private readonly modalService: NgbModal,
+    private readonly authService: AuthService,
+    private readonly toastMsgService: ToastMessageService,
+    private readonly generalService: GeneralService,
+    private readonly router: Router
   ) { }
 
   ngOnInit(): void {
+    if (!this.authService.isKYCCompleted()) {
+      this.toastMsgService.error('', this.generalService.translateString('PLEASE_COMPLETE_YOUR_E_KYC_AND_UDISE'));
+      this.router.navigate(['/dashboard/my-account']);
+      return;
+    }
+
     this.searchClaims();
   }
   toggleSidebarMenu() {

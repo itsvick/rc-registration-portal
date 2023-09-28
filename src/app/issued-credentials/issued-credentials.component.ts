@@ -58,7 +58,6 @@ export class IssuedCredentialsComponent implements OnInit {
       return;
     }
 
-    // this.getCredentials();
     this.getSchemaList();
   }
 

@@ -30,7 +30,6 @@ export class HeaderComponent implements OnInit {
   apiUrl: any;
   title: string;
   showBanner: boolean = false;
-  currentUser: any;
 
   constructor(
     private readonly config: AppConfig,
@@ -39,11 +38,10 @@ export class HeaderComponent implements OnInit {
     private readonly generalService: GeneralService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly telemetryService: TelemetryService,
-    private readonly authService: AuthService
+    public readonly authService: AuthService
   ) { }
 
   async ngOnInit() {
-    this.currentUser = this.authService.currentUser;
     this.languages = JSON.parse(localStorage.getItem('languages'));
     this.langCode = localStorage.getItem('setLanguage');
     this.ELOCKER_THEME = localStorage.getItem('ELOCKER_THEME');
