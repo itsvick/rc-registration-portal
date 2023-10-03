@@ -98,7 +98,7 @@ export class UdiseVerificationComponent implements OnInit {
       console.log("res", res);
       this.activeModal.close();
     }, (error) => {
-      this.toastMessage.success('', this.utilService.translateString('UNABLE_TO_VERIFY_YOUR_UDISE'));
+      this.toastMessage.error('', this.utilService.translateString('UNABLE_TO_VERIFY_YOUR_UDISE'));
     });
   }
 
