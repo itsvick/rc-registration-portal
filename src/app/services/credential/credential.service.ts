@@ -4,6 +4,7 @@ import { concatMap, map, retry, switchMap, toArray } from 'rxjs/operators';
 import { AuthConfigService } from 'src/app/authentication/auth-config.service';
 import { AuthService } from '../auth/auth.service';
 import { DataService } from '../data/data-request.service';
+import { CacheService } from '../cache/cache.service';
 
 
 @Injectable({
@@ -16,7 +17,8 @@ export class CredentialService {
   constructor(
     private readonly dataService: DataService,
     private readonly authService: AuthService,
-    private readonly authConfigService: AuthConfigService
+    private readonly authConfigService: AuthConfigService,
+    private readonly cacheService: CacheService
   ) {
     this.baseUrl = this.authConfigService.config.bffUrl;
 
@@ -234,5 +236,24 @@ export class CredentialService {
       url: `${this.baseUrl}/v1/credentials/verify/${credentialId}`,
     }
     return this.dataService.get(payload).pipe(map((res: any) => res.result));
+  }
+
+  getTemplates(schemaId: string) {
+    const cachedData = this.cacheService.get(`credential-templates-${schemaId}`);
+
+    if (!cachedData) {
+      const payload = {
+        url: `${this.baseUrl}/v1/credential/schema/template/list`,
+        data: {
+          "schema_id": schemaId
+        }
+      }
+      return this.dataService.post(payload).pipe(map((res: any) => {
+        this.cacheService.set(`credential-templates-${schemaId}`, res.result);
+        return res.result;
+      }));
+    }
+
+    return of(cachedData);
   }
 }

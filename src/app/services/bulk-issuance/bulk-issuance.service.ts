@@ -1,22 +1,25 @@
 import { Injectable } from '@angular/core';
 import { AuthConfigService } from 'src/app/authentication/auth-config.service';
 import { DataService } from '../data/data-request.service';
-import { retry, map } from 'rxjs/operators';
+import { retry, map, shareReplay } from 'rxjs/operators';
 import { Observable, of, throwError } from 'rxjs';
 import * as dayjs from 'dayjs';
 import { AuthService } from '../auth/auth.service';
+import { CacheService } from '../cache/cache.service';
 
-const MAX_EXPIRATION_DAYS= 365; // In days = a year
+const MAX_EXPIRATION_DAYS = 365; // In days = a year
 
 @Injectable({
   providedIn: 'root'
 })
 export class BulkIssuanceService {
 
+  schemaListCache$: Observable<any>;
   constructor(
     private readonly authConfigService: AuthConfigService,
     private readonly authService: AuthService,
-    private readonly dataService: DataService
+    private readonly dataService: DataService,
+    private readonly cacheService: CacheService
   ) { }
 
 
@@ -25,13 +28,16 @@ export class BulkIssuanceService {
    * @return {Observable<any>} An observable that emits the list of schemas.
    */
   getSchemaList(): Observable<any> {
-    const payload = {
-      url: `${this.authConfigService.config.bffUrl}/v1/credential/schema/list`,
-      data: {
-        taglist: "q2ulp" //TODO: need to remove this hard coded tag //ulpq2 tag1 q2ulp
+    if (!this.schemaListCache$) {
+      const payload = {
+        url: `${this.authConfigService.config.bffUrl}/v1/credential/schema/list`,
+        data: {
+          taglist: "q2ulp" //TODO: need to remove this hard coded tag //ulpq2 tag1 q2ulp
+        }
       }
+      this.schemaListCache$ = this.dataService.post(payload).pipe(retry(2), map((res: any) => res.result), shareReplay(1));
     }
-    return this.dataService.post(payload).pipe(retry(2), map((res: any) => res.result));
+    return this.schemaListCache$;
   }
 
 
@@ -42,20 +48,28 @@ export class BulkIssuanceService {
    * @return {Observable<any>} An observable that emits the schema fields.
    */
   getSchemaFields(schemaId: string): Observable<any> {
-    const payload = {
-      url: `${this.authConfigService.config.bffUrl}/v1/credential/schema/fields`,
-      data: {
-        schema_id: schemaId
+    const cachedData = this.cacheService.get(`schema-fields-${schemaId}`);
+
+    if (!cachedData) {
+      const payload = {
+        url: `${this.authConfigService.config.bffUrl}/v1/credential/schema/fields`,
+        data: {
+          schema_id: schemaId
+        }
       }
+      return this.dataService.post(payload).pipe(retry(2), map((res: any) => {
+        this.cacheService.set(`schema-fields-${schemaId}`, res.result);
+        return res.result;
+      }));
     }
-    return this.dataService.post(payload).pipe(retry(2), map((res: any) => res.result));
+    return of(cachedData);
   }
 
 
   issueBulkCredentials(schemaId: string, subjectList: any): Observable<any> {
     const currentUser = this.authService.currentUser;
 
-    if (!currentUser){
+    if (!currentUser) {
       return throwError('UNABLE_TO_FIND_DID_LOGIN_AGAIN');
     }
 
