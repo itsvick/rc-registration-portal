@@ -13,6 +13,8 @@ import { IImpressionEventInput, IInteractEventInput } from '../services/telemetr
 import { TelemetryService } from '../services/telemetry/telemetry.service';
 import { ToastMessageService } from '../services/toast-message/toast-message.service';
 import { UtilService } from '../services/util/util.service';
+import { catchError, map, mergeMap, retry, takeUntil } from 'rxjs/operators';
+import { Subject, from, of } from 'rxjs';
 
 dayjs.extend(customParseFormat);
 
@@ -40,6 +42,7 @@ export class RevokeCredentialsComponent implements OnInit {
   onCompare(_left: KeyValue<any, any>, _right: KeyValue<any, any>): number {
     return -1;
   }
+  public unsubscribe$ = new Subject<void>();
 
   @ViewChild('confirmModal') confirmModal: TemplateRef<any>;
 
@@ -99,7 +102,8 @@ export class RevokeCredentialsComponent implements OnInit {
     this.credentialService.getCredentials(this.authService.currentUser.issuer_did, schemaName) // replace issuer_did with did for issuer login
       .subscribe((res: any) => {
         this.isLoading = false;
-        this.issuedCredentials = res.filter((item: any) => item.status !== 'REVOKED');
+        this.issuedCredentials = res;
+        this.getCredentialStatus(res.map(item => item.id));
         const biggest = this.issuedCredentials.reduce((biggest, obj) => {
           if (Object.keys(biggest.credentialSubject).length > Object.keys(obj.credentialSubject).length) return biggest
           return obj;
@@ -114,6 +118,24 @@ export class RevokeCredentialsComponent implements OnInit {
           this.toastMessage.error("", this.generalService.translateString('ERROR_WHILE_FETCHING_ISSUED_CREDENTIALS'));
         }
       });
+  }
+
+  getCredentialStatus(credList: any[]) {
+    from(credList).pipe(
+      mergeMap((id: string) => this.credentialService.getCredentialStatus(id).pipe(
+        map(res => ({ id, status: res.status })), 
+        catchError(error => {
+          console.error(error);
+          return of(null); // Continue with the next request even if one fails
+        }),
+        takeUntil(this.unsubscribe$)
+      ))
+    ).subscribe((res: any) => {
+      console.log("res", res);
+      const index = this.issuedCredentials.findIndex(item => item.id === res.id);
+      this.issuedCredentials[index].status = res.status;
+      this.pageChange();
+    })
   }
 
   viewCredential(credential: any) {
@@ -144,8 +166,12 @@ export class RevokeCredentialsComponent implements OnInit {
     this.endPageCount = this.issuedCredentials?.length > (this.pageSize * this.page) ? this.pageSize * this.page : this.issuedCredentials.length;
   }
 
-  showConfirmModal(credentialId: string) {
-    this.selectedCredentialId = credentialId;
+  showConfirmModal(credential: any) {
+    if (credential.status === 'REVOKED') {
+      this.toastMessage.error("", this.generalService.translateString('CREDENTIAL_ALREADY_REVOKED'));
+      return;
+    }
+    this.selectedCredentialId = credential.id;
     this.modalService.open(this.confirmModal, { centered: true, animation: true });
   }
 
@@ -154,7 +180,9 @@ export class RevokeCredentialsComponent implements OnInit {
     this.isBackdropLoader = true;
     this.credentialService.revokeCredentials(this.selectedCredentialId).subscribe((res: any) => {
       this.isBackdropLoader = false;
-      this.issuedCredentials = this.issuedCredentials.filter(item => item.id !== this.selectedCredentialId);
+      const index = this.issuedCredentials.findIndex(item => item.id === this.selectedCredentialId);
+      this.issuedCredentials[index].status = 'REVOKED';
+      this.pageChange();
       const ref = this.modalService.open(AlertModalComponent);
       ref.componentInstance.modalMessage = this.generalService.translateString('CREDENTIAL_REVOKED_SUCCESSFULLY');
       ref.componentInstance.isSuccess = true;
@@ -171,6 +199,11 @@ export class RevokeCredentialsComponent implements OnInit {
   ngAfterViewInit(): void {
     this.raiseImpressionEvent();
   }
+
+  ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+}
 
   raiseInteractEvent(id: string, type: string = 'CLICK', subtype?: string) {
     const telemetryInteract: IInteractEventInput = {
