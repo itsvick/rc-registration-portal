@@ -141,29 +141,29 @@ export class DocViewComponent implements OnInit, OnDestroy {
     }
 
     getTemplate(id: string): Observable<any> {
-        return this.generalService.postData(`${this.baseUrl}/v1/credential/schema/template/list`, { schema_id: id }, true).pipe(
+        return this.credentialService.getTemplates(id).pipe(
             map((res: any) => {
-                if (res.result.length > 1) {
+                if (res.length) {
                     const selectedLangKey = localStorage.getItem('setLanguage');
                     const certExpireTime = new Date(this.credential.expirationDate).getTime();
                     const currentDateTime = new Date().getTime();
                     const isExpired = certExpireTime < currentDateTime;
 
                     const type = isExpired ? `inactive-${selectedLangKey}` : `active-${selectedLangKey}`;
-                    const template = res.result.find((item: any) => item.type === type);
+                    const template = res.find((item: any) => item.type === type);
 
                     if (template) {
                         return template;
                     } else {
-                        const genericTemplate = res.result.find((item: any) => item.type === 'Handlebar');
+                        const genericTemplate = res.find((item: any) => item.type === 'Handlebar');
                         if (genericTemplate) {
                             return genericTemplate;
                         } else {
-                            return res.result[0];
+                            return res[0];
                         }
                     }
-                } else if (res.result.length === 1) {
-                    return res.result[0];
+                } else if (res.length === 1) {
+                    return res[0];
                 }
                 throwError('Template not attached to schema');
             })
