@@ -11,6 +11,8 @@ import { IImpressionEventInput, IInteractEventInput } from '../services/telemetr
 import { TelemetryService } from '../services/telemetry/telemetry.service';
 import { ToastMessageService } from '../services/toast-message/toast-message.service';
 import { UtilService } from '../services/util/util.service';
+import { from, of } from 'rxjs';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 
 dayjs.extend(customParseFormat);
 
@@ -85,6 +87,7 @@ export class IssuedCredentialsComponent implements OnInit {
       .subscribe((res: any) => {
         this.isLoading = false;
         this.issuedCredentials = res;
+        this.getCredentialStatus(res.map(item => item.id));
         const biggest = this.issuedCredentials.reduce((biggest, obj) => {
           if (Object.keys(biggest.credentialSubject).length > Object.keys(obj.credentialSubject).length) return biggest
           return obj;
@@ -99,6 +102,22 @@ export class IssuedCredentialsComponent implements OnInit {
           this.toastMessage.error("", this.generalService.translateString('ERROR_WHILE_FETCHING_ISSUED_CREDENTIALS'));
         }
       });
+  }
+
+  getCredentialStatus(credList: any[]) {
+    from(credList).pipe(
+      mergeMap((id: string) => this.credentialService.getCredentialStatus(id).pipe(
+        map(res => ({ id, status: res.status })), 
+        catchError(error => {
+          console.error(error);
+          return of(null); // Continue with the next request even if one fails
+        })
+      ))
+    ).subscribe((res: any) => {
+      const index = this.issuedCredentials.findIndex(item => item.id === res.id);
+      this.issuedCredentials[index].status = res.status;
+      this.pageChange();
+    })
   }
 
   viewCredential(credential: any) {

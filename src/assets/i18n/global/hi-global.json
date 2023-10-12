@@ -512,5 +512,6 @@
   "SINGLE_ISSUANCE": "एकल निर्गमन",
   "CREDENTIAL_REVOKED_SUCCESSFULLY": "प्रमाणपत्र सफलतापूर्वक वापस लिया गया",
   "ARE_YOU_SURE_YOU_WANT_TO_REVOKE_THE_ISSUED_CREDENTIALS": "क्या आप निश्चित हैं कि आप जारी किए गए प्रमाणपत्र वापस लेना चाहते हैं?",
-  "UPDATE_THE_DETAILS_ARE_YOU_SURE": "{{value1}} के विवरण को अपडेट करें। क्या आप निश्चित हैं?"
+  "UPDATE_THE_DETAILS_ARE_YOU_SURE": "{{value1}} के विवरण को अपडेट करें। क्या आप निश्चित हैं?",
+  "CREDENTIAL_ALREADY_REVOKED": "प्रमाणपत्र पहले से ही वापस लिया गया हैं"
 }

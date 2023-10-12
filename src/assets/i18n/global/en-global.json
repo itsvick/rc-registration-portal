@@ -519,5 +519,6 @@
     "SINGLE_ISSUANCE": "Single Issuance",
     "CREDENTIAL_REVOKED_SUCCESSFULLY": "Credential revoked successfully",
     "ARE_YOU_SURE_YOU_WANT_TO_REVOKE_THE_ISSUED_CREDENTIALS": "Are you sure you want to revoke the issued credentials?",
-    "UPDATE_THE_DETAILS_ARE_YOU_SURE": "Update the details of {{value1}}. Are you sure?"
+    "UPDATE_THE_DETAILS_ARE_YOU_SURE": "Update the details of {{value1}}. Are you sure?",
+    "CREDENTIAL_ALREADY_REVOKED": "Credential already revoked!"
 }

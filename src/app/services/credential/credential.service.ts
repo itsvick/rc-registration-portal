@@ -228,4 +228,11 @@ export class CredentialService {
     }
     return this.dataService.post(payload);
   }
+
+  getCredentialStatus(credentialId: string) {
+    const payload = {
+      url: `${this.baseUrl}/v1/credentials/verify/${credentialId}`,
+    }
+    return this.dataService.get(payload).pipe(map((res: any) => res.result));
+  }
 }

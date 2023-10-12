@@ -118,11 +118,7 @@ export class ReissueCredentialsComponent implements OnInit {
     this.credentialService.getCredentials(this.authService.currentUser.issuer_did, schemaName) // replace issuer_did with did for issuer login
       .subscribe((res: any) => {
         this.isLoading = false;
-        this.issuedCredentials = res.filter(item => {
-          if (item.credentialSchemaId === this.model?.schema && item.status !== 'REVOKED') {
-            return item
-          }
-        });
+        this.issuedCredentials = res;
 
         const biggest = this.issuedCredentials.reduce((biggest, obj) => {
           if (Object.keys(biggest.credentialSubject).length > Object.keys(obj.credentialSubject).length) return biggest
