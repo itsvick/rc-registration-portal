@@ -1,20 +1,20 @@
 {
     "environment": "development",
     "keycloak": {
-        "url": "https://devulp.uniteframework.io/auth",
+        "url": "https://ulp.tekdinext.com/auth",
         "clientId": "registry-frontend",
         "realm": "sunbird-rc"
     },
     "configFolder": "/assets/config/ui-config",
     "languageFolder": "/assets/i18n",
     "title": "ULP Issuance Portal",
-    "domainName": "https://devulp.uniteframework.io",
-    "baseUrl": "https://devulp.uniteframework.io/registry/api/v1",
-    "bffBaseUrl": "https://devulp.uniteframework.io",
-    "bffUrl": "https://devulp.uniteframework.io/ulp-bff",
-    "bulkIssuance": "https://devulp.uniteframework.io/bulk-issuance",
-    "telemetryUrl": "https://devulp.uniteframework.io/telemetry",
-    "schemaUrl": "https://devulp.uniteframework.io/registry/api/docs/swagger.json",
+    "domainName": "https://ulp.tekdinext.com",
+    "baseUrl": "https://ulp.tekdinext.com/registry/api/v1",
+    "bffBaseUrl": "https://ulp.tekdinext.com",
+    "bffUrl": "https://ulp.tekdinext.com/ulp-bff",
+    "bulkIssuance": "https://ulp.tekdinext.com/bulk-issuance/",
+    "telemetryUrl": "https://ulp.tekdinext.com/telemetry/",
+    "schemaUrl": "https://ulp.tekdinext.com/registry/api/docs/swagger.json",
     "footerText": "Universal Learners Passport",
     "languages": [
         "en",
